@@ -2021,6 +2021,7 @@
 }
 .work-section {
   padding-top: 53px;
+  padding-bottom: 44px;
 }
 .section-heading {
   align-items: flex-end;
@@ -2219,7 +2220,7 @@
   color: #8d7b67;
 }
 .service-item p {
-  font-size: 12px;
+  font-size: 16px;
   line-height: 1.8;
   padding: 0 30px 22px 37px;
   color: #7c7166;
@@ -2678,7 +2679,7 @@
   .service-item p {
     padding-left: 26px;
     padding-right: 0;
-    font-size: 11px;
+    font-size: 16px;
   }
 }
 @media (max-width: 480px) {
@@ -2875,11 +2876,13 @@
   }
 }
 /* Primary supporting copy stays comfortably readable across every viewport. */
-.hero-summary > p,
 .about-copy p,
 .services-section > div > p,
 .contact-intent > p {
   font-size: 18px;
+}
+.hero-summary > p {
+  font-size: 16px;
 }
 .primary-action,
 .text-action,
@@ -2949,7 +2952,7 @@
 }
 .about-story-intro,
 .about-editorial-body .about-copy p {
-  font-size: 18px;
+  font-size: 16px;
   line-height: 1.55;
   color: var(--ink);
 }
