@@ -804,6 +804,14 @@ export default function HomePage() {
             Turns out the <em>jobs are the same.</em>
           </p>
           <div className="about-copy">
+            <p>
+              Six years in professional kitchens — line cook, pastry, sous chef, eventually running
+              my own popup. Then I switched careers and learned a secret:{" "}
+              <strong>designing software is just a slower, quieter mise en place.</strong> You scope
+              the menu, you prep your stations, you cook in the order that keeps everything hot, and
+              you taste constantly. Same discipline, different tools.
+            </p>
+            {/* The kitchen paragraph stays first; the design story opens below it. */}
             {storyOpen && (
               <div className="expanded-story" id="about-expanded-story">
                 <p>
@@ -820,13 +828,6 @@ export default function HomePage() {
                 </p>
               </div>
             )}
-            <p>
-              Six years in professional kitchens — line cook, pastry, sous chef, eventually running
-              my own popup. Then I switched careers and learned a secret:{" "}
-              <strong>designing software is just a slower, quieter mise en place.</strong> You scope
-              the menu, you prep your stations, you cook in the order that keeps everything hot, and
-              you taste constantly. Same discipline, different tools.
-            </p>
             <button
               className="story-button"
               onClick={() => setStoryOpen(!storyOpen)}
