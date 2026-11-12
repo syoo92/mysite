@@ -1679,13 +1679,14 @@
 /* The portfolio's editorial layer pairs precise product work with a handmade voice. */
 @layer base {
   body {
-    background: rgb(250, 248, 245);
+    background: var(--background);
     color: #302c28;
   }
 }
 :root {
   --coral: #df725b;
   --line: #dfd5c9;
+  --background: #faf8f5;
   --paper: #fbf2e8;
   --ink: #302c28;
   --text-secondary: #776f64;
@@ -2687,7 +2688,7 @@
     height: 78px;
   }
   .navigation {
-    background: rgb(250, 248, 245);
+    background: var(--background);
   }
   .navigation.is-open {
     flex-wrap: wrap;
