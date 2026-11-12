@@ -482,6 +482,7 @@ function DraggableSticker({
   children: React.ReactNode;
 }) {
   const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [dragging, setDragging] = useState(false);
   const stickerRef = useRef<HTMLDivElement>(null);
   const start = useRef<{
     x: number;
@@ -514,10 +515,28 @@ function DraggableSticker({
     };
   }
 
+  // Keep a moved sticker inside the hero when the window resizes or the phone rotates.
+  useEffect(() => {
+    const element = stickerRef.current;
+    const hero = element?.closest<HTMLElement>(".hero");
+    if (!element || !hero) return;
+    const observer = new ResizeObserver(() => {
+      setPosition((previous) => {
+        if (previous.x === 0 && previous.y === 0) return previous;
+        const bounds = getHeroBounds(element, previous);
+        if (!bounds) return previous;
+        const next = clampToHero(previous, bounds);
+        return next.x === previous.x && next.y === previous.y ? previous : next;
+      });
+    });
+    observer.observe(hero);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div
       ref={stickerRef}
-      className={`draggable-sticker ${className}`}
+      className={`draggable-sticker ${className}${dragging ? " is-dragging" : ""}`}
       style={{ translate: `${position.x}px ${position.y}px` }}
       tabIndex={0}
       role="group"
@@ -554,6 +573,7 @@ function DraggableSticker({
           offsetY: position.y,
           bounds,
         };
+        setDragging(true);
       }}
       onPointerMove={(event) => {
         if (!start.current) return;
@@ -569,12 +589,15 @@ function DraggableSticker({
       }}
       onPointerUp={() => {
         start.current = null;
+        setDragging(false);
       }}
       onPointerCancel={() => {
         start.current = null;
+        setDragging(false);
       }}
       onLostPointerCapture={() => {
         start.current = null;
+        setDragging(false);
       }}
       onDoubleClick={() => setPosition({ x: 0, y: 0 })}
       title="Drag to move. Double-click to reset."

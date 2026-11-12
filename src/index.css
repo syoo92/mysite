@@ -1687,6 +1687,10 @@
   --coral: #df725b;
   --line: #dfd5c9;
   --background: #faf8f5;
+  /* Paragraph style: every body paragraph on every page matches the About me paragraph. */
+  --paragraph-size: 16px;
+  --paragraph-leading: 1.55;
+  --paragraph-color: #302c28;
   --paper: #fbf2e8;
   --ink: #302c28;
   --text-secondary: #776f64;
@@ -1867,11 +1871,29 @@
   cursor: grab;
   touch-action: none;
   user-select: none;
+  -webkit-touch-callout: none;
   box-shadow: 2px 5px 10px #69503b18;
+  transition:
+    scale 180ms ease-out,
+    box-shadow 180ms ease-out;
 }
-.draggable-sticker:active {
+.draggable-sticker:active,
+.draggable-sticker.is-dragging {
   cursor: grabbing;
   z-index: 3;
+}
+/* Lift while held, like dragging an item in iOS and Android. */
+.draggable-sticker.is-dragging {
+  scale: 1.06;
+  box-shadow: 6px 16px 28px #69503b2e;
+}
+@media (prefers-reduced-motion: reduce) {
+  .draggable-sticker {
+    transition: none;
+  }
+  .draggable-sticker.is-dragging {
+    scale: 1;
+  }
 }
 .draggable-sticker:focus-visible {
   outline: 2px solid #a44433;
@@ -1953,12 +1975,9 @@
   position: relative;
   padding-top: 11px;
 }
+/* Uses the shared .eyebrow style; the copy is lowercase in the markup. */
 .eyebrow.work-heading-note {
-  font-size: 19px;
-  font-weight: 400;
-  line-height: 1.2;
-  letter-spacing: -0.5px;
-  color: #8c7765;
+  text-transform: uppercase;
 }
 .hero-bottom .explore-link {
   font-size: 10px;
@@ -2609,8 +2628,6 @@
   }
   .eyebrow.work-heading-note {
     max-width: none;
-    font-size: 16px;
-    line-height: 1.2;
   }
   .hero-bottom .explore-link {
     margin-right: 0;
@@ -2618,7 +2635,7 @@
   }
   .drag-hint {
     right: 0;
-    bottom: 77px;
+    bottom: 10px;
     font-size: 21px;
   }
   .intro-section {
@@ -2812,10 +2829,9 @@
   }
   .eyebrow.work-heading-note {
     max-width: none;
-    font-size: 19px;
   }
   .drag-hint {
-    bottom: 71px;
+    bottom: 10px;
     font-size: 20px;
   }
   .intro-section {
@@ -2876,14 +2892,27 @@
     height: 28px;
   }
 }
-/* Primary supporting copy stays comfortably readable across every viewport. */
-.about-copy p,
-.services-section > div > p,
-.contact-intent > p {
-  font-size: 18px;
-}
-.hero-summary > p {
-  font-size: 16px;
+/* Body paragraphs on every page share the About me paragraph style (see --paragraph-* tokens).
+   :is() gives every selector the same weight so breakpoint rules can't override one paragraph. */
+:is(
+    .hero-summary > p,
+    .about-story-intro,
+    .about-editorial-body .about-copy p,
+    .services-section > div > p,
+    .service-item p,
+    .collaboration-card > p,
+    .contact-intent > p,
+    .project-hero-description,
+    .project-takeaway > p,
+    .project-story-section > p,
+    .project-contact > div > p
+  ) {
+  font-family: "DM Sans", sans-serif;
+  font-size: var(--paragraph-size);
+  font-weight: 400;
+  line-height: var(--paragraph-leading);
+  letter-spacing: normal;
+  color: var(--paragraph-color);
 }
 .primary-action,
 .text-action,
@@ -2951,12 +2980,6 @@
   align-items: start;
   gap: clamp(24px, 4vw, 64px);
 }
-.about-story-intro,
-.about-editorial-body .about-copy p {
-  font-size: 16px;
-  line-height: 1.55;
-  color: var(--ink);
-}
 .about-story-intro em {
   font-style: italic;
 }
@@ -2965,6 +2988,7 @@
 }
 .about-editorial-body .story-button {
   margin-top: 24px;
+  margin-left: auto;
 }
 .about-editorial-body .about-photo-card {
   width: 100%;
