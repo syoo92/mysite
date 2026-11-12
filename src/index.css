@@ -3036,6 +3036,8 @@
   }
   .about-editorial-body .about-photo-card {
     max-width: 420px;
+    /* Center under the paragraph when the column is wider than the photo. */
+    justify-self: center;
   }
 }
 @media (max-width: 480px) {
