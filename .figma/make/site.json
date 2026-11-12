@@ -1,0 +1,10 @@
+{
+  "description": "Showcase product design projects, case studies, and creative skills in a polished portfolio that helps designers attract clients and career opportunities.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
