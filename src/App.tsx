@@ -781,9 +781,9 @@ export default function HomePage() {
       >
         <div className="about-editorial-heading">
           <h2 id="about-title">
-            <span>To turn ideas into</span>
+            <span>To turn ideas</span>
             <span>
-              <em>sensible</em>
+              into <em>sensible</em>
             </span>
             <span>
               <em>experiences</em>
