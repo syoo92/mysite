@@ -3080,7 +3080,7 @@
 }
 @media (prefers-reduced-motion: no-preference) {
   .brand .brand-flower {
-    animation: blossom-spin 2s linear infinite paused;
+    animation: blossom-spin 1.5s linear infinite paused;
   }
   .brand .brand-flower:hover,
   .brand:focus-visible .brand-flower {
