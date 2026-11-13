@@ -233,7 +233,6 @@ export function ContactSection({
           Let’s make
           <br />
           something <em>good.</em>
-          <Arrow />
         </a>
         <Link className="primary-action" to="/#contact">
           Let’s talk <Arrow size={17} />
