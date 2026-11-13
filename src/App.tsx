@@ -166,7 +166,7 @@ export const projects = [
 ];
 export type Project = (typeof projects)[number];
 const mountain = "/images/dolomites.jpg";
-const email = "hello@sooyoo.design";
+const email = "ysyoo92@gmail.com";
 const contactOptions = {
   hiring: {
     label: "I’m hiring",
