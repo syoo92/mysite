@@ -3074,8 +3074,8 @@
    keyboard focus) and rests wherever it stopped. The name has no hover effect. Stays still for
    people who prefer reduced motion. */
 .brand .brand-flower {
-  width: calc(1.3em + 2px);
-  height: calc(1.3em + 2px);
+  width: calc(1.3em + 4px);
+  height: calc(1.3em + 4px);
   flex-shrink: 0;
 }
 @media (prefers-reduced-motion: no-preference) {
