@@ -902,7 +902,9 @@ export default function HomePage() {
           <div>
             <span className="eyebrow">TWO WAYS TO MAKE GOOD THINGS</span>
             <h2 id="collaborate-title">
-              Different beginnings. <em>Shared ambition.</em>
+              Different beginnings.
+              <br />
+              <em>Shared ambition.</em>
             </h2>
           </div>
           <span className="handwritten">the best work starts with a conversation ↙</span>
