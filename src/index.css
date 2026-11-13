@@ -3076,3 +3076,24 @@
 .services-section > div:first-child > .eyebrow {
   display: block;
 }
+/* Cherry blossom beside the logo: spins while the logo is hovered or focused, and rests
+   wherever it stopped (no snap back). Stays still for people who prefer reduced motion. */
+.brand .brand-flower {
+  width: 1.3em;
+  height: 1.3em;
+  flex-shrink: 0;
+  margin-left: 0.1em;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .brand .brand-flower {
+    animation: blossom-spin 3s linear infinite paused;
+  }
+  .brand:is(:hover, :focus-visible) .brand-flower {
+    animation-play-state: running;
+  }
+}
+@keyframes blossom-spin {
+  to {
+    rotate: 360deg;
+  }
+}

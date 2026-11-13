@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link, Outlet, ScrollRestoration, useLocation } from "react-router";
 import { Arrow, projects } from "../App";
 import { Copy, Eyebrow, Heading } from "./PortfolioUI";
+import { BlossomMark } from "./BlossomMark";
 
 export default function SiteLayout() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -117,6 +118,7 @@ export default function SiteLayout() {
         <Link className="brand" to="/" aria-label="Soo Yoo home" onClick={closeNavigation}>
           <span className="brand-word">Soo</span>
           <span className="brand-word">Yoo</span>
+          <BlossomMark />
         </Link>
         <span className="header-clock">
           BROOKLYN, NY · EST <span>{time}</span>
