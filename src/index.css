@@ -2912,7 +2912,8 @@
 }
 .about-editorial-heading {
   position: relative;
-  padding-bottom: clamp(72px, 9.5vw, 148px);
+  /* Space under the About heading, close to the heading-to-content spacing in other sections. */
+  padding-bottom: 48px;
 }
 .about-editorial-heading h2 {
   font-family: var(--font-editorial);
@@ -2938,7 +2939,7 @@
 .about-resume {
   position: absolute;
   right: 8px;
-  bottom: clamp(72px, 9.5vw, 148px);
+  bottom: 48px; /* Lines the Resume link up with the bottom of the heading. */
   display: inline-flex;
   align-items: center;
   gap: 15px;
