@@ -1248,24 +1248,15 @@
 .contact-title {
   display: block;
   position: relative;
-  font-family: "Manrope", sans-serif;
-  font-size: clamp(60px, 7.6vw, 112px);
-  line-height: 1.1;
-  letter-spacing: -5px;
-  font-weight: 500;
-  margin: 38px 0 34px;
+  margin: 18px 0 34px;
 }
-.contact-title i {
-  font-family: Georgia, serif;
-  font-weight: 400;
-  color: var(--coral);
-}
+/* Arrow scales with the heading and sits centered on the first line. */
 .contact-title > svg {
   position: absolute;
-  width: 85px;
-  height: 85px;
+  width: 1em;
+  height: 1em;
   right: 5px;
-  top: 45px;
+  top: 0.15em;
   transition: transform 0.25s;
 }
 .contact-title:hover > svg {
@@ -1482,14 +1473,7 @@
     letter-spacing: 1px;
   }
   .contact-title {
-    font-size: 8.8vw;
-    letter-spacing: -2.8px;
-    margin: 30px 0;
-  }
-  .contact-title > svg {
-    width: 50px;
-    height: 50px;
-    top: 25px;
+    margin: 18px 0 30px;
   }
   .contact-bottom > p {
     font-size: 11px;
@@ -1651,15 +1635,6 @@
     font-size: 8px;
     max-width: 160px;
     line-height: 1.7;
-  }
-  .contact-title {
-    font-size: 10.8vw;
-    letter-spacing: -2.5px;
-  }
-  .contact-title > svg {
-    width: 33px;
-    height: 33px;
-    top: 9px;
   }
   .contact-bottom {
     align-items: flex-start;
@@ -2240,9 +2215,6 @@
   padding: 0 30px 22px 37px;
   color: #7c7166;
 }
-.contact-title {
-  font-size: clamp(60px, 8vw, 114px);
-}
 .collaborate-section {
   padding: 68px 0 44px;
   border-bottom: 1px solid var(--line);
@@ -2254,16 +2226,22 @@
   gap: 30px;
   margin-bottom: 30px;
 }
-.collaborate-heading h2 {
-  margin-top: 14px;
+/* Section heading style, shared by "Two ways" and the contact heading. */
+.collaborate-heading h2,
+.contact-title {
   font-family: "Manrope", sans-serif;
   font-size: clamp(28px, 3vw, 40px);
   font-weight: 500;
   line-height: 1.3;
   letter-spacing: -1.5px;
+}
+.collaborate-heading h2 {
+  margin-top: 14px;
   max-width: 610px;
 }
-.collaborate-heading h2 em {
+/* Accent: dark italic serif with the yellow highlight, as in About me and How I can help. */
+.collaborate-heading h2 em,
+.contact-title em {
   font-family: Georgia, serif;
   font-weight: 400;
   color: var(--ink);
@@ -2775,8 +2753,11 @@
     left: 11px;
     font-size: 6px;
   }
-  .collaborate-heading h2 {
+  .collaborate-heading h2,
+  .contact-title {
     font-size: 32px;
+  }
+  .collaborate-heading h2 {
     max-width: 300px;
   }
   .collaboration-grid {
@@ -2877,14 +2858,6 @@
   .service-item > button {
     font-size: 19px;
     padding-block: 17px;
-  }
-  .contact-title {
-    font-size: 11.7vw;
-    letter-spacing: -2.6px;
-  }
-  .contact-title > svg {
-    width: 28px;
-    height: 28px;
   }
 }
 /* Body paragraphs on every page share the About me paragraph style (see --paragraph-* tokens).

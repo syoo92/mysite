@@ -974,7 +974,7 @@ export default function HomePage() {
         <a className="contact-title" href={contactHref(contactIntent)}>
           Let’s make
           <br />
-          something <i>good.</i>
+          something <em>good.</em>
           <Arrow />
         </a>
         <div className="contact-bottom">
