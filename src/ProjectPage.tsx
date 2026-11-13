@@ -13,6 +13,8 @@ const projectStories: Record<
     /** Client work: a real screen image for the gallery instead of the drawn mockup. */
     galleryImage?: { src: string; alt: string };
     takeawayTags?: string[];
+    /** Standalone clickable prototype, opened in a new tab. */
+    prototype?: string;
   }
 > = {
   folio: {
@@ -53,6 +55,7 @@ const projectStories: Record<
       alt: "Overview of the refreshed screens: Warm Welcome, benefit carousel, merchandising tiles, color and quick actions, and the existing cardmember and non-Reserve updates.",
     },
     takeawayTags: ["Customer-centered", "Brand-led", "Built to scale"],
+    prototype: "/prototypes/sapphire/index.html",
   },
   forma: {
     question: "How can a studio’s digital home feel as distinctive as the spaces it creates?",
@@ -63,6 +66,10 @@ const projectStories: Record<
       "An expressive editorial website built around bold typography, thoughtful pacing, and the work itself.",
   },
 };
+
+// The shared artifact copy doesn't include the prototype files, so the link is hidden there.
+const isArtifactBuild =
+  typeof window !== "undefined" && Boolean((window as { __ARTIFACT__?: boolean }).__ARTIFACT__);
 
 function ProjectNeighbor({
   project,
@@ -161,6 +168,16 @@ export default function ProjectPage() {
           <span className="project-concept-note">
             <span /> {"client" in project ? "Client work" : "A self-initiated design exploration"}
           </span>
+          {story.prototype && !isArtifactBuild && (
+            <a
+              className="primary-action project-prototype-link"
+              href={story.prototype}
+              target="_blank"
+              rel="noopener"
+            >
+              View prototype <Arrow size={17} />
+            </a>
+          )}
         </div>
         <div className="project-hero-art">
           <ProjectVisual kind={project.kind} />

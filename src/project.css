@@ -732,3 +732,8 @@
     margin-top: 21px;
   }
 }
+/* Opens the case study's clickable prototype */
+.project-prototype-link {
+  width: fit-content;
+  margin-top: 28px;
+}
