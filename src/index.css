@@ -3051,3 +3051,25 @@
   --ts-heading: 1;
   --ts-min: 0px;
 }
+/* Home page section headings share one display size: 90px on wide screens, scaling down with the
+   screen to 36px on phones. Tracking is in em and leading is tightened so the size reads as display type.
+   :is() gives every selector the same weight so breakpoint rules can't override one heading. */
+:is(
+    .section-heading h2,
+    .about-editorial-heading h2,
+    .services-section h2,
+    .collaborate-heading h2,
+    .contact-title
+  ) {
+  font-size: calc(clamp(36px, 6.25vw, 90px) * var(--ts-heading));
+  line-height: 1.1;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+}
+/* At the larger size the old width cap broke "Different beginnings." onto extra lines. */
+.collaborate-heading h2 {
+  max-width: none;
+}
+.collaborate-heading > .handwritten {
+  flex-shrink: 0;
+}
