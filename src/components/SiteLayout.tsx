@@ -93,7 +93,7 @@ export default function SiteLayout() {
   }, [menuOpen, workOpen]);
 
   useEffect(() => {
-    const mobile = window.matchMedia("(max-width: 480px)");
+    const mobile = window.matchMedia("(max-width: 600px)");
     const resetNavigation = () => {
       setMenuOpen(false);
       setWorkOpen(false);

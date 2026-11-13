@@ -1489,7 +1489,8 @@
     display: none;
   }
 }
-@media (max-width: 480px) {
+/* The full menu stops fitting below 600px, so the Menu button takes over there. */
+@media (max-width: 600px) {
   .header {
     height: 78px;
     position: relative;
@@ -1518,6 +1519,8 @@
   .navigation.is-open {
     display: flex;
   }
+}
+@media (max-width: 480px) {
   .hero {
     padding-top: 32px;
   }
@@ -2673,7 +2676,7 @@
     font-size: 16px;
   }
 }
-@media (max-width: 480px) {
+@media (max-width: 600px) {
   .header {
     height: 78px;
   }
@@ -2684,6 +2687,8 @@
     flex-wrap: wrap;
     justify-content: space-between;
   }
+}
+@media (max-width: 480px) {
   .hero {
     min-height: 570px;
   }
