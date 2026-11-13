@@ -144,10 +144,6 @@ export default function ProjectPage() {
         </div>
         <div className="project-hero-art">
           <ProjectVisual kind={project.kind} />
-          <div className="project-art-caption">
-            <span className="handwritten">a little thinking, brought to life.</span>
-            <Flower />
-          </div>
         </div>
       </section>
 

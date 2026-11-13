@@ -110,22 +110,6 @@
 .project-page .view-project {
   display: none;
 }
-.project-art-caption {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 22px 8px 0;
-  color: var(--text-soft);
-}
-.project-art-caption .handwritten {
-  font-size: calc(21px * var(--ts-heading));
-  transform: rotate(-3deg);
-}
-.project-art-caption > svg {
-  width: 28px;
-  height: 28px;
-  color: var(--coral);
-}
 .project-editorial {
   display: grid;
   grid-template-columns: 0.78fr 1.22fr;
@@ -563,9 +547,6 @@
   .project-hero-art > .project-visual {
     aspect-ratio: 1.42;
   }
-  .project-art-caption .handwritten {
-    font-size: calc(19px * var(--ts-body));
-  }
   .project-editorial {
     grid-template-columns: 1fr;
     gap: 38px;
@@ -727,4 +708,27 @@
 .project-gallery-jump,
 .project-all-work .text-action {
   font-size: calc(14px * var(--ts-body));
+}
+
+/* Project hero on desktop and tablet, from the Figma design: a 120px title and a 21/16px rhythm in the
+   text stack (label, 21, title, 16, tagline, 16, description, 21, tags, 21, concept note). Phones keep
+   their own sizes. */
+@media (min-width: 701px) {
+  .project-hero-copy h1 {
+    font-size: calc(min(11vw, 120px) * var(--ts-heading));
+    line-height: 1.37;
+    margin: 21px 0 16px;
+  }
+  .project-hero-subtitle {
+    margin: 0;
+  }
+  .project-hero-description {
+    margin-top: 16px;
+  }
+  .project-hero-copy .project-tags {
+    margin-top: 21px;
+  }
+  .project-concept-note {
+    margin-top: 21px;
+  }
 }
