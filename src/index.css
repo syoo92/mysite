@@ -2875,8 +2875,7 @@
     .contact-intent > p,
     .project-hero-description,
     .project-takeaway > p,
-    .project-story-section > p,
-    .project-contact > div > p
+    .project-story-section > p
   ) {
   font-family: "DM Sans", sans-serif;
   font-size: calc(var(--paragraph-size) * var(--ts-body));

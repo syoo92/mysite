@@ -1,5 +1,5 @@
 import { Link, useLocation, useParams } from "react-router";
-import { Arrow, Flower, ProjectVisual, projects, type Project } from "./App";
+import { Arrow, ContactSection, Flower, ProjectVisual, projects, type Project } from "./App";
 import { Copy, Eyebrow, Heading } from "./components/PortfolioUI";
 
 const projectStories: Record<
@@ -261,27 +261,7 @@ export default function ProjectPage() {
         </Link>
       </div>
 
-      <section className="project-contact">
-        <div>
-          <Eyebrow>HAVE A GOOD “WHAT IF”?</Eyebrow>
-          <Heading>
-            Let’s make the
-            <br />
-            next thing <em>good.</em>
-          </Heading>
-        </div>
-        <div>
-          <Copy>
-            A role, a project, or a problem worth solving.
-            <br />
-            Good things start with a conversation.
-          </Copy>
-          <Link className="primary-action" to="/#contact">
-            Let’s talk <Arrow size={17} />
-          </Link>
-        </div>
-        <Flower />
-      </section>
+      <ContactSection />
     </article>
   );
 }

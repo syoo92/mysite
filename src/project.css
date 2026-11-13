@@ -456,41 +456,7 @@
   text-align: center;
   margin-top: 22px;
 }
-.project-contact {
-  display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  align-items: center;
-  position: relative;
-  gap: 50px;
-  padding-block: 75px;
-}
-.project-contact h2 {
-  font: 500 calc(clamp(38px, 4.8vw, 67px) * var(--ts-heading)) / 1.12 var(--font-editorial);
-  letter-spacing: -2.8px;
-  margin-top: 20px;
-}
-.project-contact h2 em {
-  font-family: var(--font-accent);
-  font-weight: 400;
-  color: var(--coral);
-}
-.project-contact p {
-  font-size: calc(13px * var(--ts-body));
-  line-height: 1.9;
-  color: var(--text-secondary);
-}
-.project-contact .primary-action {
-  margin-top: 21px;
-}
-.project-contact > svg {
-  position: absolute;
-  width: 49px;
-  height: 49px;
-  color: var(--coral);
-  right: 0;
-  top: 52px;
-  transform: rotate(10deg);
-}
+
 .project-not-found {
   display: flex;
   flex-direction: column;
@@ -559,10 +525,7 @@
     width: 28px;
     height: 28px;
   }
-  .project-contact > svg {
-    width: 35px;
-    height: 35px;
-  }
+
 }
 @media (max-width: 700px) {
   .project-page {
@@ -728,18 +691,7 @@
   .neighbor-direction svg {
     width: 15px;
   }
-  .project-contact {
-    grid-template-columns: 1fr;
-    gap: 27px;
-    padding-block: 55px;
-  }
-  .project-contact h2 {
-    font-size: calc(46px * var(--ts-heading));
-    letter-spacing: -2px;
-  }
-  .project-contact > svg {
-    top: 70px;
-  }
+
 }
 @media (max-width: 380px) {
   .project-hero-copy h1 {
@@ -757,9 +709,7 @@
   .neighbor-direction {
     display: none;
   }
-  .project-contact h2 {
-    font-size: calc(40px * var(--ts-heading));
-  }
+
   .breadcrumb-number {
     margin-left: 4px;
   }
@@ -770,13 +720,11 @@
 
 .project-hero-description,
 .project-takeaway > p,
-.project-story-section > p,
-.project-contact > div > p {
+.project-story-section > p {
   font-size: calc(18px * var(--ts-body));
 }
 
 .project-gallery-jump,
-.project-all-work .text-action,
-.project-contact .primary-action {
+.project-all-work .text-action {
   font-size: calc(14px * var(--ts-body));
 }

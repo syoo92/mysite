@@ -193,6 +193,93 @@ function contactHref(intent: ContactIntent) {
   return `mailto:${email}?subject=${encodeURIComponent(option.subject)}&body=${encodeURIComponent(option.body)}`;
 }
 
+// The contact section that ends every page: "Let's make something good.", the hiring/project tabs and
+// the email. The home page controls which tab is chosen (its "Work with me" cards preselect one);
+// elsewhere the section keeps its own choice.
+export function ContactSection({
+  intent,
+  onIntentChange,
+}: {
+  intent?: ContactIntent;
+  onIntentChange?: (intent: ContactIntent) => void;
+}) {
+  const [ownIntent, setOwnIntent] = useState<ContactIntent>("project");
+  const contactIntent = intent ?? ownIntent;
+  const setContactIntent = onIntentChange ?? setOwnIntent;
+  const [copied, setCopied] = useState(false);
+  const copyTimer = useRef<number | undefined>(undefined);
+  const contact = contactOptions[contactIntent];
+  useEffect(() => () => window.clearTimeout(copyTimer.current), []);
+  async function copyEmail() {
+    try {
+      await navigator.clipboard.writeText(email);
+      setCopied(true);
+      window.clearTimeout(copyTimer.current);
+      copyTimer.current = window.setTimeout(() => setCopied(false), 2500);
+    } catch {
+      window.location.href = `mailto:${email}`;
+    }
+  }
+  return (
+    <section className="contact-section" id="contact">
+      <div className="contact-top">
+        <span className="eyebrow">HAVE A GOOD “WHAT IF”?</span>
+      </div>
+      <a className="contact-title" href={contactHref(contactIntent)}>
+        Let’s make
+        <br />
+        something <em>good.</em>
+        <Arrow />
+      </a>
+      <div className="contact-bottom">
+        <div className="contact-brief">
+          <div className="contact-tabs" role="group" aria-label="What brings you here?">
+            {(Object.keys(contactOptions) as ContactIntent[]).map((intent) => (
+              <button
+                key={intent}
+                aria-pressed={contactIntent === intent}
+                onClick={() => setContactIntent(intent)}
+              >
+                {contactOptions[intent].label}
+              </button>
+            ))}
+          </div>
+          <div className="contact-intent" aria-live="polite">
+            <h3>{contact.title}</h3>
+            <p>{contact.description}</p>
+            <a className="contact-start" href={contactHref(contactIntent)}>
+              {contact.action} <Arrow size={17} />
+            </a>
+          </div>
+        </div>
+        <div className="contact-direct">
+          <span className="eyebrow">OR, KEEP IT SIMPLE</span>
+          <button className="email-button" onClick={copyEmail}>
+            {copied ? "Email copied to clipboard" : email}
+            <svg
+              width="17"
+              height="17"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              aria-hidden="true"
+            >
+              <rect x="8" y="8" width="12" height="12" rx="2" />
+              <path d="M16 8V4H4v12h4" />
+            </svg>
+          </button>
+          <span className="contact-copy-hint">Click to copy. Say hello when you’re ready.</span>
+          <span className="handwritten">Looking forward to what’s next.</span>
+        </div>
+      </div>
+      <span className="sr-only" role="status">
+        {copied ? "Email address copied" : ""}
+      </span>
+    </section>
+  );
+}
+
 function FinanceMockup() {
   return (
     <div className="finance-window">
@@ -618,21 +705,7 @@ export default function HomePage() {
         : "All work";
   const [storyOpen, setStoryOpen] = useState(false);
   const [service, setService] = useState<number | null>(0);
-  const [copied, setCopied] = useState(false);
   const [contactIntent, setContactIntent] = useState<ContactIntent>("project");
-  const copyTimer = useRef<number | undefined>(undefined);
-  const contact = contactOptions[contactIntent];
-  useEffect(() => () => window.clearTimeout(copyTimer.current), []);
-  async function copyEmail() {
-    try {
-      await navigator.clipboard.writeText(email);
-      setCopied(true);
-      window.clearTimeout(copyTimer.current);
-      copyTimer.current = window.setTimeout(() => setCopied(false), 2500);
-    } catch {
-      window.location.href = `mailto:${email}`;
-    }
-  }
   return (
     <>
       <section className="hero">
@@ -969,62 +1042,7 @@ export default function HomePage() {
           </article>
         </div>
       </section>
-      <section className="contact-section" id="contact">
-        <div className="contact-top">
-          <span className="eyebrow">HAVE A GOOD “WHAT IF”?</span>
-        </div>
-        <a className="contact-title" href={contactHref(contactIntent)}>
-          Let’s make
-          <br />
-          something <em>good.</em>
-          <Arrow />
-        </a>
-        <div className="contact-bottom">
-          <div className="contact-brief">
-            <div className="contact-tabs" role="group" aria-label="What brings you here?">
-              {(Object.keys(contactOptions) as ContactIntent[]).map((intent) => (
-                <button
-                  key={intent}
-                  aria-pressed={contactIntent === intent}
-                  onClick={() => setContactIntent(intent)}
-                >
-                  {contactOptions[intent].label}
-                </button>
-              ))}
-            </div>
-            <div className="contact-intent" aria-live="polite">
-              <h3>{contact.title}</h3>
-              <p>{contact.description}</p>
-              <a className="contact-start" href={contactHref(contactIntent)}>
-                {contact.action} <Arrow size={17} />
-              </a>
-            </div>
-          </div>
-          <div className="contact-direct">
-            <span className="eyebrow">OR, KEEP IT SIMPLE</span>
-            <button className="email-button" onClick={copyEmail}>
-              {copied ? "Email copied to clipboard" : email}
-              <svg
-                width="17"
-                height="17"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                aria-hidden="true"
-              >
-                <rect x="8" y="8" width="12" height="12" rx="2" />
-                <path d="M16 8V4H4v12h4" />
-              </svg>
-            </button>
-            <span className="contact-copy-hint">Click to copy. Say hello when you’re ready.</span>
-            <span className="handwritten">Looking forward to what’s next.</span>
-          </div>
-        </div>
-        <span className="sr-only" role="status">
-          {copied ? "Email address copied" : ""}
-        </span>
-      </section>
+      <ContactSection intent={contactIntent} onIntentChange={setContactIntent} />
     </>
   );
 }
