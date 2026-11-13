@@ -34,7 +34,7 @@
   align-items: center;
   gap: 11px;
   color: var(--text-secondary);
-  font-size: 11px;
+  font-size: calc(11px * var(--ts-body));
   padding-block: 8px;
 }
 .back-to-work:hover {
@@ -57,7 +57,7 @@
 }
 .project-hero-copy h1 {
   font-family: var(--font-editorial);
-  font-size: clamp(90px, 10.2vw, 148px);
+  font-size: calc(clamp(90px, 10.2vw, 148px) * var(--ts-heading));
   line-height: 1.12;
   letter-spacing: -0.075em;
   font-weight: 500;
@@ -65,7 +65,7 @@
 }
 .project-hero-subtitle {
   font-family: var(--font-accent);
-  font-size: clamp(27px, 2.6vw, 38px);
+  font-size: calc(clamp(27px, 2.6vw, 38px) * var(--ts-heading));
   font-style: italic;
   font-weight: 400;
   letter-spacing: -0.9px;
@@ -74,7 +74,7 @@
 }
 .project-hero-description {
   color: var(--text-secondary);
-  font-size: 13px;
+  font-size: calc(13px * var(--ts-body));
   line-height: 1.9;
   max-width: 430px;
   margin-top: 23px;
@@ -88,7 +88,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 9px;
+  font-size: max(var(--ts-min), calc(9px * var(--ts-body)));
   color: var(--text-soft);
   margin-top: 22px;
 }
@@ -118,7 +118,7 @@
   color: var(--text-soft);
 }
 .project-art-caption .handwritten {
-  font-size: 21px;
+  font-size: calc(21px * var(--ts-heading));
   transform: rotate(-3deg);
 }
 .project-art-caption > svg {
@@ -140,7 +140,7 @@
 }
 .project-overview > h2 {
   font-family: var(--font-editorial);
-  font-size: clamp(26px, 2.6vw, 37px);
+  font-size: calc(clamp(26px, 2.6vw, 37px) * var(--ts-heading));
   line-height: 1.3;
   letter-spacing: -1.5px;
   font-weight: 500;
@@ -158,12 +158,12 @@
 }
 .project-facts dt {
   color: var(--text-soft);
-  font-size: 8px;
+  font-size: max(var(--ts-min), calc(8px * var(--ts-body)));
   letter-spacing: 0.8px;
   padding-top: 3px;
 }
 .project-facts dd {
-  font-size: 11px;
+  font-size: calc(11px * var(--ts-body));
   line-height: 1.7;
   color: var(--text-secondary);
 }
@@ -190,14 +190,14 @@
 }
 .project-takeaway h2 {
   font-family: var(--font-editorial);
-  font-size: clamp(30px, 3.15vw, 43px);
+  font-size: calc(clamp(30px, 3.15vw, 43px) * var(--ts-heading));
   font-weight: 500;
   letter-spacing: -1.8px;
   line-height: 1.16;
   margin-top: 24px;
 }
 .project-takeaway > p {
-  font-size: 13px;
+  font-size: calc(13px * var(--ts-body));
   color: var(--text-secondary);
   line-height: 1.8;
   max-width: 400px;
@@ -212,7 +212,7 @@
   border-top: 1px solid var(--line);
 }
 .takeaway-tags > span {
-  font-size: 8px;
+  font-size: max(var(--ts-min), calc(8px * var(--ts-body)));
   color: var(--text-secondary);
   padding: 5px 8px;
   border: 1px solid var(--line);
@@ -225,14 +225,14 @@
 }
 .project-story-section > h2 {
   font-family: var(--font-editorial);
-  font-size: 25px;
+  font-size: calc(25px * var(--ts-heading));
   font-weight: 500;
   line-height: 1.3;
   letter-spacing: -0.8px;
   margin: 14px 0 16px;
 }
 .project-story-section > p {
-  font-size: 13px;
+  font-size: calc(13px * var(--ts-body));
   line-height: 1.95;
   color: var(--text-secondary);
   text-wrap: pretty;
@@ -247,16 +247,16 @@
   margin-top: 24px;
 }
 .decision-number {
-  font: italic 25px var(--font-accent);
+  font: italic calc(25px * var(--ts-heading)) var(--font-accent);
   color: var(--coral);
 }
 .project-decision h3 {
-  font-size: 13px;
+  font-size: calc(13px * var(--ts-body));
   font-weight: 500;
   margin: 4px 0 8px;
 }
 .project-decision p {
-  font-size: 12px;
+  font-size: calc(12px * var(--ts-body));
   line-height: 1.85;
   color: var(--text-secondary);
 }
@@ -276,7 +276,7 @@
   color: var(--text-soft);
 }
 .project-concept-disclaimer > p {
-  font-size: 10px;
+  font-size: max(var(--ts-min), calc(10px * var(--ts-body)));
   line-height: 1.8;
   color: var(--text-secondary);
 }
@@ -294,14 +294,14 @@
   margin-bottom: 28px;
 }
 .project-gallery-heading h2 {
-  font: 500 clamp(28px, 3vw, 41px) / 1.25 var(--font-editorial);
+  font: 500 calc(clamp(28px, 3vw, 41px) * var(--ts-heading)) / 1.25 var(--font-editorial);
   letter-spacing: -1.4px;
   margin-top: 13px;
 }
 .project-gallery-heading > .handwritten {
   color: var(--text-soft);
   transform: rotate(-5deg);
-  font-size: 23px;
+  font-size: calc(23px * var(--ts-heading));
   padding-right: 15px;
 }
 .project-gallery-stage {
@@ -368,11 +368,11 @@
   gap: 30px;
   color: var(--text-soft);
   padding-top: 16px;
-  font-size: 10px;
+  font-size: max(var(--ts-min), calc(10px * var(--ts-body)));
   line-height: 1.7;
 }
 .project-gallery-figure figcaption > span:first-child {
-  font-size: 8px;
+  font-size: max(var(--ts-min), calc(8px * var(--ts-body)));
   letter-spacing: 1px;
   flex-shrink: 0;
   padding-top: 2px;
@@ -422,18 +422,18 @@
   min-width: 0;
 }
 .neighbor-copy .eyebrow {
-  font-size: 8px;
+  font-size: max(var(--ts-min), calc(8px * var(--ts-body)));
   letter-spacing: 1px;
 }
 .neighbor-copy h3 {
   font-family: var(--font-editorial);
-  font-size: 29px;
+  font-size: calc(29px * var(--ts-heading));
   letter-spacing: -1.2px;
   margin: 6px 0 5px;
   font-weight: 500;
 }
 .neighbor-copy p {
-  font-size: 9px;
+  font-size: max(var(--ts-min), calc(9px * var(--ts-body)));
   color: var(--text-soft);
 }
 .neighbor-visual {
@@ -465,7 +465,7 @@
   padding-block: 75px;
 }
 .project-contact h2 {
-  font: 500 clamp(38px, 4.8vw, 67px) / 1.12 var(--font-editorial);
+  font: 500 calc(clamp(38px, 4.8vw, 67px) * var(--ts-heading)) / 1.12 var(--font-editorial);
   letter-spacing: -2.8px;
   margin-top: 20px;
 }
@@ -475,7 +475,7 @@
   color: var(--coral);
 }
 .project-contact p {
-  font-size: 13px;
+  font-size: calc(13px * var(--ts-body));
   line-height: 1.9;
   color: var(--text-secondary);
 }
@@ -505,7 +505,7 @@
   margin-bottom: 30px;
 }
 .project-not-found h1 {
-  font: 500 clamp(50px, 7vw, 90px) / 1.15 var(--font-editorial);
+  font: 500 calc(clamp(50px, 7vw, 90px) * var(--ts-heading)) / 1.15 var(--font-editorial);
   letter-spacing: -3px;
   margin: 25px 0;
 }
@@ -515,7 +515,7 @@
   font-weight: 400;
 }
 .project-not-found p {
-  font-size: 14px;
+  font-size: calc(14px * var(--ts-body));
   line-height: 1.8;
   color: var(--text-secondary);
   max-width: 430px;
@@ -528,26 +528,26 @@
     padding-block: 40px 55px;
   }
   .project-hero-copy h1 {
-    font-size: 11vw;
+    font-size: calc(11vw * var(--ts-heading));
   }
   .project-hero-subtitle {
-    font-size: 29px;
+    font-size: calc(29px * var(--ts-heading));
   }
   .project-hero-description {
-    font-size: 12px;
+    font-size: calc(12px * var(--ts-body));
   }
   .project-editorial {
     grid-template-columns: 0.85fr 1.15fr;
     gap: 7%;
   }
   .project-overview > h2 {
-    font-size: 28px;
+    font-size: calc(28px * var(--ts-heading));
   }
   .project-takeaway {
     padding: 25px;
   }
   .project-takeaway h2 {
-    font-size: 34px;
+    font-size: calc(34px * var(--ts-heading));
   }
   .neighbor-visual {
     width: 75px;
@@ -569,7 +569,7 @@
     padding-top: 21px;
   }
   .project-breadcrumb > .eyebrow {
-    font-size: 8px;
+    font-size: max(var(--ts-min), calc(8px * var(--ts-body)));
   }
   .breadcrumb-number {
     margin-left: 8px;
@@ -580,16 +580,16 @@
     padding-top: 31px;
   }
   .project-hero-copy h1 {
-    font-size: 100px;
+    font-size: calc(100px * var(--ts-heading));
     margin-block: 8px 12px;
   }
   .project-hero-subtitle {
-    font-size: 33px;
+    font-size: calc(33px * var(--ts-heading));
     max-width: 400px;
   }
   .project-hero-description {
     max-width: 100%;
-    font-size: 13px;
+    font-size: calc(13px * var(--ts-body));
   }
   .project-hero-copy .project-tags {
     margin-top: 18px;
@@ -601,7 +601,7 @@
     aspect-ratio: 1.42;
   }
   .project-art-caption .handwritten {
-    font-size: 19px;
+    font-size: calc(19px * var(--ts-body));
   }
   .project-editorial {
     grid-template-columns: 1fr;
@@ -612,7 +612,7 @@
     max-width: none;
   }
   .project-overview > h2 {
-    font-size: 30px;
+    font-size: calc(30px * var(--ts-heading));
     max-width: 450px;
     margin-bottom: 25px;
   }
@@ -621,7 +621,7 @@
     padding-block: 13px;
   }
   .project-facts dd {
-    font-size: 12px;
+    font-size: calc(12px * var(--ts-body));
   }
   .project-gallery-jump {
     margin-top: 17px;
@@ -630,17 +630,17 @@
     padding: 27px;
   }
   .project-takeaway h2 {
-    font-size: 37px;
+    font-size: calc(37px * var(--ts-heading));
     max-width: 380px;
   }
   .project-story-section > h2 {
-    font-size: 26px;
+    font-size: calc(26px * var(--ts-heading));
   }
   .project-story-section > p {
-    font-size: 13px;
+    font-size: calc(13px * var(--ts-body));
   }
   .project-gallery-heading h2 {
-    font-size: 30px;
+    font-size: calc(30px * var(--ts-heading));
   }
   .project-gallery-heading > .handwritten {
     display: none;
@@ -712,14 +712,14 @@
     aspect-ratio: 1.5;
   }
   .neighbor-copy h3 {
-    font-size: 26px;
+    font-size: calc(26px * var(--ts-heading));
   }
   .neighbor-copy .eyebrow {
-    font-size: 7px;
+    font-size: max(var(--ts-min), calc(7px * var(--ts-body)));
     letter-spacing: 0.6px;
   }
   .neighbor-copy p {
-    font-size: 8px;
+    font-size: max(var(--ts-min), calc(8px * var(--ts-body)));
   }
   .neighbor-direction {
     width: 25px;
@@ -734,7 +734,7 @@
     padding-block: 55px;
   }
   .project-contact h2 {
-    font-size: 46px;
+    font-size: calc(46px * var(--ts-heading));
     letter-spacing: -2px;
   }
   .project-contact > svg {
@@ -743,13 +743,13 @@
 }
 @media (max-width: 380px) {
   .project-hero-copy h1 {
-    font-size: 84px;
+    font-size: calc(84px * var(--ts-heading));
   }
   .project-hero-subtitle {
-    font-size: 29px;
+    font-size: calc(29px * var(--ts-heading));
   }
   .project-takeaway h2 {
-    font-size: 32px;
+    font-size: calc(32px * var(--ts-heading));
   }
   .project-takeaway {
     padding: 22px;
@@ -758,13 +758,13 @@
     display: none;
   }
   .project-contact h2 {
-    font-size: 40px;
+    font-size: calc(40px * var(--ts-heading));
   }
   .breadcrumb-number {
     margin-left: 4px;
   }
   .project-breadcrumb > .eyebrow {
-    font-size: 7px;
+    font-size: max(var(--ts-min), calc(7px * var(--ts-body)));
   }
 }
 
@@ -772,11 +772,11 @@
 .project-takeaway > p,
 .project-story-section > p,
 .project-contact > div > p {
-  font-size: 18px;
+  font-size: calc(18px * var(--ts-body));
 }
 
 .project-gallery-jump,
 .project-all-work .text-action,
 .project-contact .primary-action {
-  font-size: 14px;
+  font-size: calc(14px * var(--ts-body));
 }

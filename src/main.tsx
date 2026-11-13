@@ -4,6 +4,9 @@ import App from "./app/App";
 import "./index.css";
 import "./project.css";
 import "./navigation.css";
+import { applyTextScale } from "./textScale";
+
+applyTextScale();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
