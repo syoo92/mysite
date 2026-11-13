@@ -10,6 +10,9 @@ const projectStories: Record<
     principle: string;
     galleryTitle: string;
     galleryCaption: string;
+    /** Client work: a real screen image for the gallery instead of the drawn mockup. */
+    galleryImage?: { src: string; alt: string };
+    takeawayTags?: string[];
   }
 > = {
   folio: {
@@ -36,6 +39,20 @@ const projectStories: Record<
     galleryTitle: "Good things start here.",
     galleryCaption:
       "A flexible workspace that balances visual exploration with the clarity teams need to move forward.",
+  },
+  sapphire: {
+    question: "How do you make a premium card feel premium in every digital moment?",
+    takeaway: "Premium in the details. Consistent everywhere.",
+    principle:
+      "A refresh grounded in a customer-experience framework and carried through every touchpoint.",
+    galleryTitle: "A refresh, end to end.",
+    galleryCaption:
+      "A flyover of the updates, from Warm Welcome and the benefit carousel to merchandising tiles and quick actions.",
+    galleryImage: {
+      src: "/images/sapphire-overview.avif",
+      alt: "Overview of the refreshed screens: Warm Welcome, benefit carousel, merchandising tiles, color and quick actions, and the existing cardmember and non-Reserve updates.",
+    },
+    takeawayTags: ["Customer-centered", "Brand-led", "Built to scale"],
   },
   forma: {
     question: "How can a studio’s digital home feel as distinctive as the spaces it creates?",
@@ -116,7 +133,10 @@ export default function ProjectPage() {
           <span aria-hidden="true">←</span> All selected work
         </Link>
         <Eyebrow>
-          CASE STUDY <span className="breadcrumb-number">0{projectIndex + 1} / 04</span>
+          CASE STUDY{" "}
+          <span className="breadcrumb-number">
+            0{projectIndex + 1} / {String(projects.length).padStart(2, "0")}
+          </span>
         </Eyebrow>
       </div>
 
@@ -139,7 +159,7 @@ export default function ProjectPage() {
             ))}
           </div>
           <span className="project-concept-note">
-            <span /> A self-initiated design exploration
+            <span /> {"client" in project ? "Client work" : "A self-initiated design exploration"}
           </span>
         </div>
         <div className="project-hero-art">
@@ -170,7 +190,7 @@ export default function ProjectPage() {
             </div>
             <div>
               <dt>PROJECT TYPE</dt>
-              <dd>Independent concept</dd>
+              <dd>{"client" in project ? "Client work" : "Independent concept"}</dd>
             </div>
           </dl>
           <Link className="project-gallery-jump text-action" to="#gallery" preventScrollReset>
@@ -187,9 +207,11 @@ export default function ProjectPage() {
             <Heading>{story.takeaway}</Heading>
             <Copy>{story.principle}</Copy>
             <div className="takeaway-tags">
-              <span>Human-centered</span>
-              <span>Thoughtfully simple</span>
-              <span>Built for clarity</span>
+              {(
+                story.takeawayTags ?? ["Human-centered", "Thoughtfully simple", "Built for clarity"]
+              ).map((tag) => (
+                <span key={tag}>{tag}</span>
+              ))}
             </div>
           </section>
           <section className="project-story-section">
@@ -217,13 +239,15 @@ export default function ProjectPage() {
             <Eyebrow>03 / THE DESIGN OUTCOME</Eyebrow>
             <Heading>A little more meaningful.</Heading>
             <Copy>{project.result}</Copy>
-            <div className="project-concept-disclaimer">
-              <Flower />
-              <Copy>
-                A self-initiated concept, not commissioned client work. This outcome describes the
-                design direction, not measured business results.
-              </Copy>
-            </div>
+            {!("client" in project) && (
+              <div className="project-concept-disclaimer">
+                <Flower />
+                <Copy>
+                  A self-initiated concept, not commissioned client work. This outcome describes the
+                  design direction, not measured business results.
+                </Copy>
+              </div>
+            )}
           </section>
         </div>
       </div>
@@ -238,7 +262,16 @@ export default function ProjectPage() {
         </div>
         <figure className="project-gallery-figure">
           <div className="project-gallery-stage">
-            <ProjectVisual kind={project.kind} />
+            {story.galleryImage ? (
+              <img
+                className="project-gallery-image"
+                src={story.galleryImage.src}
+                alt={story.galleryImage.alt}
+                loading="lazy"
+              />
+            ) : (
+              <ProjectVisual kind={project.kind} />
+            )}
           </div>
           <figcaption>
             <span>01 / THE EXPERIENCE</span>
