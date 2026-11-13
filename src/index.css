@@ -2191,9 +2191,6 @@
 .service-item {
   border-top: 1px solid var(--line);
 }
-.service-item:last-child {
-  border-bottom: 1px solid var(--line);
-}
 .service-item > button {
   width: 100%;
   display: flex;
