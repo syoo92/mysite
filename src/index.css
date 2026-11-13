@@ -3124,3 +3124,8 @@
     display: none;
   }
 }
+/* Project pages end with the compact contact section from the Figma design: heading, then the
+   "Let's talk" button 15px below. */
+.contact-section-compact .contact-title {
+  margin-bottom: 15px;
+}

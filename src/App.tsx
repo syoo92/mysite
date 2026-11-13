@@ -199,9 +199,12 @@ function contactHref(intent: ContactIntent) {
 export function ContactSection({
   intent,
   onIntentChange,
+  compact = false,
 }: {
   intent?: ContactIntent;
   onIntentChange?: (intent: ContactIntent) => void;
+  /** Project pages: just the heading and a "Let's talk" button (from the Figma design). */
+  compact?: boolean;
 }) {
   const [ownIntent, setOwnIntent] = useState<ContactIntent>("project");
   const contactIntent = intent ?? ownIntent;
@@ -219,6 +222,24 @@ export function ContactSection({
     } catch {
       window.location.href = `mailto:${email}`;
     }
+  }
+  if (compact) {
+    return (
+      <section className="contact-section contact-section-compact" id="contact">
+        <div className="contact-top">
+          <span className="eyebrow">HAVE A GOOD “WHAT IF”?</span>
+        </div>
+        <a className="contact-title" href={contactHref(contactIntent)}>
+          Let’s make
+          <br />
+          something <em>good.</em>
+          <Arrow />
+        </a>
+        <Link className="primary-action" to="/#contact">
+          Let’s talk <Arrow size={17} />
+        </Link>
+      </section>
+    );
   }
   return (
     <section className="contact-section" id="contact">

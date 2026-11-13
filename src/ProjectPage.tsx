@@ -257,7 +257,7 @@ export default function ProjectPage() {
         </Link>
       </div>
 
-      <ContactSection />
+      <ContactSection compact />
     </article>
   );
 }
