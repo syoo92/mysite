@@ -1652,11 +1652,6 @@
     max-width: 160px;
     line-height: 1.7;
   }
-  .contact-top .availability {
-    max-width: 115px;
-    flex-shrink: 0;
-    font-size: 8px;
-  }
   .contact-title {
     font-size: 10.8vw;
     letter-spacing: -2.5px;

@@ -970,9 +970,6 @@ export default function HomePage() {
       <section className="contact-section" id="contact">
         <div className="contact-top">
           <span className="eyebrow">HAVE A GOOD “WHAT IF”?</span>
-          <span className="availability">
-            <i /> Roles, projects & good conversations
-          </span>
         </div>
         <a className="contact-title" href={contactHref(contactIntent)}>
           Let’s make
