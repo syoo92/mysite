@@ -116,9 +116,9 @@ export default function SiteLayout() {
         }}
       >
         <Link className="brand" to="/" aria-label="Soo Yoo home" onClick={closeNavigation}>
+          <BlossomMark />
           <span className="brand-word">Soo</span>
           <span className="brand-word">Yoo</span>
-          <BlossomMark />
         </Link>
         <span className="header-clock">
           BROOKLYN, NY · EST <span>{time}</span>

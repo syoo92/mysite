@@ -201,12 +201,6 @@
   .hero-flower {
     animation: flower-arrive 1200ms cubic-bezier(0.22, 1, 0.36, 1) 480ms backwards;
   }
-  .brand svg {
-    transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .brand:hover svg {
-    transform: rotate(90deg);
-  }
   .explore-link span {
     transition:
       background 200ms,
@@ -3076,19 +3070,20 @@
 .services-section > div:first-child > .eyebrow {
   display: block;
 }
-/* Cherry blossom beside the logo: spins while the logo is hovered or focused, and rests
-   wherever it stopped (no snap back). Stays still for people who prefer reduced motion. */
+/* Cherry blossom before the logo name: spins while the flower itself is hovered (or the logo has
+   keyboard focus) and rests wherever it stopped. The name has no hover effect. Stays still for
+   people who prefer reduced motion. */
 .brand .brand-flower {
-  width: 1.3em;
-  height: 1.3em;
+  width: calc(1.3em + 2px);
+  height: calc(1.3em + 2px);
   flex-shrink: 0;
-  margin-left: 0.1em;
 }
 @media (prefers-reduced-motion: no-preference) {
   .brand .brand-flower {
     animation: blossom-spin 3s linear infinite paused;
   }
-  .brand:is(:hover, :focus-visible) .brand-flower {
+  .brand .brand-flower:hover,
+  .brand:focus-visible .brand-flower {
     animation-play-state: running;
   }
 }

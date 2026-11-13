@@ -1,4 +1,4 @@
-// Cherry blossom mark that sits beside the "Soo Yoo" logo and spins while the logo is hovered.
+// Cherry blossom mark that sits before the "Soo Yoo" logo name and spins while it is hovered.
 // Drawn in a 100×100 box around the centre (50, 50); each layer is one shape repeated every 72°.
 
 const ANGLES = [0, 72, 144, 216, 288];
