@@ -2425,7 +2425,7 @@
   margin-top: -8px;
 }
 .contact-direct > .handwritten {
-  color: #a28269;
+  color: var(--coral);
   font-size: calc(23px * var(--ts-heading));
   margin: 24px 0 0 15px;
   transform: rotate(-5deg);
