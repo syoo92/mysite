@@ -1706,7 +1706,7 @@
   color: #82776c;
   font-variant-numeric: tabular-nums;
 }
-.header-clock > span {
+.header-clock > .header-clock-time {
   min-width: 52px;
   color: #403b35;
 }
@@ -3090,5 +3090,38 @@
 @keyframes blossom-spin {
   to {
     rotate: 360deg;
+  }
+}
+/* Header clock below 1280px (where the page-centred clock would run into the menu): it sits centred in
+   the free space between the logo and the menu and sizes itself to that space: the full
+   "BROOKLYN, NY · EST 10:24:00" when there is room, then "EST 10:24:00", then just the time, and
+   nothing only when even that would not fit. */
+@media (max-width: 1279px) {
+  .header > .header-clock {
+    display: flex;
+    position: static;
+    transform: none;
+    flex: 1 1 0;
+    min-width: 0;
+    justify-content: center;
+    gap: 8px;
+    padding-inline: 12px;
+    white-space: nowrap;
+    container-type: inline-size;
+  }
+}
+@container (max-width: 200px) {
+  .header-clock-city {
+    display: none;
+  }
+}
+@container (max-width: 96px) {
+  .header-clock-label {
+    display: none;
+  }
+}
+@container (max-width: 58px) {
+  .header-clock-time {
+    display: none;
   }
 }

@@ -121,7 +121,10 @@ export default function SiteLayout() {
           <span className="brand-word">Yoo</span>
         </Link>
         <span className="header-clock">
-          BROOKLYN, NY · EST <span>{time}</span>
+          <span className="header-clock-label">
+            <span className="header-clock-city">BROOKLYN, NY · </span>EST
+          </span>
+          <span className="header-clock-time">{time}</span>
         </span>
         <nav
           id="main-navigation"
