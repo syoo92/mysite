@@ -2188,7 +2188,8 @@
   line-height: 1.8;
   color: #7c7166;
 }
-.service-item {
+/* Lines only between services, none above the first or below the last. */
+.service-item + .service-item {
   border-top: 1px solid var(--line);
 }
 .service-item > button {
