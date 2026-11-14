@@ -42,21 +42,6 @@ const projectStories: Record<
     galleryCaption:
       "A flexible workspace that balances visual exploration with the clarity teams need to move forward.",
   },
-  sapphire: {
-    question: "How do you make a premium card feel premium in every digital moment?",
-    takeaway: "Premium in the details. Consistent everywhere.",
-    principle:
-      "A refresh grounded in a customer-experience framework and carried through every touchpoint.",
-    galleryTitle: "A refresh, end to end.",
-    galleryCaption:
-      "A flyover of the updates, from Warm Welcome and the benefit carousel to merchandising tiles and quick actions.",
-    galleryImage: {
-      src: "/images/sapphire-overview.avif",
-      alt: "Overview of the refreshed screens: Warm Welcome, benefit carousel, merchandising tiles, color and quick actions, and the existing cardmember and non-Reserve updates.",
-    },
-    takeawayTags: ["Customer-centered", "Brand-led", "Built to scale"],
-    prototype: "/prototypes/sapphire/index.html",
-  },
   forma: {
     question: "How can a studio’s digital home feel as distinctive as the spaces it creates?",
     takeaway: "Architectural precision. A human point of view.",
