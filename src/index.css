@@ -3129,3 +3129,21 @@
 .contact-section-compact .contact-title {
   margin-bottom: 15px;
 }
+/* Client case studies show real screens instead of a drawn mockup. */
+.visual-sapphire {
+  background: #b1b1b1; /* matches the grey behind the screens */
+}
+.project-visual-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 6%;
+}
+.project-gallery-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #fff;
+}

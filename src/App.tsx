@@ -163,6 +163,41 @@ export const projects = [
     result:
       "A responsive website concept that balances architectural precision with a genuinely human personality.",
   },
+  {
+    id: "sapphire",
+    title: "Sapphire",
+    subtitle: "A premium refresh, from first login to everyday moments.",
+    category: "Digital products",
+    tags: ["Experience strategy", "UX / UI design"],
+    year: "2025",
+    kind: "sapphire",
+    role: "Digital experience design",
+    focus: "Card refresh across app and web",
+    deliverables: "CX framework, journey maps, final app assets",
+    decisions: [
+      [
+        "A framework built for experience",
+        "We kept the agency messaging framework’s high-level pillars, then built out the lower levels so they applied directly to the customer experience.",
+      ],
+      [
+        "Meet customers in their moments",
+        "End-to-end journey maps showed when, where, and how the product shows up in people’s lives, and where the key messages should land.",
+      ],
+      [
+        "Premium, used with restraint",
+        "Full-screen takeovers only for onboarding, carousels kept to five tiles, and photography chosen for each destination.",
+      ],
+    ],
+    description:
+      "The Sapphire Reserve card refresh brought a more premium, photo-led experience to the Chase app and web, from a new warm welcome to the everyday account screens.",
+    challenge:
+      "A card refresh touches every digital moment, from the first login to a quick balance check. The challenge was turning an agency messaging framework and new brand guidelines into an experience customers would actually feel.",
+    solution:
+      "We built a customer-experience framework out of the messaging pillars, mapped the end-to-end journey to find the moments that matter, and used the brand and photography guidelines to rebuild the key screens.",
+    result:
+      "A unified refresh across app and web: a photo-led Warm Welcome, a new benefits carousel, rebranded merchandising tiles, one Blue800 interaction color, and quick actions in the upcoming product design language.",
+    client: true,
+  },
 ];
 export type Project = (typeof projects)[number];
 const mountain = "/images/dolomites.jpg";
@@ -565,7 +600,14 @@ function StudioMockup() {
 export function ProjectVisual({ kind }: { kind: string }) {
   return (
     <div className={`project-visual visual-${kind}`} aria-hidden="true">
-      {kind === "finance" ? (
+      {kind === "sapphire" ? (
+        <img
+          className="project-visual-image"
+          src="/images/sapphire-welcome.avif"
+          alt=""
+          loading="lazy"
+        />
+      ) : kind === "finance" ? (
         <FinanceMockup />
       ) : kind === "travel" ? (
         <TravelMockup />
