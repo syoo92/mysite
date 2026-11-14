@@ -603,7 +603,7 @@ export function ProjectVisual({ kind }: { kind: string }) {
       {kind === "sapphire" ? (
         <img
           className="project-visual-image"
-          src="/images/sapphire-welcome.avif"
+          src="/images/sapphire-collage.avif"
           alt=""
           loading="lazy"
         />

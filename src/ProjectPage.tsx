@@ -2,6 +2,18 @@ import { Link, useLocation, useParams } from "react-router";
 import { Arrow, ContactSection, Flower, ProjectVisual, projects, type Project } from "./App";
 import { Copy, Eyebrow, Heading } from "./components/PortfolioUI";
 
+type CaseStudyChapters = {
+  problem: { heading: string; body: string; points: string[] };
+  process: { heading: string; body: string; steps: [string, string][] };
+  strategy: { heading: string; body: string; principles: [string, string][] };
+  execution: {
+    heading: string;
+    body: string;
+    rows: { strategy: string; screen: string; detail: string; changes: string[] }[];
+  };
+  solution: { heading: string; body: string };
+};
+
 const projectStories: Record<
   string,
   {
@@ -13,8 +25,10 @@ const projectStories: Record<
     /** Client work: a real screen image for the gallery instead of the drawn mockup. */
     galleryImage?: { src: string; alt: string };
     takeawayTags?: string[];
-    /** Standalone clickable prototype, opened in a new tab. */
+    /** Standalone clickable prototype, shown on the page and openable full screen. */
     prototype?: string;
+    /** Longer case study: replaces the default challenge / approach / outcome sections. */
+    chapters?: CaseStudyChapters;
   }
 > = {
   folio: {
@@ -56,6 +70,111 @@ const projectStories: Record<
     },
     takeawayTags: ["Customer-centered", "Brand-led", "Built to scale"],
     prototype: "/prototypes/sapphire/index.html",
+    chapters: {
+      problem: {
+        heading: "A new card, the same old screens.",
+        body: "Sapphire Reserve was getting a new card, a new brand and new benefits. The agency had written the messaging, and the brand team had new guidelines and photography. But none of that told us what a customer should see when they open the app. The everyday screens still used the generic Chase look, and the new benefits were easy to miss.",
+        points: [
+          "The messaging framework was written for marketing, not for product screens.",
+          "Benefits worth $2,700+ a year were buried in menus customers rarely open.",
+          "Colors, type and quick actions didn’t match across the app and web.",
+          "The work had to scale to other premium cards, not just this one.",
+        ],
+      },
+      process: {
+        heading: "From messaging to moments.",
+        body: "I worked with the brand team and our product partners to turn high-level messaging into decisions about real screens. Each step narrowed what we needed to design, and why.",
+        steps: [
+          [
+            "Build a CX framework",
+            "We kept the agency framework’s top-level pillars, then wrote the lower levels as customer-experience implications that a product team could act on.",
+          ],
+          [
+            "Map the end-to-end journey",
+            "Journey maps covered each platform and stage, the jobs to be done, feelings and pain points, and tech capabilities. Every touchpoint was tagged as needed for launch, not needed, or not yet on the roadmap.",
+          ],
+          [
+            "Place the key messages",
+            "With the journey mapped, we matched each key message to the moment it mattered most, such as discovering travel benefits or using annual credits.",
+          ],
+          [
+            "Apply brand and photography",
+            "Working sessions with the brand team set how the Reserve guidelines and the new photo library would show up in the product, with small moments tailored to preferred customers.",
+          ],
+        ],
+      },
+      strategy: {
+        heading: "Premium, used with restraint.",
+        body: "Premium isn’t more of everything. The strategy was to save the big moments for when they count, and make every other screen feel quietly consistent.",
+        principles: [
+          [
+            "Make arrival feel like an event",
+            "A new cardmember’s first login is the one time a full-screen, photo-led experience earns its place.",
+          ],
+          [
+            "Bring benefits to the surface",
+            "Put the most valuable benefits where customers already look, each one linking to a page that shows how to use it.",
+          ],
+          [
+            "One system everywhere",
+            "A single interaction color, one headline typeface, and quick actions in the upcoming product design language, across app and web.",
+          ],
+          [
+            "Built to scale",
+            "Design reusable patterns, so another premium card only needs to swap its color, logo and photography.",
+          ],
+        ],
+      },
+      execution: {
+        heading: "How each idea became a screen.",
+        body: "Each principle became a specific change in the product, with guardrails so the pattern would keep working after launch.",
+        rows: [
+          {
+            strategy: "Make arrival feel like an event",
+            screen: "Warm Welcome",
+            detail: "A new photo-led takeover for new cardmembers, followed by a setup checklist.",
+            changes: [
+              "New copy and photography for the first three screens",
+              "Headlines in Queens Light, checklist icons and buttons in Blue800",
+              "An added checklist item for authorized users",
+              "Guardrail: full takeovers only for onboarding, never for longer flows",
+            ],
+          },
+          {
+            strategy: "Bring benefits to the surface",
+            screen: "Benefit carousel",
+            detail:
+              "Net-new tiles on the overview and the card account screen, each linking to a benefit page.",
+            changes: [
+              "Blue800 background, horizontal scroll, Reserve photography for each destination",
+              "A smaller tile on the card account screen to save space on a functional screen",
+              "Guardrail: no more than five tiles, because people stop swiping after that",
+            ],
+          },
+          {
+            strategy: "One system everywhere",
+            screen: "Merchandising tiles, color and quick actions",
+            detail:
+              "The tiles in the transaction feed, every button and every quick action moved to the new look.",
+            changes: [
+              "Chase Blue and black replaced by one Blue800 for buttons, icons and links",
+              "Tiles rebranded with Reserve photography, and less relevant ones hidden",
+              "Quick actions redrawn as linear icons in the upcoming design language",
+            ],
+          },
+          {
+            strategy: "Built to scale",
+            screen: "A second premium card",
+            detail: "The same assets were reapplied to J.P. Morgan Reserve with its own brand.",
+            changes: ["Same components and layouts", "Its own brown color, logo and photography"],
+          },
+        ],
+      },
+      solution: {
+        heading: "Premium in every moment.",
+        body: "The refresh shipped across the app and web: a photo-led Warm Welcome, a new benefits carousel, rebranded merchandising tiles, one Blue800 interaction color, and quick actions in the upcoming product design language. The prototype below walks through it end to end, from the first login to using a benefit.",
+      },
+    },
   },
   forma: {
     question: "How can a studio’s digital home feel as distinctive as the spaces it creates?",
@@ -70,6 +189,79 @@ const projectStories: Record<
 // The shared artifact copy doesn't include the prototype files, so the link is hidden there.
 const isArtifactBuild =
   typeof window !== "undefined" && Boolean((window as { __ARTIFACT__?: boolean }).__ARTIFACT__);
+
+function CaseStudySections({ chapters }: { chapters: CaseStudyChapters }) {
+  const { problem, process, strategy, execution, solution } = chapters;
+  return (
+    <>
+      <section className="project-story-section">
+        <Eyebrow>01 / THE PROBLEM</Eyebrow>
+        <Heading>{problem.heading}</Heading>
+        <Copy>{problem.body}</Copy>
+        <ul className="project-problem-points">
+          {problem.points.map((point) => (
+            <li key={point}>{point}</li>
+          ))}
+        </ul>
+      </section>
+      <section className="project-story-section">
+        <Eyebrow>02 / THE PROCESS</Eyebrow>
+        <Heading>{process.heading}</Heading>
+        <Copy>{process.body}</Copy>
+        <div className="project-decisions">
+          {process.steps.map(([title, detail], index) => (
+            <div className="project-decision" key={title}>
+              <span className="decision-number">0{index + 1}</span>
+              <div>
+                <Heading level={3}>{title}</Heading>
+                <Copy>{detail}</Copy>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+      <section className="project-story-section">
+        <Eyebrow>03 / THE STRATEGY</Eyebrow>
+        <Heading>{strategy.heading}</Heading>
+        <Copy>{strategy.body}</Copy>
+        <div className="project-principles">
+          {strategy.principles.map(([title, detail]) => (
+            <div className="project-principle" key={title}>
+              <Heading level={3}>{title}</Heading>
+              <Copy>{detail}</Copy>
+            </div>
+          ))}
+        </div>
+      </section>
+      <section className="project-story-section">
+        <Eyebrow>04 / STRATEGY TO EXECUTION</Eyebrow>
+        <Heading>{execution.heading}</Heading>
+        <Copy>{execution.body}</Copy>
+        <div className="project-execution">
+          {execution.rows.map((row) => (
+            <div className="project-execution-row" key={row.screen}>
+              <span className="project-execution-strategy">
+                {row.strategy} <span aria-hidden="true">→</span>
+              </span>
+              <Heading level={3}>{row.screen}</Heading>
+              <Copy>{row.detail}</Copy>
+              <ul>
+                {row.changes.map((change) => (
+                  <li key={change}>{change}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </section>
+      <section className="project-story-section project-outcome">
+        <Eyebrow>05 / THE SOLUTION</Eyebrow>
+        <Heading>{solution.heading}</Heading>
+        <Copy>{solution.body}</Copy>
+      </section>
+    </>
+  );
+}
 
 function ProjectNeighbor({
   project,
@@ -169,13 +361,8 @@ export default function ProjectPage() {
             <span /> {"client" in project ? "Client work" : "A self-initiated design exploration"}
           </span>
           {story.prototype && !isArtifactBuild && (
-            <a
-              className="primary-action project-prototype-link"
-              href={story.prototype}
-              target="_blank"
-              rel="noopener"
-            >
-              View prototype <Arrow size={17} />
+            <a className="primary-action project-prototype-link" href="#prototype">
+              Try the prototype <Arrow size={17} />
             </a>
           )}
         </div>
@@ -231,43 +418,80 @@ export default function ProjectPage() {
               ))}
             </div>
           </section>
-          <section className="project-story-section">
-            <Eyebrow>01 / THE CHALLENGE</Eyebrow>
-            <Heading>Start with the right question.</Heading>
-            <Copy>{project.challenge}</Copy>
-          </section>
-          <section className="project-story-section">
-            <Eyebrow>02 / THE APPROACH</Eyebrow>
-            <Heading>Make the complex feel simple.</Heading>
-            <Copy>{project.solution}</Copy>
-            <div className="project-decisions">
-              {project.decisions.map(([title, detail], index) => (
-                <div className="project-decision" key={title}>
-                  <span className="decision-number">0{index + 1}</span>
-                  <div>
-                    <Heading level={3}>{title}</Heading>
-                    <Copy>{detail}</Copy>
-                  </div>
+          {story.chapters ? (
+            <CaseStudySections chapters={story.chapters} />
+          ) : (
+            <>
+              <section className="project-story-section">
+                <Eyebrow>01 / THE CHALLENGE</Eyebrow>
+                <Heading>Start with the right question.</Heading>
+                <Copy>{project.challenge}</Copy>
+              </section>
+              <section className="project-story-section">
+                <Eyebrow>02 / THE APPROACH</Eyebrow>
+                <Heading>Make the complex feel simple.</Heading>
+                <Copy>{project.solution}</Copy>
+                <div className="project-decisions">
+                  {project.decisions.map(([title, detail], index) => (
+                    <div className="project-decision" key={title}>
+                      <span className="decision-number">0{index + 1}</span>
+                      <div>
+                        <Heading level={3}>{title}</Heading>
+                        <Copy>{detail}</Copy>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          </section>
-          <section className="project-story-section project-outcome">
-            <Eyebrow>03 / THE DESIGN OUTCOME</Eyebrow>
-            <Heading>A little more meaningful.</Heading>
-            <Copy>{project.result}</Copy>
-            {!("client" in project) && (
-              <div className="project-concept-disclaimer">
-                <Flower />
-                <Copy>
-                  A self-initiated concept, not commissioned client work. This outcome describes the
-                  design direction, not measured business results.
-                </Copy>
-              </div>
-            )}
-          </section>
+              </section>
+              <section className="project-story-section project-outcome">
+                <Eyebrow>03 / THE DESIGN OUTCOME</Eyebrow>
+                <Heading>A little more meaningful.</Heading>
+                <Copy>{project.result}</Copy>
+                {!("client" in project) && (
+                  <div className="project-concept-disclaimer">
+                    <Flower />
+                    <Copy>
+                      A self-initiated concept, not commissioned client work. This outcome describes
+                      the design direction, not measured business results.
+                    </Copy>
+                  </div>
+                )}
+              </section>
+            </>
+          )}
         </div>
       </div>
+
+      {story.prototype && !isArtifactBuild && (
+        <section className="project-prototype" id="prototype" aria-labelledby="prototype-heading">
+          <div className="project-prototype-copy">
+            <Eyebrow>TRY IT YOURSELF</Eyebrow>
+            <Heading id="prototype-heading">The card refresh, end to end.</Heading>
+            <p className="project-prototype-text">
+              Tap through the first login, finish setup, explore the refreshed card account, then
+              open a benefit from the carousel. Arrow keys work too.
+            </p>
+            <ol className="project-prototype-steps">
+              <li>Warm Welcome</li>
+              <li>Annual credits</li>
+              <li>Add to wallet</li>
+              <li>Finish your setup</li>
+              <li>Card account</li>
+              <li>Use a benefit</li>
+            </ol>
+            <a className="text-action" href={story.prototype} target="_blank" rel="noopener">
+              Open full screen <Arrow size={16} />
+            </a>
+          </div>
+          <div className="project-prototype-device">
+            <iframe
+              src={story.prototype}
+              title="Sapphire Reserve card refresh prototype"
+              loading="lazy"
+            />
+          </div>
+        </section>
+      )}
 
       <section className="project-gallery" id="gallery" aria-labelledby="gallery-heading">
         <div className="project-gallery-heading">

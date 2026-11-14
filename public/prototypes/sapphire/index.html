@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Sapphire Prototype</title>
 <meta name="robots" content="noindex">
+<title>Sapphire Reserve Prototype</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text&family=Open+Sans:wght@400;600;700&display=swap">
@@ -23,7 +23,7 @@
     --ease: cubic-bezier(.32, .72, 0, 1);
   }
   * { box-sizing: border-box; }
-  html, body { margin: 0; height: 100%; }
+  html, body { margin: 0; height: 100%; color-scheme: light; }
   body { background: var(--stage); color: var(--stage-ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
   button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
   button:focus-visible, [tabindex]:focus-visible { outline: 2px solid #4b8bff; outline-offset: 2px; }
@@ -32,6 +32,7 @@
   /* ---------- Stage (desktop) ---------- */
   .stage { min-height: 100%; display: grid; grid-template-columns: minmax(0, 340px) auto; gap: 72px; align-items: center; justify-content: center;
     padding-block: 48px; padding-left: max(24px, env(safe-area-inset-left, 0px)); padding-right: max(24px, env(safe-area-inset-right, 0px)); }
+  .stage { min-height: 100vh; }
   .notes { display: flex; flex-direction: column; gap: 20px; }
   .eyebrow { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: #7a7168; margin: 0; }
   .notes h1 { font-family: var(--serif); font-weight: 400; font-size: 40px; line-height: 1.1; margin: 0; text-wrap: balance; }
@@ -96,6 +97,49 @@
   .btn-outline { background: #fff; color: var(--blue); box-shadow: inset 0 0 0 1.5px var(--blue); }
   .btn-text { color: #fff; }
   .btn-apple svg { width: 17px; height: 17px; fill: currentColor; margin-top: -2px; }
+
+  /* Drawn card (fictional brand) */
+  .hcard { position: relative; width: 250px; aspect-ratio: 186 / 118; border-radius: 12px; overflow: hidden; color: #dfe7f2;
+    background: radial-gradient(120% 90% at 85% 10%, rgba(255,255,255,.16), transparent 55%), repeating-linear-gradient(135deg, rgba(255,255,255,.035) 0 2px, transparent 2px 6px), linear-gradient(150deg, #22406e, #0b1d3d 60%, #081530);
+    box-shadow: 0 18px 40px rgba(0,0,0,.45), inset 0 0 0 1px rgba(255,255,255,.08); }
+  .hcard .mark { position: absolute; top: 9%; left: 7%; display: flex; gap: 8px; align-items: center; }
+  .hcard .mark svg { width: 22px; height: 22px; }
+  .hcard .mark b { font-family: var(--serif); font-weight: 400; font-size: 13px; letter-spacing: .22em; line-height: 1.15; }
+  .hcard .mark b small { display: block; font-family: var(--sans); font-size: 8px; letter-spacing: .3em; opacity: .8; }
+  .hcard .chipx { position: absolute; left: 7%; top: 43%; width: 15%; aspect-ratio: 4 / 3; border-radius: 4px; background: linear-gradient(135deg, #e6d6a8, #a9915a); box-shadow: inset 0 0 0 1px rgba(0,0,0,.2); }
+  .hcard .num { position: absolute; left: 7%; bottom: 10%; font-size: 11px; letter-spacing: .18em; opacity: .85; }
+  .scene { position: absolute; top: 96px; left: 0; width: 100%; height: 430px; display: grid; place-items: center; overflow: hidden; }
+  .scene-night { background: radial-gradient(70% 60% at 50% 45%, #1d3a66, #0a1a33 60%, #000); }
+  .scene-night .hcard { transform: rotate(-8deg); width: 260px; }
+  .scene-tray { background: radial-gradient(80% 70% at 60% 40%, #b7865a, #6b4527 60%, #2a1a0e); }
+  .scene-tray::before { content: ""; position: absolute; width: 330px; height: 250px; border-radius: 18px; background: linear-gradient(160deg, #c99a6b, #8e6038); box-shadow: 0 30px 60px rgba(0,0,0,.4), inset 0 0 0 6px rgba(255,255,255,.06); transform: rotate(6deg); }
+  .scene-tray::after { content: ""; position: absolute; top: 60px; left: 30px; width: 110px; height: 110px; border-radius: 50%; background: radial-gradient(circle, #3b2414 45%, #1d120a 47%, #1d120a 62%, #e9dfd1 64%, #d7c9b5 100%); box-shadow: 0 12px 24px rgba(0,0,0,.35); }
+  .scene-tray .hcard { transform: rotate(-4deg) translate(40px, 40px); width: 220px; }
+  .takeover:not(.is-active) .scene { transform: scale(1.04); }
+  .scene { transition: transform .7s var(--ease); }
+  .card-art.hcard { width: 290px; }
+
+  /* Benefit detail */
+  .benefit { background: #fff; color: var(--ink); }
+  .benefit .scroll { padding: 0 0 120px; gap: 0; }
+  .b-hero { position: relative; height: 340px; }
+  .b-hero img { width: 100%; height: 100%; object-fit: cover; }
+  .b-hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(rgba(0,0,0,.45), transparent 35%, transparent 60%, rgba(0,0,0,.55)); }
+  .b-hero .kicker { position: absolute; left: 20px; bottom: 18px; z-index: 1; color: #fff; font-size: 11px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
+  .benefit > .back { color: #fff; }
+  .b-body { padding: 22px 20px 0; display: flex; flex-direction: column; gap: 14px; }
+  .b-body h2 { font-family: var(--serif); font-weight: 400; font-size: 27px; line-height: 1.22; margin: 0; color: var(--blue); text-wrap: balance; }
+  .b-body p { margin: 0; font-size: 15px; line-height: 1.5; color: var(--grey); }
+  .tracker { background: var(--app-bg); border-radius: 12px; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; }
+  .tracker[hidden] { display: none; }
+  .tracker .row span:first-child { color: var(--ink); font-weight: 600; }
+  .bar { height: 6px; border-radius: 3px; background: #d8dee5; overflow: hidden; }
+  .bar i { display: block; height: 100%; width: 0; background: var(--blue); border-radius: 3px; transition: width .8s var(--ease); }
+  .perks { list-style: none; margin: 4px 0 0; padding: 0; display: flex; flex-direction: column; }
+  .perks li { display: flex; gap: 12px; padding: 12px 0; border-top: 1px solid var(--line); font-size: 14px; line-height: 1.4; }
+  .perks svg { width: 20px; height: 20px; stroke: var(--blue); flex: none; margin-top: 1px; }
+  .b-foot { position: absolute; left: 0; right: 0; bottom: 0; padding: 14px 20px 34px; background: linear-gradient(transparent, #fff 30%); display: flex; flex-direction: column; gap: 4px; z-index: 3; }
+  .b-foot .btn-text { color: var(--blue); }
 
   /* Finish your setup */
   .light { background: #fff; color: var(--ink); }
@@ -220,7 +264,9 @@
     .homebar { display: none; }
     .progress { top: calc(env(safe-area-inset-top, 0px) + 10px); }
     .back { top: calc(env(safe-area-inset-top, 0px) + 22px); }
-    .takeover .photo, .takeover .photo-fade { top: calc(env(safe-area-inset-top, 0px) + 52px); }
+    .takeover .photo, .takeover .photo-fade, .scene { top: calc(env(safe-area-inset-top, 0px) + 52px); }
+    .b-foot { padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 20px); }
+    .benefit > .back { top: calc(env(safe-area-inset-top, 0px) + 12px); }
     .setup-head { top: calc(env(safe-area-inset-top, 0px) + 64px); }
     .setup-list { top: calc(env(safe-area-inset-top, 0px) + 146px); }
     .acct-head { height: calc(env(safe-area-inset-top, 0px) + 60px); }
@@ -230,7 +276,7 @@
     .takeover .copy { bottom: calc(env(safe-area-inset-bottom, 0px) + 130px); }
   }
   @media (max-width: 820px) and (max-height: 700px) {
-    .takeover .photo, .takeover .photo-fade { height: 340px; }
+    .takeover .photo, .takeover .photo-fade, .scene { height: 340px; }
     .setup-list button { height: 50px; }
   }
 </style>
@@ -257,24 +303,27 @@
     <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3.5 3.5v17h17M7 15l4-5 3 3 5-6.5"/></symbol>
     <symbol id="i-car" viewBox="0 0 24 24"><path d="M5 11.5 7 6.5h10l2 5M3.5 11.5h17V17h-17v-5.5ZM6 17v2M18 17v2M7 14.2h.01M17 14.2h.01"/></symbol>
     <symbol id="i-house" viewBox="0 0 24 24"><path d="M4 10.5 12 4l8 6.5V20h-5.5v-5.5h-5V20H4v-9.5Z"/></symbol>
+    <symbol id="i-mark" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M5 14.5c2.2-1.6 4.5-1.6 7 0s4.8 1.6 7 0M5 10.5c2.2-1.6 4.5-1.6 7 0s4.8 1.6 7 0" fill="none" stroke="currentColor" stroke-width="1.4"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 3.5 2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.3-4.1 5.9-.9L12 3.5Z"/></symbol>
     <symbol id="i-search" viewBox="0 0 24 24"><path d="M10.5 17a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13ZM15.5 15.5 20 20"/></symbol>
   </defs>
 </svg>
 
 <main class="stage">
   <aside class="notes">
-    <p class="eyebrow">Mobile prototype · 2025</p>
-    <h1>Sapphire Reserve refresh</h1>
-    <p>Tap through the first-login takeover, finish setup, then explore the refreshed account screen: the benefit carousel, merchandising tiles and the updated quick actions.</p>
+    <p class="eyebrow">Mobile prototype · Card refresh</p>
+    <h1>Sapphire Reserve, end to end</h1>
+    <p>Follow a new cardmember from the first-login welcome through setup to the refreshed account screen, then open a benefit from the carousel to see how it gets used.</p>
     <ol class="steps" id="steps">
       <li><button data-go="welcome">Warm Welcome</button></li>
       <li><button data-go="credits">Annual credits</button></li>
       <li><button data-go="wallet">Add to wallet</button></li>
       <li><button data-go="setup">Finish your setup</button></li>
       <li><button data-go="account">Card account</button></li>
+      <li><button data-go="benefit">Use a benefit</button></li>
     </ol>
     <button class="restart" id="restart">Start over</button>
-    <p class="fine">Screens rebuilt from the project deck for portfolio use. Balances and transactions are sample data.</p>
+    <p class="fine">Screens rebuilt from the Sapphire Reserve refresh deck for portfolio use. Balances and transactions are sample data. Private, not for publishing.</p>
   </aside>
 
   <div class="phone">
@@ -309,7 +358,7 @@
         <button class="back" data-back aria-label="Back"><svg class="i"><use href="#i-chev-l"/></svg></button>
         <div class="copy">
           <h2>$2,700+ in annual credits</h2>
-          <p>Including $500 for stays with The Edit and $300 at handpicked restaurants.</p>
+          <p>Including $500 for stays at The Edit and $300 at handpicked restaurants.</p>
         </div>
         <div class="actions"><button class="btn btn-inverse" data-go="wallet">Next</button></div>
       </section>
@@ -325,9 +374,7 @@
           <p>Add it to your digital wallet to unlock your benefits now.</p>
         </div>
         <div class="actions">
-          <button class="btn btn-inverse btn-apple" id="addWallet">Add to
-            <svg viewBox="0 0 17 20" aria-hidden="true"><path d="M14.1 10.6c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9-1.7 0-3.3 1-4.2 2.6-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8s2 .8 3.4.8c1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9-.1 0-2.7-1-2.7-4.1ZM11.6 3c.7-.8 1.2-2 1-3.1-1 0-2.2.7-2.9 1.5-.6.7-1.2 1.9-1 3 1.1.1 2.2-.6 2.9-1.4Z"/></svg>
-            Pay</button>
+          <button class="btn btn-inverse btn-apple" id="addWallet">Add to <svg viewBox="0 0 17 20" aria-hidden="true"><path d="M14.1 10.6c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9-1.7 0-3.3 1-4.2 2.6-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8s2 .8 3.4.8c1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9-.1 0-2.7-1-2.7-4.1ZM11.6 3c.7-.8 1.2-2 1-3.1-1 0-2.2.7-2.9 1.5-.6.7-1.2 1.9-1 3 1.1.1 2.2-.6 2.9-1.4Z"/></svg> Pay</button>
           <button class="btn btn-text" data-go="setup">Not right now</button>
         </div>
       </section>
@@ -341,7 +388,7 @@
           <p>You can return to this later.</p>
         </div>
         <ul class="setup-list" id="setupList">
-          <li><button data-task="wallet"><svg class="i ic"><use href="#i-wallet"/></svg><span class="lbl">Add card to digital wallet</span><svg class="i state chev"><use href="#i-chev-r"/></svg><svg class="i state done-ic" style="stroke:var(--blue)"><use href="#i-check"/></svg></button></li>
+          <li><button data-task="wallet"><svg class="i ic"><use href="#i-wallet"/></svg><span class="lbl">Add card to Apple Wallet</span><svg class="i state chev"><use href="#i-chev-r"/></svg><svg class="i state done-ic" style="stroke:var(--blue)"><use href="#i-check"/></svg></button></li>
           <li><button data-task="priority"><svg class="i ic"><use href="#i-plane"/></svg><span class="lbl">Add Priority Pass™ to wallet</span><svg class="i state chev"><use href="#i-chev-r"/></svg><svg class="i state done-ic" style="stroke:var(--blue)"><use href="#i-check"/></svg></button></li>
           <li><button data-task="alerts"><svg class="i ic"><use href="#i-bell"/></svg><span class="lbl">Set up account alerts</span><svg class="i state chev"><use href="#i-chev-r"/></svg><svg class="i state done-ic" style="stroke:var(--blue)"><use href="#i-check"/></svg></button></li>
           <li><button data-task="autopay"><svg class="i ic"><use href="#i-dollar"/></svg><span class="lbl">Enroll in automatic payments</span><svg class="i state chev"><use href="#i-chev-r"/></svg><svg class="i state done-ic" style="stroke:var(--blue)"><use href="#i-check"/></svg></button></li>
@@ -394,11 +441,11 @@
           <div class="carousel" aria-label="Sapphire Reserve benefits">
             <div class="brand">SAPPHIRE RESERVE®</div>
             <div class="tiles" id="tiles">
-              <button class="tile" data-link="Benefits Hub"><img src="img/tile-1.avif" alt=""><span>Start here, go anywhere</span></button>
-              <button class="tile" data-link="Chase Travel"><img src="img/tile-2.avif" alt=""><span>Unforgettable trips</span></button>
-              <button class="tile" data-link="Dining Hub"><img src="img/tile-3.avif" alt=""><span>Exclusive dining</span></button>
-              <button class="tile" data-link="Experiences"><img src="img/tile-4.avif" alt=""><span>Elevated experiences</span></button>
-              <button class="tile" data-link="Shopping"><img src="img/tile-5.avif" alt=""><span>Curated shopping</span></button>
+              <button class="tile" data-benefit="hub"><img src="img/tile-1.avif" alt=""><span>Start here, go anywhere</span></button>
+              <button class="tile" data-benefit="travel"><img src="img/tile-2.avif" alt=""><span>Unforgettable trips</span></button>
+              <button class="tile" data-benefit="dining"><img src="img/tile-3.avif" alt=""><span>Exclusive dining</span></button>
+              <button class="tile" data-benefit="experiences"><img src="img/tile-4.avif" alt=""><span>Elevated experiences</span></button>
+              <button class="tile" data-benefit="shopping"><img src="img/tile-5.avif" alt=""><span>Curated shopping</span></button>
             </div>
             <div class="dots" id="dots" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i><i></i></div>
           </div>
@@ -412,7 +459,7 @@
             </div>
           </div>
 
-          <button class="merch" data-link="Chase Travel">
+          <button class="merch" data-benefit="travel">
             <span class="thumb">8x</span>
             <span class="mc"><small>Chase Travel</small><strong>Book your next trip to earn 8x points</strong></span>
             <svg class="i"><use href="#i-chev-r"/></svg>
@@ -426,17 +473,17 @@
           <div class="panel tx">
             <div class="panel-head">Transactions <span class="search"><svg class="i"><use href="#i-search"/></svg>Search</span></div>
             <div class="pending"><span>Pending (1)</span><span>$104.68</span></div>
-            <div class="txn"><span class="av" style="color:#c8102e">N</span><span class="d"><b>NETFLIX</b><small>Sep 26, 2023</small></span><span class="amt">$104.63</span><svg class="i"><use href="#i-chev-r"/></svg></div>
-            <div class="txn"><span class="av" style="color:#1e6b45">S</span><span class="d"><b>STARBUCKS</b><small>Sep 25, 2023</small></span><span class="amt">$7.52</span><svg class="i"><use href="#i-chev-r"/></svg></div>
-            <div class="txn"><span class="av">A</span><span class="d"><b>APPLE.COM</b><small>Sep 25, 2023</small></span><span class="amt">$125.10</span><svg class="i"><use href="#i-chev-r"/></svg></div>
+            <div class="txn"><span class="av" style="color:#8a3b2e">O</span><span class="d"><b>OSTERIA LUCE</b><small>Jul 14, 2025</small></span><span class="amt">$104.68</span><svg class="i"><use href="#i-chev-r"/></svg></div>
+            <div class="txn"><span class="av" style="color:#1e6b45">C</span><span class="d"><b>CORNER CUP COFFEE</b><small>Jul 13, 2025</small></span><span class="amt">$7.52</span><svg class="i"><use href="#i-chev-r"/></svg></div>
+            <div class="txn"><span class="av">M</span><span class="d"><b>METRO TRANSIT</b><small>Jul 12, 2025</small></span><span class="amt">$25.10</span><svg class="i"><use href="#i-chev-r"/></svg></div>
           </div>
 
-          <button class="merch" data-link="the airport lounge network">
+          <button class="merch" data-benefit="lounge">
             <span class="thumb"><img src="img/lounge.avif" alt=""></span>
-            <span class="mc"><small>Benefits</small><strong>Access our airport lounge network</strong></span>
+            <span class="mc"><small>Benefits</small><strong>Access Priority Pass and Sapphire Lounges</strong></span>
             <svg class="i"><use href="#i-chev-r"/></svg>
           </button>
-          <button class="merch" data-link="Dining Hub">
+          <button class="merch" data-benefit="dining">
             <span class="thumb"><img src="img/dining.avif" alt=""></span>
             <span class="mc"><small>Benefits</small><strong>Enjoy your $300 dining credit</strong></span>
             <svg class="i"><use href="#i-chev-r"/></svg>
@@ -459,6 +506,28 @@
         </div>
       </section>
 
+      <!-- 06 Benefit detail -->
+      <section class="screen benefit" data-screen="benefit" data-theme="dark" aria-label="Benefit detail" hidden>
+        <button class="back" data-back aria-label="Back"><svg class="i"><use href="#i-chev-l"/></svg></button>
+        <div class="scroll" id="bScroll">
+          <div class="b-hero"><img id="bImg" src="img/tile-3.avif" alt=""><span class="kicker" id="bKicker">Dining</span></div>
+          <div class="b-body">
+            <h2 id="bTitle">Enjoy your $300 dining credit</h2>
+            <p id="bText"></p>
+            <div class="tracker" id="bTracker">
+              <div class="row"><span id="bTrackLabel">This half-year</span><span id="bTrackValue"></span></div>
+              <div class="bar"><i id="bBar"></i></div>
+              <div class="row"><span style="font-weight:400;color:var(--grey)" id="bTrackNote"></span><span></span></div>
+            </div>
+            <ul class="perks" id="bPerks"></ul>
+          </div>
+        </div>
+        <div class="b-foot">
+          <button class="btn btn-primary" id="bAction">Find a restaurant</button>
+          <button class="btn btn-text" data-go="account">Back to account</button>
+        </div>
+      </section>
+
       <div class="toast" id="toast" role="status" aria-live="polite"><svg class="i"><use href="#i-check"/></svg><span></span></div>
       <div class="homebar"></div>
     </div>
@@ -467,7 +536,7 @@
 
 <script>
 (() => {
-  const order = ['welcome', 'credits', 'wallet', 'setup', 'account'];
+  const order = ['welcome', 'credits', 'wallet', 'setup', 'account', 'benefit'];
   const device = document.getElementById('device');
   const screens = Object.fromEntries([...document.querySelectorAll('[data-screen]')].map(s => [s.dataset.screen, s]));
   const steps = document.querySelectorAll('#steps button');
@@ -531,7 +600,7 @@
   });
   document.getElementById('addWallet').addEventListener('click', () => {
     markDone('wallet');
-    say('Sapphire Reserve added to Wallet');
+    say('Sapphire Reserve added to Apple Wallet');
     setTimeout(() => go('setup'), 700);
   });
 
@@ -552,7 +621,48 @@
     cardArt.classList.toggle('is-locked', locked);
     say(locked ? 'Card locked' : 'Card unlocked');
   });
-  document.querySelectorAll('[data-link]').forEach(el => el.addEventListener('click', () => say('Opens ' + el.dataset.link)));
+  
+
+  // Benefit detail: one screen, filled from the tile or row that opened it
+  const benefits = {
+    hub: { img: 'img/tile-1.avif', kicker: 'Benefits', title: 'Start here, go anywhere', text: 'Every credit, perk and partner offer on your card, in one place. See what you’ve used and what’s still waiting.',
+      track: ['Credits used this year', 120, 2700, 'You have $2,580 left to enjoy'], perks: ['$300 annual travel credit', '$300 dining credit at handpicked restaurants', '$500 for stays with The Edit'], action: 'See all benefits' },
+    travel: { img: 'img/tile-2.avif', kicker: 'Chase Travel', title: 'Book your next trip to earn 8x points', text: 'Flights, hotels and car rentals booked through Chase Travel earn 8 points per dollar, and your $300 travel credit applies automatically.',
+      track: ['Travel credit', 120, 300, '$180 left until your card anniversary'], perks: ['8x points on Chase Travel bookings', 'Points worth more when you redeem for travel', 'Trip delay and baggage protection'], action: 'Search trips' },
+    dining: { img: 'img/tile-3.avif', kicker: 'Dining', title: 'Enjoy your $300 dining credit', text: 'Get up to $150 back each half-year at handpicked restaurants. Book a table, pay with your card, and the credit shows up on your statement.',
+      track: ['This half-year', 0, 150, 'Resets on January 1'], perks: ['$150 back every January–June and July–December', 'Priority tables at partner restaurants', '3x points on all dining'], action: 'Find a restaurant' },
+    experiences: { img: 'img/tile-4.avif', kicker: 'Experiences', title: 'Elevated experiences', text: 'Reserved tickets, chef’s tables and private events for cardmembers, released first in the app.',
+      perks: ['Early access to concert and sports tickets', 'Members-only events in your city', 'Pay with points'], action: 'Browse experiences' },
+    shopping: { img: 'img/tile-5.avif', kicker: 'Shopping', title: 'Curated shopping', text: 'Partner brands picked for cardmembers, with extra points and statement credits when you shop through the app.',
+      perks: ['Extra points at partner brands', 'Purchase protection for 120 days', 'Extended warranty on eligible items'], action: 'Start shopping' },
+    lounge: { img: 'img/tile-1.avif', kicker: 'Travel', title: 'Access Priority Pass and Sapphire Lounges', text: 'You and two guests get into 1,300+ airport lounges worldwide. Add your Priority Pass to Apple Wallet so it’s ready at the desk.',
+      perks: ['1,300+ lounges in 150 countries', 'Two guests included on every visit', 'Show your Priority Pass at the desk'], action: 'Add Priority Pass to Apple Wallet' },
+  };
+  const $ = id => document.getElementById(id);
+  function openBenefit(key, navigate = true) {
+    const b = benefits[key];
+    $('bImg').src = b.img; $('bKicker').textContent = b.kicker; $('bTitle').textContent = b.title; $('bText').textContent = b.text;
+    $('bTracker').hidden = !b.track;
+    $('bBar').style.width = '0';
+    if (b.track) {
+      const [label, used, total, note] = b.track;
+      $('bTrackLabel').textContent = label;
+      $('bTrackValue').textContent = `$${used} of $${total.toLocaleString()} used`;
+      $('bTrackNote').textContent = note;
+      setTimeout(() => { $('bBar').style.width = Math.max(2, used / total * 100) + '%'; }, navigate ? 450 : 0);
+    }
+    $('bPerks').innerHTML = b.perks.map(p => `<li><svg class="i"><use href="#i-star"/></svg><span>${p}</span></li>`).join('');
+    $('bAction').textContent = b.action;
+    $('bAction').dataset.key = key;
+    $('bScroll').scrollTop = 0;
+    if (navigate) go('benefit');
+  }
+  document.querySelectorAll('[data-benefit]').forEach(el => el.addEventListener('click', () => openBenefit(el.dataset.benefit)));
+  $('bAction').addEventListener('click', () => {
+    if ($('bAction').dataset.key === 'lounge') { markDone('priority'); say('Priority Pass added to Apple Wallet'); }
+    else say('Opens ' + $('bAction').textContent.toLowerCase());
+  });
+  openBenefit('dining', false);
 
   // Carousel dots follow the scroll position
   const tiles = document.getElementById('tiles');
@@ -567,6 +677,7 @@
   document.getElementById('restart').addEventListener('click', () => {
     list.querySelectorAll('.is-done').forEach(b => markDone(b.dataset.task, false));
     trail = [];
+    openBenefit('dining', false);
     document.getElementById('acctScroll').scrollTop = 0;
     tiles.scrollLeft = 0;
     show('welcome', 'back');
