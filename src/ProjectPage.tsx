@@ -450,14 +450,86 @@ function PrototypeSection({ src, children }: { src: string; children: ReactNode 
         </a>
       </div>
       <div className="project-prototype-device">
-        <iframe
-          ref={frame}
-          src={src}
-          title="Sapphire Reserve card refresh prototype"
-          loading="lazy"
-        />
+        <div className="project-prototype-screen">
+          <iframe
+            ref={frame}
+            src={src}
+            title="Sapphire Reserve card refresh prototype"
+            loading="lazy"
+          />
+        </div>
       </div>
     </section>
+  );
+}
+
+/* Floating section menu at the bottom of a case study: shows where you are and jumps to
+   a section. It appears once the reader scrolls past the intro. */
+function ProjectSectionNav({ items }: { items: [string, string][] }) {
+  const [active, setActive] = useState(items[0][0]);
+  const [visible, setVisible] = useState(false);
+  const navRef = useRef<HTMLElement>(null);
+  const ids = items.map(([id]) => id).join(",");
+
+  // On narrow screens the menu scrolls sideways: keep the current section in view.
+  useEffect(() => {
+    const nav = navRef.current;
+    const button = nav?.querySelector<HTMLElement>('[aria-current="true"]');
+    if (!nav || !button || nav.scrollWidth <= nav.clientWidth) return;
+    nav.scrollTo({
+      left: button.offsetLeft - (nav.clientWidth - button.offsetWidth) / 2,
+      behavior: "smooth",
+    });
+  }, [active]);
+
+  useEffect(() => {
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const sections = ids
+        .split(",")
+        .map((id) => document.getElementById(id))
+        .filter((el): el is HTMLElement => Boolean(el));
+      if (!sections.length) return;
+      const line = window.innerHeight * 0.4;
+      let current = sections[0].id;
+      for (const el of sections) if (el.getBoundingClientRect().top <= line) current = el.id;
+      setActive(current);
+      const first = sections[0].getBoundingClientRect().top;
+      const last = sections[sections.length - 1].getBoundingClientRect().bottom;
+      setVisible(first < window.innerHeight * 0.8 && last > window.innerHeight * 0.5);
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (frame) cancelAnimationFrame(frame);
+    };
+  }, [ids]);
+
+  return (
+    <nav
+      ref={navRef}
+      className={`project-section-nav${visible ? " is-visible" : ""}`}
+      aria-label="Case study sections"
+    >
+      {items.map(([id, label]) => (
+        <button
+          type="button"
+          key={id}
+          aria-current={active === id ? "true" : undefined}
+          tabIndex={visible ? 0 : -1}
+          onClick={() => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" })}
+        >
+          {label}
+        </button>
+      ))}
+    </nav>
   );
 }
 
@@ -479,7 +551,7 @@ function CaseStudySections({ chapters }: { chapters: CaseStudyChapters }) {
   const { problem, process, strategy, execution, solution } = chapters;
   return (
     <>
-      <section className="project-story-section">
+      <section className="project-story-section" id="problem">
         <Eyebrow>01 / THE PROBLEM</Eyebrow>
         <Heading>{problem.heading}</Heading>
         <Copy>{problem.body}</Copy>
@@ -490,7 +562,7 @@ function CaseStudySections({ chapters }: { chapters: CaseStudyChapters }) {
         </ul>
         <CaseStudyFigures figures={problem.figures} />
       </section>
-      <section className="project-story-section">
+      <section className="project-story-section" id="process">
         <Eyebrow>02 / THE PROCESS</Eyebrow>
         <Heading>{process.heading}</Heading>
         <Copy>{process.body}</Copy>
@@ -522,7 +594,7 @@ function CaseStudySections({ chapters }: { chapters: CaseStudyChapters }) {
           </div>
         )}
       </section>
-      <section className="project-story-section">
+      <section className="project-story-section" id="strategy">
         <Eyebrow>03 / THE STRATEGY</Eyebrow>
         <Heading>{strategy.heading}</Heading>
         <Copy>{strategy.body}</Copy>
@@ -536,7 +608,7 @@ function CaseStudySections({ chapters }: { chapters: CaseStudyChapters }) {
         </div>
         <CaseStudyFigures figures={strategy.figures} />
       </section>
-      <section className="project-story-section">
+      <section className="project-story-section" id="execution">
         <Eyebrow>04 / STRATEGY TO EXECUTION</Eyebrow>
         <Heading>{execution.heading}</Heading>
         <Copy>{execution.body}</Copy>
@@ -562,7 +634,7 @@ function CaseStudySections({ chapters }: { chapters: CaseStudyChapters }) {
           ))}
         </div>
       </section>
-      <section className="project-story-section project-outcome">
+      <section className="project-story-section project-outcome" id="solution">
         <Eyebrow>05 / THE SOLUTION</Eyebrow>
         <Heading>{solution.heading}</Heading>
         <Copy>{solution.body}</Copy>
@@ -648,95 +720,99 @@ export default function ProjectPage() {
         </Eyebrow>
       </div>
 
-      <section className="project-page-hero" aria-labelledby="project-page-title">
-        <div className="project-hero-copy">
-          <Eyebrow>
-            {project.category} / {project.year}
-          </Eyebrow>
-          <Heading level={1} id="project-page-title">
-            {project.title}
-            <span className="coral-period">.</span>
-          </Heading>
-          <Heading level={2} className="project-hero-subtitle">
-            {project.subtitle}
-          </Heading>
-          <Copy className="project-hero-description">{project.description}</Copy>
+      <header className="project-intro project-hero-copy" aria-labelledby="project-page-title">
+        <Eyebrow>
+          {project.category} / {project.year}
+        </Eyebrow>
+        <Heading level={1} id="project-page-title">
+          {project.title}
+          <span className="coral-period">.</span>
+        </Heading>
+        <Heading level={2} className="project-hero-subtitle">
+          {project.subtitle}
+        </Heading>
+        <Copy className="project-hero-description">{project.description}</Copy>
+        <dl className="project-facts project-facts-row">
+          <div>
+            <dt>MY ROLE</dt>
+            <dd>{project.role}</dd>
+          </div>
+          <div>
+            <dt>THE FOCUS</dt>
+            <dd>{project.focus}</dd>
+          </div>
+          <div>
+            <dt>DELIVERABLES</dt>
+            <dd>{project.deliverables}</dd>
+          </div>
+          <div>
+            <dt>YEAR</dt>
+            <dd>{project.year}</dd>
+          </div>
+          <div>
+            <dt>PROJECT TYPE</dt>
+            <dd>{"client" in project ? "Client work" : "Independent concept"}</dd>
+          </div>
+        </dl>
+        <div className="project-intro-meta">
           <div className="project-tags">
             {project.tags.map((tag) => (
               <span key={tag}>{tag}</span>
             ))}
           </div>
-          <span className="project-concept-note">
-            <span /> {"client" in project ? "Client work" : "A self-initiated design exploration"}
-          </span>
           {story.prototype && !isArtifactBuild && (
             <a className="primary-action project-prototype-link" href="#prototype">
               Try the prototype <Arrow size={17} />
             </a>
           )}
         </div>
-        <div className="project-hero-art">
-          <ProjectVisual kind={project.kind} />
+      </header>
+
+      <section className="project-takeaway project-summary" aria-label="Project summary">
+        <div className="takeaway-label">
+          <Flower />
+          <Eyebrow>THE BIG IDEA</Eyebrow>
+        </div>
+        <Heading>{story.takeaway}</Heading>
+        <Copy>{story.principle}</Copy>
+        <ol className="project-highlights">
+          {project.decisions.map(([title], index) => (
+            <li key={title}>
+              <span className="decision-number">0{index + 1}</span>
+              <span>{title}</span>
+            </li>
+          ))}
+        </ol>
+        <div className="takeaway-tags">
+          {(
+            story.takeawayTags ?? ["Human-centered", "Thoughtfully simple", "Built for clarity"]
+          ).map((tag) => (
+            <span key={tag}>{tag}</span>
+          ))}
         </div>
       </section>
 
+      <div className="project-cover project-gallery-stage">
+        <ProjectVisual kind={project.kind} />
+      </div>
+
       <div className="project-editorial">
-        <aside className="project-overview" aria-label="Project overview">
+        <section className="project-overview" id="overview" aria-label="Project overview">
           <Eyebrow>IT STARTED WITH A QUESTION</Eyebrow>
           <Heading>{story.question}</Heading>
-          <dl className="project-facts">
-            <div>
-              <dt>MY ROLE</dt>
-              <dd>{project.role}</dd>
-            </div>
-            <div>
-              <dt>THE FOCUS</dt>
-              <dd>{project.focus}</dd>
-            </div>
-            <div>
-              <dt>DELIVERABLES</dt>
-              <dd>{project.deliverables}</dd>
-            </div>
-            <div>
-              <dt>YEAR</dt>
-              <dd>{project.year}</dd>
-            </div>
-            <div>
-              <dt>PROJECT TYPE</dt>
-              <dd>{"client" in project ? "Client work" : "Independent concept"}</dd>
-            </div>
-          </dl>
-          <Link className="project-gallery-jump text-action" to="#gallery" preventScrollReset>
-            A closer look <span aria-hidden="true">↓</span>
-          </Link>
-        </aside>
+        </section>
 
         <div className="project-story">
-          <section className="project-takeaway">
-            <div className="takeaway-label">
-              <Flower />
-              <Eyebrow>THE BIG IDEA</Eyebrow>
-            </div>
-            <Heading>{story.takeaway}</Heading>
-            <Copy>{story.principle}</Copy>
-            <div className="takeaway-tags">
-              {(
-                story.takeawayTags ?? ["Human-centered", "Thoughtfully simple", "Built for clarity"]
-              ).map((tag) => (
-                <span key={tag}>{tag}</span>
-              ))}
-            </div>
-          </section>
           {story.chapters ? (
             <CaseStudySections chapters={story.chapters} />
           ) : (
             <>
-              <section className="project-story-section">
+              <section className="project-story-section" id="challenge">
                 <Eyebrow>01 / THE CHALLENGE</Eyebrow>
                 <Heading>Start with the right question.</Heading>
                 <Copy>{project.challenge}</Copy>
               </section>
-              <section className="project-story-section">
+              <section className="project-story-section" id="approach">
                 <Eyebrow>02 / THE APPROACH</Eyebrow>
                 <Heading>Make the complex feel simple.</Heading>
                 <Copy>{project.solution}</Copy>
@@ -752,7 +828,7 @@ export default function ProjectPage() {
                   ))}
                 </div>
               </section>
-              <section className="project-story-section project-outcome">
+              <section className="project-story-section project-outcome" id="outcome">
                 <Eyebrow>03 / THE DESIGN OUTCOME</Eyebrow>
                 <Heading>A little more meaningful.</Heading>
                 <Copy>{project.result}</Copy>
@@ -809,6 +885,30 @@ export default function ProjectPage() {
           </figcaption>
         </figure>
       </section>
+
+      <ProjectSectionNav
+        items={[
+          ["overview", "Overview"],
+          ...((story.chapters
+            ? [
+                ["problem", "Problem"],
+                ["process", "Process"],
+                ["strategy", "Strategy"],
+                ["execution", "Execution"],
+                ["solution", "Solution"],
+              ]
+            : [
+                ["challenge", "Challenge"],
+                ["approach", "Approach"],
+                ["outcome", "Outcome"],
+              ]) as [string, string][]),
+          ...((story.prototype && !isArtifactBuild ? [["prototype", "Prototype"]] : []) as [
+            string,
+            string,
+          ][]),
+          ["gallery", "Gallery"],
+        ]}
+      />
 
       <nav className="project-pagination" aria-label="Explore more projects">
         <ProjectNeighbor project={previous} direction="previous" />

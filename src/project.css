@@ -888,23 +888,35 @@
   outline: 2px solid var(--coral);
   outline-offset: 2px;
 }
+/* The prototype is built for a 375px-wide phone. On larger screens the phone is drawn
+   15% smaller, and the screen inside is scaled with a transform so every component
+   shrinks together (CSS zoom isn't applied to iframe contents in every browser). */
 .project-prototype-device {
-  width: 375px;
-  height: 780px;
-  padding: 11px;
-  border-radius: 52px;
+  --proto-scale: 0.85;
+  --proto-w: 353px; /* 375px phone minus the bezel */
+  --proto-h: 758px;
+  box-sizing: content-box;
+  width: calc(var(--proto-w) * var(--proto-scale));
+  height: calc(var(--proto-h) * var(--proto-scale));
+  padding: 9px;
+  border-radius: 44px;
   background: #111;
   box-shadow: 0 30px 70px rgba(48, 44, 40, 0.25), inset 0 0 0 2px #2a2a2a;
-  /* Shrinks the phone and its screen together, so the prototype keeps its 375px layout. */
-  zoom: 0.85;
 }
-.project-prototype-device > iframe {
-  display: block;
+.project-prototype-screen {
   width: 100%;
   height: 100%;
-  border: 0;
-  border-radius: 41px;
+  overflow: hidden;
+  border-radius: 35px;
   background: #000;
+}
+.project-prototype-screen > iframe {
+  display: block;
+  width: var(--proto-w);
+  height: var(--proto-h);
+  border: 0;
+  transform: scale(var(--proto-scale));
+  transform-origin: 0 0;
 }
 /* Case study images inside the chapters (Buying Power) */
 .project-figures {
@@ -997,13 +1009,226 @@
   .project-prototype {
     padding: 28px 16px;
   }
+  /* On phones the prototype fills the frame at full size, with no scaling. */
   .project-prototype-device {
-    zoom: 1;
+    box-sizing: border-box;
     width: min(100%, 340px);
     height: 700px;
+    padding: 11px;
     border-radius: 46px;
   }
-  .project-prototype-device > iframe {
+  .project-prototype-screen {
     border-radius: 36px;
+  }
+  .project-prototype-screen > iframe {
+    width: 100%;
+    height: 100%;
+    transform: none;
+  }
+}
+
+/* ── Case study layout: one centered column ──
+   Intro, summary card, cover and story share one reading column, with a floating section
+   menu at the bottom. Colors, type and components are the site's existing ones. */
+.project-page {
+  --cs-column: 960px;
+}
+.project-page [id] {
+  scroll-margin-top: var(--header-scroll-offset, 100px);
+}
+.project-intro,
+.project-summary,
+.project-cover,
+.project-editorial {
+  width: 100%;
+  max-width: var(--cs-column);
+  margin-inline: auto;
+}
+.project-intro {
+  padding: 46px 0 0;
+}
+.project-intro .project-hero-subtitle,
+.project-intro .project-hero-description {
+  max-width: 720px;
+}
+.project-facts-row {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 24px;
+  margin: 36px 0 0;
+  padding: 20px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.project-facts-row > div,
+.project-facts-row > div:first-child {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+  padding: 0;
+  border: 0;
+}
+.project-facts-row dd {
+  margin: 0;
+}
+.project-intro-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 24px;
+}
+.project-intro-meta .project-tags {
+  margin: 0;
+  flex-wrap: wrap;
+}
+.project-intro-meta .project-prototype-link {
+  margin-top: 0;
+}
+.project-summary {
+  margin-top: 40px;
+}
+.project-summary > p {
+  max-width: 560px;
+}
+.project-highlights {
+  list-style: none;
+  margin: 28px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+.project-highlights li {
+  display: grid;
+  align-content: start;
+  gap: 6px;
+  font-size: calc(14px * var(--ts-body));
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--ink);
+}
+.project-cover {
+  margin-top: 40px;
+}
+.project-editorial {
+  display: block;
+  padding-top: var(--section-space);
+}
+.project-overview {
+  position: static;
+  max-width: none;
+}
+.project-overview > h2 {
+  max-width: 760px;
+  margin-bottom: 0;
+}
+.project-story-section {
+  margin-top: 56px;
+  padding-top: 40px;
+}
+.project-story-section > p,
+.project-problem-points,
+.project-decisions,
+.project-execution-row > p,
+.project-execution-row > ul {
+  max-width: 760px;
+}
+
+/* Floating section menu */
+.project-section-nav {
+  position: fixed;
+  left: 50%;
+  bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  z-index: 40;
+  display: flex;
+  gap: 2px;
+  max-width: calc(100vw - 32px);
+  padding: 5px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  background: var(--background);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  box-shadow: 0 10px 30px rgba(48, 44, 40, 0.12);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 12px);
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
+}
+.project-section-nav::-webkit-scrollbar {
+  display: none;
+}
+.project-section-nav.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, 0);
+}
+.project-section-nav button {
+  flex: none;
+  padding: 9px 16px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: calc(13px * var(--ts-body));
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+.project-section-nav button:hover {
+  color: var(--ink);
+}
+.project-section-nav button[aria-current="true"] {
+  /* same dark pill as the site's primary buttons */
+  background: #302c28;
+  color: #fff8ef;
+}
+.project-section-nav button:focus-visible {
+  outline: 2px solid var(--coral);
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .project-section-nav {
+    transition: none;
+  }
+}
+@media (max-width: 1000px) {
+  .project-facts-row {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (max-width: 700px) {
+  .project-intro {
+    padding-top: 31px;
+  }
+  .project-facts-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+  .project-highlights {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .project-cover > .project-visual {
+    aspect-ratio: 1.42;
+  }
+  .project-story-section {
+    margin-top: 44px;
+    padding-top: 32px;
+  }
+  .project-section-nav {
+    left: 16px;
+    right: 16px;
+    max-width: none;
+    transform: translateY(12px);
+  }
+  .project-section-nav.is-visible {
+    transform: none;
   }
 }
