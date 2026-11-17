@@ -1,7 +1,17 @@
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useParams } from "react-router";
 import { Arrow, ContactSection, Flower, ProjectVisual, projects, type Project } from "./App";
 import { Copy, Eyebrow, Heading } from "./components/PortfolioUI";
+
+/** A clickable prototype embedded on the case study page, with a step list beside it. */
+type PrototypeInfo = {
+  src: string;
+  title: string;
+  heading: string;
+  text: string;
+  /** [screen id, label] pairs; the prototype reports and accepts these ids. */
+  steps: [string, string][];
+};
 
 type CaseStudyFigure = { src: string; alt: string; caption?: string };
 
@@ -47,7 +57,7 @@ const projectStories: Record<
     galleryImage?: { src: string; alt: string };
     takeawayTags?: string[];
     /** Standalone clickable prototype, shown on the page and openable full screen. */
-    prototype?: string;
+    prototype?: PrototypeInfo;
     /** Longer case study: replaces the default challenge / approach / outcome sections. */
     chapters?: CaseStudyChapters;
   }
@@ -90,7 +100,20 @@ const projectStories: Record<
       alt: "Overview of the refreshed screens: Warm Welcome, benefit carousel, merchandising tiles, color and quick actions, and the existing cardmember and non-Reserve updates.",
     },
     takeawayTags: ["Customer-centered", "Brand-led", "Built to scale"],
-    prototype: "/prototypes/sapphire/index.html",
+    prototype: {
+      src: "/prototypes/sapphire/index.html",
+      title: "Sapphire Reserve card refresh prototype",
+      heading: "The card refresh, end to end.",
+      text: "Tap through the first login, finish setup, explore the refreshed card account, then open a benefit from the carousel. Pick a step to jump straight to it.",
+      steps: [
+        ["welcome", "Warm Welcome"],
+        ["credits", "Annual credits"],
+        ["wallet", "Add to wallet"],
+        ["setup", "Finish your setup"],
+        ["account", "Card account"],
+        ["benefit", "Use a benefit"],
+      ],
+    },
     chapters: {
       problem: {
         heading: "A new card, the same old screens.",
@@ -208,6 +231,21 @@ const projectStories: Record<
     galleryImage: {
       src: "/images/buyingpower-final-scenario-a.avif",
       alt: "Four phone screens: discover your buying power at $435,000, confirm your info, updating your numbers, and the updated buying power of $500,000.",
+    },
+    prototype: {
+      src: "/prototypes/buying-power/index.html",
+      title: "Proactive Buying Power prototype",
+      heading: "Buying Power, end to end.",
+      text: "Confirm your info to see an updated number, search homes in your range, then try the dashboard card and adjust your loan details. Pick a step to jump straight to it.",
+      steps: [
+        ["takeover", "Login takeover"],
+        ["confirm", "Confirm your info"],
+        ["result", "Your Buying Power"],
+        ["homes", "Search homes"],
+        ["intro", "No data yet"],
+        ["update", "Update your info"],
+        ["dashboard", "Dashboard card"],
+      ],
     },
     takeawayTags: ["Client-centered", "Tested early", "Built for the MVP"],
     chapters: {
@@ -395,26 +433,17 @@ const projectStories: Record<
 const isArtifactBuild =
   typeof window !== "undefined" && Boolean((window as { __ARTIFACT__?: boolean }).__ARTIFACT__);
 
-const prototypeScreens: [string, string][] = [
-  ["welcome", "Warm Welcome"],
-  ["credits", "Annual credits"],
-  ["wallet", "Add to wallet"],
-  ["setup", "Finish your setup"],
-  ["account", "Card account"],
-  ["benefit", "Use a benefit"],
-];
-
 /* The step list and the phone talk to each other: a click jumps the prototype to that
    screen, and the prototype reports back whichever screen is showing. */
-function PrototypeSection({ src, children }: { src: string; children: ReactNode }) {
+function PrototypeSection({ prototype }: { prototype: PrototypeInfo }) {
+  const { src, steps } = prototype;
   const frame = useRef<HTMLIFrameElement>(null);
-  const [current, setCurrent] = useState("welcome");
+  const [current, setCurrent] = useState(steps[0][0]);
 
   useEffect(() => {
     const onMessage = (e: MessageEvent) => {
       if (e.source !== frame.current?.contentWindow) return;
-      if (e.data?.type === "sapphire-screen" && typeof e.data.id === "string")
-        setCurrent(e.data.id);
+      if (e.data?.type === "proto-screen" && typeof e.data.id === "string") setCurrent(e.data.id);
     };
     window.addEventListener("message", onMessage);
     return () => window.removeEventListener("message", onMessage);
@@ -422,15 +451,17 @@ function PrototypeSection({ src, children }: { src: string; children: ReactNode 
 
   const jump = (id: string) => {
     setCurrent(id);
-    frame.current?.contentWindow?.postMessage({ type: "sapphire-go", id }, "*");
+    frame.current?.contentWindow?.postMessage({ type: "proto-go", id }, "*");
   };
 
   return (
     <section className="project-prototype" id="prototype" aria-labelledby="prototype-heading">
       <div className="project-prototype-copy">
-        {children}
+        <Eyebrow>TRY IT YOURSELF</Eyebrow>
+        <Heading id="prototype-heading">{prototype.heading}</Heading>
+        <p className="project-prototype-text">{prototype.text}</p>
         <ol className="project-prototype-steps" aria-label="Jump to a screen">
-          {prototypeScreens.map(([id, label], i) => (
+          {steps.map(([id, label], i) => (
             <li key={id}>
               <button
                 type="button"
@@ -451,12 +482,7 @@ function PrototypeSection({ src, children }: { src: string; children: ReactNode 
       </div>
       <div className="project-prototype-device">
         <div className="project-prototype-screen">
-          <iframe
-            ref={frame}
-            src={src}
-            title="Sapphire Reserve card refresh prototype"
-            loading="lazy"
-          />
+          <iframe ref={frame} src={src} title={prototype.title} loading="lazy" />
         </div>
       </div>
     </section>
@@ -497,7 +523,12 @@ function ProjectSectionNav({ items }: { items: [string, string][] }) {
       setActive(current);
       const first = sections[0].getBoundingClientRect().top;
       const last = sections[sections.length - 1].getBoundingClientRect().bottom;
-      setVisible(first < window.innerHeight * 0.8 && last > window.innerHeight * 0.5);
+      // Step aside while the reader uses the prototype, so it doesn't cover the phone.
+      setVisible(
+        current !== "prototype" &&
+          first < window.innerHeight * 0.8 &&
+          last > window.innerHeight * 0.5,
+      );
     };
     const onScroll = () => {
       if (!frame) frame = requestAnimationFrame(update);
@@ -847,16 +878,7 @@ export default function ProjectPage() {
         </div>
       </div>
 
-      {story.prototype && !isArtifactBuild && (
-        <PrototypeSection src={story.prototype}>
-          <Eyebrow>TRY IT YOURSELF</Eyebrow>
-          <Heading id="prototype-heading">The card refresh, end to end.</Heading>
-          <p className="project-prototype-text">
-            Tap through the first login, finish setup, explore the refreshed card account, then open
-            a benefit from the carousel. Pick a step to jump straight to it.
-          </p>
-        </PrototypeSection>
-      )}
+      {story.prototype && !isArtifactBuild && <PrototypeSection prototype={story.prototype} />}
 
       <section className="project-gallery" id="gallery" aria-labelledby="gallery-heading">
         <div className="project-gallery-heading">

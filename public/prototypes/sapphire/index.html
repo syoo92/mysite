@@ -694,9 +694,9 @@
 
   // When embedded in the case study page, the page's step list can jump to a screen,
   // and the page hears back which screen is showing.
-  function tellParent() { if (window.parent !== window) window.parent.postMessage({ type: 'sapphire-screen', id: current }, '*'); }
+  function tellParent() { if (window.parent !== window) window.parent.postMessage({ type: 'proto-screen', id: current }, '*'); }
   window.addEventListener('message', e => {
-    if (e.source !== window.parent || !e.data || e.data.type !== 'sapphire-go' || !screens[e.data.id]) return;
+    if (e.source !== window.parent || !e.data || e.data.type !== 'proto-go' || !screens[e.data.id]) return;
     trail = order.slice(0, order.indexOf(e.data.id));
     show(e.data.id);
   });
