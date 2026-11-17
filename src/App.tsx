@@ -198,6 +198,41 @@ export const projects = [
       "A unified refresh across app and web: a photo-led Warm Welcome, a new benefits carousel, rebranded merchandising tiles, one Blue800 interaction color, and quick actions in the upcoming product design language.",
     client: true,
   },
+  {
+    id: "buying-power",
+    title: "Buying Power",
+    subtitle: "Showing current clients what they can afford, before they apply.",
+    category: "Digital products",
+    tags: ["UX research", "Product design"],
+    year: "2022",
+    kind: "buyingpower",
+    role: "Product design, with a team of five",
+    focus: "A proactive home-buying estimate for Rocket clients",
+    deliverables: "Scenario maps, usability tests, hi-fi designs, MVP requirements",
+    decisions: [
+      [
+        "Fewer steps boost adoption",
+        "A single-page confirmation gets people to their updated number with as few interactions as possible.",
+      ],
+      [
+        "Show the factors to build trust",
+        "A visual breakdown of what feeds into the number sits right next to it.",
+      ],
+      [
+        "Homes in range drive the next step",
+        "Searching for homes at the Buying Power price is kept close, in line with the Buy / Sell work.",
+      ],
+    ],
+    description:
+      "Proactive Buying Power gives current Rocket clients an estimate of what they can afford for their next home, based on their soft credit data, without making them apply for a mortgage.",
+    challenge:
+      "Clients already in the Rocket ecosystem had no accurate way to see their options for a next loan without starting a mortgage application.",
+    solution:
+      "We built the experience around a client story, mapped what happens with and without client data, and tested two ways to confirm information before showing an updated number.",
+    result:
+      "Hi-fi designs and MVP requirements for a login takeover, a Buying Power result and a dashboard card, timed to fit with the upcoming Buy / Sell experience.",
+    client: true,
+  },
 ];
 export type Project = (typeof projects)[number];
 const mountain = "/images/dolomites.jpg";
@@ -604,6 +639,13 @@ export function ProjectVisual({ kind }: { kind: string }) {
         <img
           className="project-visual-image"
           src="/images/sapphire-collage.avif"
+          alt=""
+          loading="lazy"
+        />
+      ) : kind === "buyingpower" ? (
+        <img
+          className="project-visual-image"
+          src="/images/buyingpower-card.avif"
           alt=""
           loading="lazy"
         />

@@ -906,6 +906,80 @@
   border-radius: 41px;
   background: #000;
 }
+/* Case study images inside the chapters (Buying Power) */
+.project-figures {
+  display: grid;
+  gap: 28px;
+  margin-top: 28px;
+}
+.project-figure {
+  margin: 0;
+  display: grid;
+  gap: 10px;
+}
+.project-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-small);
+  border: 1px solid var(--line);
+  background: #fff;
+}
+.project-figure figcaption {
+  font-size: calc(12px * var(--ts-body));
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+.project-execution-figure {
+  margin-top: 18px;
+}
+/* Small source images stay at their real size instead of being stretched and blurred. */
+.project-execution-figure img,
+.project-page-buyingpower .project-gallery-image {
+  width: auto;
+  max-width: 100%;
+  margin: 0 auto;
+}
+.project-page-buyingpower .project-gallery-stage {
+  background: #fff;
+  border: 1px solid var(--line);
+}
+.project-execution-figure img {
+  margin: 0;
+}
+/* Usability findings (Rose / Bud / Thorn) reuse the strategy card style. */
+.project-insights {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 28px;
+}
+.project-insight {
+  padding: 20px;
+  background: var(--sage-paper);
+  border-radius: var(--radius-small);
+}
+.project-insight h3 {
+  font-size: calc(14px * var(--ts-body));
+  font-weight: 500;
+  margin: 0 0 8px;
+}
+.project-insight ul {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 4px;
+}
+.project-insight li {
+  font-size: calc(13px * var(--ts-body));
+  line-height: 1.75;
+  color: var(--text-secondary);
+}
+@media (max-width: 900px) {
+  .project-insights {
+    grid-template-columns: 1fr;
+  }
+}
 @media (max-width: 1000px) {
   .project-prototype {
     grid-template-columns: 1fr;

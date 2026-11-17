@@ -3,16 +3,36 @@ import { Link, useLocation, useParams } from "react-router";
 import { Arrow, ContactSection, Flower, ProjectVisual, projects, type Project } from "./App";
 import { Copy, Eyebrow, Heading } from "./components/PortfolioUI";
 
+type CaseStudyFigure = { src: string; alt: string; caption?: string };
+
 type CaseStudyChapters = {
-  problem: { heading: string; body: string; points: string[] };
-  process: { heading: string; body: string; steps: [string, string][] };
-  strategy: { heading: string; body: string; principles: [string, string][] };
+  problem: { heading: string; body: string; points: string[]; figures?: CaseStudyFigure[] };
+  process: {
+    heading: string;
+    body: string;
+    steps: [string, string][];
+    /** Usability findings grouped by label, e.g. Rose / Bud / Thorn. */
+    insights?: { label: string; meaning: string; items: string[] }[];
+    figures?: CaseStudyFigure[];
+  };
+  strategy: {
+    heading: string;
+    body: string;
+    principles: [string, string][];
+    figures?: CaseStudyFigure[];
+  };
   execution: {
     heading: string;
     body: string;
-    rows: { strategy: string; screen: string; detail: string; changes: string[] }[];
+    rows: {
+      strategy: string;
+      screen: string;
+      detail: string;
+      changes: string[];
+      figure?: CaseStudyFigure;
+    }[];
   };
-  solution: { heading: string; body: string };
+  solution: { heading: string; body: string; figures?: CaseStudyFigure[] };
 };
 
 const projectStories: Record<
@@ -177,6 +197,190 @@ const projectStories: Record<
       },
     },
   },
+  "buying-power": {
+    question: "How might we show clients what they can afford next, before they ever apply?",
+    takeaway: "Fewer steps. More trust. A clear next move.",
+    principle:
+      "An estimate built from what we already know, with the reasons behind the number in plain view.",
+    galleryTitle: "From first login to the dashboard.",
+    galleryCaption:
+      "The final designs for Scenario A: the login takeover, confirming a few details, updating, and the new Buying Power number.",
+    galleryImage: {
+      src: "/images/buyingpower-final-scenario-a.avif",
+      alt: "Four phone screens: discover your buying power at $435,000, confirm your info, updating your numbers, and the updated buying power of $500,000.",
+    },
+    takeawayTags: ["Client-centered", "Tested early", "Built for the MVP"],
+    chapters: {
+      problem: {
+        heading: "No clear view of the next home.",
+        body: "Clients already in the Rocket ecosystem couldn’t get an accurate view of their options for a next loan, based on their current finances, without applying for a mortgage. We had their data, but we weren’t using it to help them plan.",
+        points: [
+          "Goal: proactively show current clients an accurate Buying Power number of what they can afford, using their soft credit data.",
+          "Goal: inspire them to consider their next home purchase by previewing loan options powered by their data.",
+        ],
+      },
+      process: {
+        heading: "Start with a story, then test it.",
+        body: "I worked with a second product designer, a content designer, a product manager and a tech partner. We moved from a client story, to scenario maps for our tech partners, to usability testing, and finally to hi-fi designs and a delivery plan.",
+        steps: [
+          [
+            "Meet Susan",
+            "To build empathy, we wrote the story of Susan, based on market research with existing clients. She just closed on her first home with Rocket. Her story was our starting point for the long-term vision of Buying Power.",
+          ],
+          [
+            "Map two scenarios",
+            "We walked our tech partners through a decision tree, along with scenario maps for two cases: when we have enough client data to fill in a Buying Power number, and when we don’t.",
+          ],
+          [
+            "Test two ways to confirm",
+            "Before showing an updated number, clients confirm their info. We tested a quick step-by-step flow with yes or no answers against a single page with every field.",
+          ],
+          [
+            "Plan the delivery",
+            "With the hi-fi designs settled, we worked with other design teams to see how Buying Power would fit into future features like the Buy / Sell experience.",
+          ],
+        ],
+        insights: [
+          {
+            label: "Rose",
+            meaning: "What worked",
+            items: [
+              "Test A felt easy to navigate.",
+              "Test B felt like a quick, interactive questionnaire.",
+              "The layout pointed people to “Search for this price on Rocket Homes,” as we hoped.",
+            ],
+          },
+          {
+            label: "Bud",
+            meaning: "Room to grow",
+            items: [
+              "Avoid placeholder text that people have to change to get an accurate estimate.",
+              "Show more of the factors that affect the monthly payment and price.",
+              "Add a zip code field for more accurate location information.",
+            ],
+          },
+          {
+            label: "Thorn",
+            meaning: "What confused people",
+            items: [
+              "The loan amount and monthly payment didn’t seem right for the estimate.",
+              "Some participants didn’t recognize the “Monthly Debt” label.",
+              "The results were missing a breakdown of the factors.",
+            ],
+          },
+        ],
+        figures: [
+          {
+            src: "/images/buyingpower-susan.avif",
+            alt: "Meet Susan: two photos of a smiling woman. Susan just closed on her first home with Rocket.",
+            caption: "Susan’s story, based on market research with existing clients.",
+          },
+          {
+            src: "/images/buyingpower-story-timeline.avif",
+            alt: "Five numbered phone screens showing Susan’s journey from welcome to preparing to buy.",
+            caption:
+              "Susan’s journey across five moments: welcome, credit monitoring, Buying Power, Proactive Buying Power and the concierge experience.",
+          },
+          {
+            src: "/images/buyingpower-scenario-a-map.avif",
+            alt: "Scenario A map: a client logs in and sees a Buying Power message with a number, filled in from their data.",
+            caption: "Scenario A: we have enough client data to fill in their Buying Power.",
+          },
+          {
+            src: "/images/buyingpower-scenario-b-map.avif",
+            alt: "Scenario B map: a soft intro screen, then a form to update location, income, monthly debts, down payment and credit score.",
+            caption:
+              "Scenario B: not enough data, so a more general intro with the option to update their info.",
+          },
+          {
+            src: "/images/buyingpower-testing.avif",
+            alt: "The two tested flows side by side: a step-by-step confirmation and a single-page form.",
+            caption: "The two flows we tested: step by step, and a single page.",
+          },
+        ],
+      },
+      strategy: {
+        heading: "Three findings that shaped the design.",
+        body: "Both confirmation flows tested well. The findings told us what mattered most: get people to their number fast, explain it, and give them something to do next.",
+        principles: [
+          [
+            "Fewer steps boost adoption",
+            "We chose the single-page confirmation, so people see their updated number with as few interactions as possible.",
+          ],
+          [
+            "Show the factors to build trust",
+            "We added a visual breakdown of what feeds into the number, placed right next to it.",
+          ],
+          [
+            "Homes in range drive the next step",
+            "Searching for homes at the Buying Power price felt like the natural next step, so we kept it close, in line with the team working on Buy / Sell.",
+          ],
+        ],
+      },
+      execution: {
+        heading: "How the findings became screens.",
+        body: "After testing and feedback from our tech partners, we moved to higher-fidelity designs for both scenarios and a dashboard card.",
+        rows: [
+          {
+            strategy: "Fewer steps boost adoption",
+            screen: "Scenario A: we have client data",
+            detail: "A login takeover that shows a number right away.",
+            changes: [
+              "Login introduction takeover, with the option to skip",
+              "A number based on the client’s data",
+              "Confirm a few data points, then see an updated number",
+              "Continue to the dashboard or search homes",
+            ],
+          },
+          {
+            strategy: "Show the factors to build trust",
+            screen: "Scenario B: no client data yet",
+            detail: "A friendly intro that asks for a few details before showing a number.",
+            changes: [
+              "Login introduction takeover, with the option to skip",
+              "A general illustration, with no number yet",
+              "Update their info, then continue to the Buying Power result from Scenario A",
+            ],
+            figure: {
+              src: "/images/buyingpower-final-scenario-b.avif",
+              alt: "Two phone screens: Unlock your buying power with an illustration, and the Update your info form.",
+            },
+          },
+          {
+            strategy: "Homes in range drive the next step",
+            screen: "Dashboard card",
+            detail: "A Buying Power card that stays on the dashboard.",
+            changes: [
+              "If the client skips the takeover, a Buying Power card appears on their dashboard",
+              "Once they confirm their data, the card updates with their number",
+              "They can quickly adjust loan details to update the number, and search homes from the card",
+            ],
+            figure: {
+              src: "/images/buyingpower-final-dashboard.avif",
+              alt: "Three dashboard states, a, b and c: the card before confirming, with a $510,000 number, and with loan details open.",
+            },
+          },
+        ],
+      },
+      solution: {
+        heading: "Ready to build, and ready to grow.",
+        body: "We handed off hi-fi designs and design requirements for the MVP. To make sure Buying Power would fit with the upcoming Buy / Sell experience, we made a timeline of what ships in the first MVP and which components change once the Buy / Sell designs are built.",
+        figures: [
+          {
+            src: "/images/buyingpower-deliverables-timeline.avif",
+            alt: "Annotated design file showing the takeover results and dashboard components planned for each release.",
+            caption:
+              "Annotated deliverables, showing what ships first and what changes with Buy / Sell.",
+          },
+          {
+            src: "/images/buyingpower-requirements.avif",
+            alt: "Design requirements document for the MVP, listing takeover requirements and audience rules.",
+            caption: "Design requirements for the MVP, written for our tech partners.",
+          },
+        ],
+      },
+    },
+  },
   forma: {
     question: "How can a studio’s digital home feel as distinctive as the spaces it creates?",
     takeaway: "Architectural precision. A human point of view.",
@@ -257,6 +461,20 @@ function PrototypeSection({ src, children }: { src: string; children: ReactNode 
   );
 }
 
+function CaseStudyFigures({ figures }: { figures?: CaseStudyFigure[] }) {
+  if (!figures?.length) return null;
+  return (
+    <div className="project-figures">
+      {figures.map((figure) => (
+        <figure className="project-figure" key={figure.src}>
+          <img src={figure.src} alt={figure.alt} loading="lazy" />
+          {figure.caption && <figcaption>{figure.caption}</figcaption>}
+        </figure>
+      ))}
+    </div>
+  );
+}
+
 function CaseStudySections({ chapters }: { chapters: CaseStudyChapters }) {
   const { problem, process, strategy, execution, solution } = chapters;
   return (
@@ -270,6 +488,7 @@ function CaseStudySections({ chapters }: { chapters: CaseStudyChapters }) {
             <li key={point}>{point}</li>
           ))}
         </ul>
+        <CaseStudyFigures figures={problem.figures} />
       </section>
       <section className="project-story-section">
         <Eyebrow>02 / THE PROCESS</Eyebrow>
@@ -286,6 +505,22 @@ function CaseStudySections({ chapters }: { chapters: CaseStudyChapters }) {
             </div>
           ))}
         </div>
+        <CaseStudyFigures figures={process.figures} />
+        {process.insights && (
+          <div className="project-insights">
+            {process.insights.map((group) => (
+              <div className="project-insight" key={group.label}>
+                <span className="project-execution-strategy">{group.meaning}</span>
+                <Heading level={3}>{group.label}</Heading>
+                <ul>
+                  {group.items.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        )}
       </section>
       <section className="project-story-section">
         <Eyebrow>03 / THE STRATEGY</Eyebrow>
@@ -299,6 +534,7 @@ function CaseStudySections({ chapters }: { chapters: CaseStudyChapters }) {
             </div>
           ))}
         </div>
+        <CaseStudyFigures figures={strategy.figures} />
       </section>
       <section className="project-story-section">
         <Eyebrow>04 / STRATEGY TO EXECUTION</Eyebrow>
@@ -317,6 +553,11 @@ function CaseStudySections({ chapters }: { chapters: CaseStudyChapters }) {
                   <li key={change}>{change}</li>
                 ))}
               </ul>
+              {row.figure && (
+                <figure className="project-figure project-execution-figure">
+                  <img src={row.figure.src} alt={row.figure.alt} loading="lazy" />
+                </figure>
+              )}
             </div>
           ))}
         </div>
@@ -325,6 +566,7 @@ function CaseStudySections({ chapters }: { chapters: CaseStudyChapters }) {
         <Eyebrow>05 / THE SOLUTION</Eyebrow>
         <Heading>{solution.heading}</Heading>
         <Copy>{solution.body}</Copy>
+        <CaseStudyFigures figures={solution.figures} />
       </section>
     </>
   );
