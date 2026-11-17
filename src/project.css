@@ -842,12 +842,51 @@
   text-wrap: balance;
 }
 .project-prototype-steps {
+  list-style: none;
   margin: 0;
-  padding-left: 20px;
+  padding: 0;
   display: grid;
-  gap: 4px;
-  font-size: calc(13px * var(--ts-body));
+  gap: 2px;
+  width: 100%;
+  max-width: 320px;
+}
+.project-prototype-steps button {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 9px 14px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
   color: var(--text-secondary);
+  font-size: calc(15px * var(--ts-body));
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+.project-prototype-step-number {
+  font-size: max(var(--ts-min), calc(11px * var(--ts-body)));
+  letter-spacing: 0.08em;
+  color: var(--coral);
+  font-variant-numeric: tabular-nums;
+  min-width: 1.7em;
+}
+.project-prototype-steps button:hover {
+  background: rgba(48, 44, 40, 0.06);
+  color: var(--text-primary, #302c28);
+}
+.project-prototype-steps button[aria-current="step"] {
+  background: #fff;
+  color: var(--text-primary, #302c28);
+  font-weight: 550;
+  box-shadow: 0 1px 3px rgba(48, 44, 40, 0.08);
+}
+.project-prototype-steps button:focus-visible {
+  outline: 2px solid var(--coral);
+  outline-offset: 2px;
 }
 .project-prototype-device {
   width: 375px;
@@ -856,6 +895,8 @@
   border-radius: 52px;
   background: #111;
   box-shadow: 0 30px 70px rgba(48, 44, 40, 0.25), inset 0 0 0 2px #2a2a2a;
+  /* Shrinks the phone and its screen together, so the prototype keeps its 375px layout. */
+  zoom: 0.85;
 }
 .project-prototype-device > iframe {
   display: block;
@@ -883,6 +924,7 @@
     padding: 28px 16px;
   }
   .project-prototype-device {
+    zoom: 1;
     width: min(100%, 340px);
     height: 700px;
     border-radius: 46px;

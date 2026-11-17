@@ -561,6 +561,7 @@
     device.classList.toggle('is-dark', to.dataset.theme === 'dark');
     steps.forEach(b => { if (b.dataset.go === id) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current'); });
     try { history.replaceState(null, '', '#' + id); } catch (e) {}
+    tellParent();
   }
   function go(id) { trail.push(current); show(id, 'forward'); }
   function back() { const prev = trail.pop() || order[Math.max(0, order.indexOf(current) - 1)]; show(prev, 'back'); }
@@ -691,10 +692,20 @@
     if (e.key === 'ArrowLeft' && i > 0) back();
   });
 
+  // When embedded in the case study page, the page's step list can jump to a screen,
+  // and the page hears back which screen is showing.
+  function tellParent() { if (window.parent !== window) window.parent.postMessage({ type: 'sapphire-screen', id: current }, '*'); }
+  window.addEventListener('message', e => {
+    if (e.source !== window.parent || !e.data || e.data.type !== 'sapphire-go' || !screens[e.data.id]) return;
+    trail = order.slice(0, order.indexOf(e.data.id));
+    show(e.data.id);
+  });
+
   // Open a screen from the link's hash, e.g. #account
   const start = location.hash.slice(1);
   if (screens[start] && start !== 'welcome') { trail = order.slice(0, order.indexOf(start)); show(start, 'forward'); }
   else steps[0].setAttribute('aria-current', 'step');
+  tellParent();
 })();
 </script>
 </body>

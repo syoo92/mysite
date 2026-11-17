@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Link, useLocation, useParams } from "react-router";
 import { Arrow, ContactSection, Flower, ProjectVisual, projects, type Project } from "./App";
 import { Copy, Eyebrow, Heading } from "./components/PortfolioUI";
@@ -189,6 +190,72 @@ const projectStories: Record<
 // The shared artifact copy doesn't include the prototype files, so the link is hidden there.
 const isArtifactBuild =
   typeof window !== "undefined" && Boolean((window as { __ARTIFACT__?: boolean }).__ARTIFACT__);
+
+const prototypeScreens: [string, string][] = [
+  ["welcome", "Warm Welcome"],
+  ["credits", "Annual credits"],
+  ["wallet", "Add to wallet"],
+  ["setup", "Finish your setup"],
+  ["account", "Card account"],
+  ["benefit", "Use a benefit"],
+];
+
+/* The step list and the phone talk to each other: a click jumps the prototype to that
+   screen, and the prototype reports back whichever screen is showing. */
+function PrototypeSection({ src, children }: { src: string; children: ReactNode }) {
+  const frame = useRef<HTMLIFrameElement>(null);
+  const [current, setCurrent] = useState("welcome");
+
+  useEffect(() => {
+    const onMessage = (e: MessageEvent) => {
+      if (e.source !== frame.current?.contentWindow) return;
+      if (e.data?.type === "sapphire-screen" && typeof e.data.id === "string")
+        setCurrent(e.data.id);
+    };
+    window.addEventListener("message", onMessage);
+    return () => window.removeEventListener("message", onMessage);
+  }, []);
+
+  const jump = (id: string) => {
+    setCurrent(id);
+    frame.current?.contentWindow?.postMessage({ type: "sapphire-go", id }, "*");
+  };
+
+  return (
+    <section className="project-prototype" id="prototype" aria-labelledby="prototype-heading">
+      <div className="project-prototype-copy">
+        {children}
+        <ol className="project-prototype-steps" aria-label="Jump to a screen">
+          {prototypeScreens.map(([id, label], i) => (
+            <li key={id}>
+              <button
+                type="button"
+                aria-current={current === id ? "step" : undefined}
+                onClick={() => jump(id)}
+              >
+                <span className="project-prototype-step-number">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                {label}
+              </button>
+            </li>
+          ))}
+        </ol>
+        <a className="text-action" href={src} target="_blank" rel="noopener">
+          Open full screen <Arrow size={16} />
+        </a>
+      </div>
+      <div className="project-prototype-device">
+        <iframe
+          ref={frame}
+          src={src}
+          title="Sapphire Reserve card refresh prototype"
+          loading="lazy"
+        />
+      </div>
+    </section>
+  );
+}
 
 function CaseStudySections({ chapters }: { chapters: CaseStudyChapters }) {
   const { problem, process, strategy, execution, solution } = chapters;
@@ -463,34 +530,14 @@ export default function ProjectPage() {
       </div>
 
       {story.prototype && !isArtifactBuild && (
-        <section className="project-prototype" id="prototype" aria-labelledby="prototype-heading">
-          <div className="project-prototype-copy">
-            <Eyebrow>TRY IT YOURSELF</Eyebrow>
-            <Heading id="prototype-heading">The card refresh, end to end.</Heading>
-            <p className="project-prototype-text">
-              Tap through the first login, finish setup, explore the refreshed card account, then
-              open a benefit from the carousel. Arrow keys work too.
-            </p>
-            <ol className="project-prototype-steps">
-              <li>Warm Welcome</li>
-              <li>Annual credits</li>
-              <li>Add to wallet</li>
-              <li>Finish your setup</li>
-              <li>Card account</li>
-              <li>Use a benefit</li>
-            </ol>
-            <a className="text-action" href={story.prototype} target="_blank" rel="noopener">
-              Open full screen <Arrow size={16} />
-            </a>
-          </div>
-          <div className="project-prototype-device">
-            <iframe
-              src={story.prototype}
-              title="Sapphire Reserve card refresh prototype"
-              loading="lazy"
-            />
-          </div>
-        </section>
+        <PrototypeSection src={story.prototype}>
+          <Eyebrow>TRY IT YOURSELF</Eyebrow>
+          <Heading id="prototype-heading">The card refresh, end to end.</Heading>
+          <p className="project-prototype-text">
+            Tap through the first login, finish setup, explore the refreshed card account, then open
+            a benefit from the carousel. Pick a step to jump straight to it.
+          </p>
+        </PrototypeSection>
       )}
 
       <section className="project-gallery" id="gallery" aria-labelledby="gallery-heading">
