@@ -7,7 +7,7 @@
     scroll-padding-top: 35px;
   }
   body {
-    background: #faf9f6;
+    background: var(--background);
     color: #252622;
     font-family: "DM Sans", sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -1502,7 +1502,7 @@
     display: none;
     position: absolute;
     top: 77px;
-    background: #faf9f6;
+    background: var(--background);
     left: -2%;
     right: -2%;
     padding: 24px;
@@ -1653,7 +1653,7 @@
 :root {
   --coral: #df725b;
   --line: #dfd5c9;
-  --background: #faf8f5;
+  --background: #fcfcfc;
   /* Paragraph style: every body paragraph on every page matches the About me paragraph. */
   --paragraph-size: 16px;
   --paragraph-leading: 1.55;
