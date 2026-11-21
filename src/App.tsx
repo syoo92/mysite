@@ -798,6 +798,86 @@ function DraggableSticker({
   );
 }
 
+const resumeUrl = "https://drive.google.com/file/d/174UXiH2p4Kkdq3xNcPY_6u7_QtpILzR9/view";
+const resumePreviewUrl =
+  "https://drive.google.com/file/d/174UXiH2p4Kkdq3xNcPY_6u7_QtpILzR9/preview";
+
+// The Resume link opens the résumé in a scrollable window on the same page. The published
+// artifact can't show other sites inside the page, so there it opens the file in a new tab.
+function ResumeLink() {
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const isArtifact =
+    typeof window !== "undefined" && Boolean((window as { __ARTIFACT__?: boolean }).__ARTIFACT__);
+
+  if (isArtifact) {
+    return (
+      <a
+        className="about-resume handwritten"
+        href={resumeUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Open Soo’s résumé (opens in a new tab)"
+      >
+        Resume <Arrow size={24} />
+      </a>
+    );
+  }
+
+  const close = () => dialogRef.current?.close();
+  return (
+    <>
+      <a
+        className="about-resume handwritten"
+        href={resumeUrl}
+        onClick={(event) => {
+          event.preventDefault();
+          dialogRef.current?.showModal();
+        }}
+        aria-haspopup="dialog"
+      >
+        Resume <Arrow size={24} />
+      </a>
+      <dialog
+        ref={dialogRef}
+        className="resume-modal"
+        aria-labelledby="resume-modal-title"
+        onClick={(event) => {
+          if (event.target === event.currentTarget) close();
+        }}
+      >
+        <div className="resume-modal-header">
+          <h2 id="resume-modal-title">Résumé</h2>
+          <div className="resume-modal-actions">
+            <a href={resumeUrl} target="_blank" rel="noopener noreferrer">
+              Open in new tab <Arrow size={16} />
+            </a>
+            <button type="button" className="resume-modal-close" onClick={close}>
+              Close
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                aria-hidden="true"
+              >
+                <path d="M6 6l12 12M18 6 6 18" />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <iframe
+          className="resume-modal-frame"
+          src={resumePreviewUrl}
+          title="Soo’s résumé"
+          loading="lazy"
+        />
+      </dialog>
+    </>
+  );
+}
+
 export default function HomePage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const location = useLocation();
@@ -968,15 +1048,7 @@ export default function HomePage() {
               <em>experiences</em>
             </span>
           </h2>
-          <a
-            className="about-resume handwritten"
-            href="https://drive.google.com/file/d/174UXiH2p4Kkdq3xNcPY_6u7_QtpILzR9/view"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Open Soo’s résumé (opens in a new tab)"
-          >
-            Resume <Arrow size={24} />
-          </a>
+          <ResumeLink />
         </div>
         <div className="about-editorial-body">
           <p className="about-story-intro">

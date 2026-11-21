@@ -3151,3 +3151,79 @@
   height: auto;
   background: #fff;
 }
+
+/* Résumé window: opens over the page from the About me "Resume" link. */
+.resume-modal {
+  width: min(880px, calc(100vw - 32px));
+  height: min(92vh, 1100px);
+  max-width: none;
+  max-height: none;
+  margin: auto;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--paper);
+  color: var(--ink);
+  overflow: hidden;
+}
+.resume-modal[open] {
+  display: flex;
+  flex-direction: column;
+  animation: appear 220ms both;
+}
+.resume-modal::backdrop {
+  background: rgb(48 44 40 / 0.55);
+}
+.resume-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--line);
+}
+.resume-modal-header h2 {
+  font-size: calc(22px * var(--ts-heading));
+  font-style: italic;
+}
+.resume-modal-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: calc(14px * var(--ts-body));
+}
+.resume-modal-actions a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+}
+.resume-modal-actions a:hover {
+  color: var(--ink);
+}
+.resume-modal-close {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: #fff8ef;
+}
+.resume-modal-frame {
+  flex: 1;
+  width: 100%;
+  border: 0;
+  background: #fff;
+}
+@media (max-width: 600px) {
+  .resume-modal {
+    width: 100vw;
+    height: 100dvh;
+    border-radius: 0;
+    border: 0;
+  }
+  .resume-modal-actions a {
+    display: none;
+  }
+}
