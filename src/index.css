@@ -3620,3 +3620,75 @@
     transform: scale(1);
   }
 }
+
+/* ── Fun thumbnail backgrounds ──
+   Each project gets a playful pattern drawn from its own story, using only palette colors
+   (sage, coral, paper, the yellow highlight and ink). It sits behind the screens and
+   drifts slowly on hover. */
+.visual-sapphire::before,
+.visual-buyingpower::before,
+.visual-playbook::before,
+.visual-softcredit::before {
+  content: "";
+  position: absolute;
+  inset: -8%;
+  z-index: 0;
+  pointer-events: none;
+  transition: transform 1.2s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.project-visual .thumb-stage {
+  z-index: 1;
+}
+/* Sapphire: orbit rings around a soft sun, like a premium card's glow. */
+.visual-sapphire::before {
+  background:
+    radial-gradient(circle at 78% 22%, #f5fa83 0 7%, transparent 7.2%),
+    repeating-radial-gradient(circle at 78% 22%, transparent 0 9.5%, rgb(48 44 40 / 0.07) 9.5% 9.8%),
+    radial-gradient(circle at 12% 88%, rgb(223 114 91 / 0.18) 0 18%, transparent 18.2%),
+    radial-gradient(rgb(48 44 40 / 0.1) 1.2px, transparent 1.4px) 0 0 / 18px 18px;
+}
+/* Buying Power: a row of little rooftops on the horizon, with a coral sun rising. */
+.visual-buyingpower::before {
+  background:
+    radial-gradient(circle at 18% 30%, #df725b 0 6%, transparent 6.2%),
+    radial-gradient(circle at 18% 30%, rgb(223 114 91 / 0.18) 0 12%, transparent 12.2%),
+    linear-gradient(135deg, transparent 50%, rgb(48 44 40 / 0.08) 50%) 0 79% / 44px 22px repeat-x,
+    linear-gradient(225deg, transparent 50%, rgb(48 44 40 / 0.08) 50%) 22px 79% / 44px 22px repeat-x,
+    linear-gradient(to top, rgb(48 44 40 / 0.08) 0 20%, transparent 20%),
+    radial-gradient(circle at 86% 18%, #f5fa83 0 4%, transparent 4.2%);
+}
+/* Offers Playbook: a bento grid of tiles, nodding to the layout people preferred. */
+.visual-playbook::before {
+  background:
+    linear-gradient(#f5fa83, #f5fa83) 8% 12% / 18% 22% no-repeat,
+    linear-gradient(var(--sage-paper), var(--sage-paper)) 78% 82% / 22% 24% no-repeat,
+    linear-gradient(rgb(223 114 91 / 0.22), rgb(223 114 91 / 0.22)) 88% 10% / 12% 16% no-repeat,
+    linear-gradient(rgb(48 44 40 / 0.06) 1px, transparent 1px) 0 0 / 36px 36px,
+    linear-gradient(90deg, rgb(48 44 40 / 0.06) 1px, transparent 1px) 0 0 / 36px 36px;
+}
+/* Soft Credit: the score meter's arcs fanning out, with a highlighted dial dot. */
+.visual-softcredit::before {
+  background:
+    radial-gradient(circle at 14% 82%, #f5fa83 0 5%, transparent 5.2%),
+    repeating-radial-gradient(circle at 14% 82%, transparent 0 7%, rgb(223 114 91 / 0.16) 7% 7.6%, transparent 7.6% 14%),
+    radial-gradient(circle at 92% 14%, rgb(48 44 40 / 0.08) 0 10%, transparent 10.2%),
+    radial-gradient(rgb(48 44 40 / 0.08) 1.2px, transparent 1.4px) 9px 9px / 18px 18px;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .project-card:hover .visual-sapphire::before,
+  .project-card:focus-visible .visual-sapphire::before {
+    transform: rotate(-4deg) scale(1.04);
+  }
+  .project-card:hover .visual-buyingpower::before,
+  .project-card:focus-visible .visual-buyingpower::before {
+    transform: translate(-3%, -2%);
+  }
+  .project-card:hover .visual-playbook::before,
+  .project-card:focus-visible .visual-playbook::before {
+    transform: translate(3%, 3%);
+  }
+  .project-card:hover .visual-softcredit::before,
+  .project-card:focus-visible .visual-softcredit::before {
+    transform: rotate(6deg) scale(1.05);
+  }
+}
