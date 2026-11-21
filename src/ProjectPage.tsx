@@ -11,6 +11,8 @@ type PrototypeInfo = {
   text: string;
   /** [screen id, label] pairs; the prototype reports and accepts these ids. */
   steps: [string, string][];
+  /** Optional use-case context for each screen, shown beside the phone. */
+  context?: Record<string, { useCase: string; note: string }>;
 };
 
 type CaseStudyFigure = { src: string; alt: string; caption?: string };
@@ -23,7 +25,14 @@ type CaseStudy = {
   /** At a glance: the challenge, what we did, and the result. */
   glance: { challenge: string; approach: string; result: string };
   takeawayTags: string[];
-  problem: { heading: string; body: string; points: string[]; question: string };
+  problem: {
+    heading: string;
+    body: string;
+    points: string[];
+    question: string;
+    /** Optional "before" image. */
+    figure?: CaseStudyFigure;
+  };
   process: {
     heading: string;
     body: string;
@@ -370,8 +379,354 @@ const projectStories: Record<string, CaseStudy> = {
       ],
     },
   },
+  "offers-playbook": {
+    takeaway: "The right offer, at the right moment.",
+    glance: {
+      challenge:
+        "Every client saw the same offers, the page had no clear hierarchy, and each new offer needed custom design work.",
+      approach:
+        "Defined what makes an offer valuable, built a playbook with the design systems team, and tested new layouts with ten participants.",
+      result:
+        "A simpler offers page with condensed cards and reusable patterns, launched in phases, and a playbook that streamlines future offers.",
+    },
+    takeawayTags: ["Personalized", "Systems thinking", "Tested with users"],
+    problem: {
+      heading: "Same offers, for everyone.",
+      body: "Personalization in Rocket Mortgage Servicing was ad hoc, built in Adobe Target from Excel client lists that quickly went stale. The business had no clear way to present offers that actually helped clients.",
+      points: [
+        "Every client saw the same offers, some irrelevant, some too many.",
+        "The page had no clear hierarchy of which offer lived where.",
+        "Offer cards held too much content.",
+      ],
+      question:
+        "How might we treat offers as a service that helps clients reach their home and financial goals?",
+      figure: {
+        src: "/images/playbook-before.avif",
+        alt: "The offers page before the redesign: a large featured PowerPack offer, then a long list of all offers.",
+        caption: "Before: one featured offer, then every offer for every client.",
+      },
+    },
+    process: {
+      heading: "Define value, then build the playbook.",
+      body: "With a second designer, a content designer, a product manager and a tech partner, we defined what an offer is, built a playbook around it, and tested new layouts.",
+      steps: [
+        {
+          title: "Define value",
+          detail:
+            "Whiteboarded what makes an offer valuable, then mapped current and upcoming offers by value and client relevance.",
+          figures: [
+            {
+              src: "/images/playbook-matrix.avif",
+              alt: "A matrix of offers plotted by value and client relevance, surrounded by sticky notes.",
+              caption: "Offers mapped by value and client relevance. It got a little wobbly.",
+            },
+          ],
+        },
+        {
+          title: "Build the playbook",
+          detail:
+            "Workshopped in Figma for two weeks, and partnered with the design systems team so offer content became its own UI element, with guidelines.",
+          figures: [
+            {
+              src: "/images/playbook-pages.avif",
+              alt: "Four playbook pages: about this playbook, definition, placement decisioning and client segments.",
+              caption:
+                "Playbook pages: purpose, definitions, placement decisioning and client segments.",
+            },
+          ],
+        },
+        {
+          title: "Test new layouts",
+          detail:
+            "Designed quick layouts with a UX researcher and tested a prototype with ten participants.",
+          figures: [
+            {
+              src: "/images/playbook-testing.avif",
+              alt: "Survey results and sticky-note comments from the offers page prototype test.",
+              caption: "Ratings and comments from the prototype test.",
+            },
+          ],
+          insights: [
+            {
+              label: "Bento box",
+              meaning: "Layout",
+              items: ["Preferred over the carousel, because it shows every offer at a glance."],
+            },
+            {
+              label: "Curated",
+              meaning: "Content",
+              items: ["People expected a curated list, with categories in a logical order."],
+            },
+            {
+              label: "Survey",
+              meaning: "Onboarding",
+              items: ["A short survey felt welcome, since it curated offers without hiding any."],
+            },
+          ],
+        },
+      ],
+    },
+    design: {
+      heading: "Simpler cards, smarter structure.",
+      body: "Research and testing became three moves: a clearer structure, patterns built from existing components, and a page designed to grow.",
+      rows: [
+        {
+          principle: "Make it easy to find the right offer",
+          screen: "Information architecture",
+          what: "A reorganized offers page, with new sections that appear based on each client’s selections.",
+          how: [
+            "Analyzed the original content, journey and layout",
+            "Grouped offers into new sections by client need",
+            "Advanced settings collapsed by default, backed by Salesforce audience data",
+          ],
+          why: "Clients struggled to find relevant offers, so the structure does the sorting for them.",
+          figure: {
+            src: "/images/playbook-ia.avif",
+            alt: "A decision tree showing which offer sections a client sees.",
+            caption: "Decision tree for which sections a client sees.",
+          },
+        },
+        {
+          principle: "Build from what exists",
+          screen: "Patterns from existing components",
+          what: "Offer cards, pills and layouts built from Rocket’s new design system.",
+          how: [
+            "Explored several options from existing cards, pills and layouts",
+            "Clients pick a segment, purchase, refinance or nurture, to tailor the page",
+            "The team chose a simpler layout with condensed card content",
+          ],
+          why: "Reusing components kept the product consistent and kept engineering effort low.",
+          figure: {
+            src: "/images/playbook-cards.avif",
+            alt: "Wireframe options for offer cards with images, titles, descriptions and actions.",
+            caption: "Card options explored from existing components.",
+          },
+        },
+        {
+          principle: "Design for where it’s going",
+          screen: "A page built to grow",
+          what: "Audience segmentation and a dynamic offers page, launched in phases.",
+          how: [
+            "A featured offer up top, then category pills and grouped offers",
+            "Reusable patterns, so new offers drop in without new design",
+            "Each phase launched in sequence as features were added",
+          ],
+          why: "Knowing the end goal let us build segmentation sustainably, so each phase builds on the last.",
+          figure: {
+            src: "/images/playbook-layout.avif",
+            alt: "Wireframe of the dynamic offers page: featured headline, category pills, purchase offers and all offers.",
+            caption: "The dynamic page: a featured offer, category pills and grouped offers.",
+          },
+        },
+      ],
+    },
+    outcome: {
+      heading: "Personal, and ready to scale.",
+      body: "Simple card designs and offers based on client relevance are live today. Next, the playbook can grow into a marketplace template for more products and teams, cutting design time for every new offer.",
+      figures: [
+        {
+          src: "/images/playbook-after.avif",
+          alt: "The redesigned offers page: one large featured offer beside two smaller featured offers.",
+          caption: "After: featured offers up top, with simpler cards.",
+        },
+      ],
+    },
+  },
+  "soft-credit": {
+    takeaway: "Know your credit. Know what to do next.",
+    glance: {
+      challenge:
+        "Serviced clients rarely visited their accounts, and many people overestimate their credit or don’t know what a good score is.",
+      approach:
+        "Turned research on credit misconceptions into a consent-to-score flow, then tested it and fixed the copy and visuals where people got stuck.",
+      result:
+        "Soft credit monitoring launched across all Rocket platforms within three months, from the consent form to prefilled data.",
+    },
+    takeawayTags: ["Research-led", "Plain language", "Shipped in three months"],
+    prototype: {
+      src: "/prototypes/soft-credit/index.html",
+      title: "Soft credit monitoring prototype",
+      heading: "Credit tracking, end to end.",
+      text: "Sign up from the dashboard card, agree to the three consents, then see how the score card changes by score range. Pick a step to jump straight to it.",
+      steps: [
+        ["null", "Not activated"],
+        ["welcome", "Three steps away"],
+        ["consent-1", "Soft credit check"],
+        ["consent-2", "Personalize"],
+        ["consent-3", "Share your data"],
+        ["score-800", "Score 750–850"],
+        ["score-700", "Score 660–749"],
+        ["score-650", "Score 620–659"],
+        ["score-500", "Score 300–619"],
+        ["error", "Couldn’t enroll"],
+        ["unenroll", "Unenroll"],
+      ],
+      context: {
+        null: {
+          useCase: "Null state · not signed up",
+          note: "The card promises one thing, a free score that never hurts your credit, with Enroll as the only action.",
+        },
+        welcome: {
+          useCase: "Standard sign-up · start",
+          note: "A short sheet sets expectations before any legal text: three steps, about a minute.",
+        },
+        "consent-1": {
+          useCase: "Step 1 of 3 · user agreement",
+          note: "Plain language first, “it’ll never hurt your score,” then the full agreement for anyone who wants it.",
+        },
+        "consent-2": {
+          useCase: "Step 2 of 3 · FCRA consent",
+          note: "Leads with what the client gets, more relevant offers, and that their info is never sold.",
+        },
+        "consent-3": {
+          useCase: "Step 3 of 3 · data sharing",
+          note: "Benefits up front. Saying no still finishes sign-up, so the choice is real.",
+        },
+        "score-800": {
+          useCase: "Activated · score 750–850",
+          note: "Celebrates the score and ties it to the best rates on a new mortgage.",
+        },
+        "score-700": {
+          useCase: "Activated · score 660–749",
+          note: "Encouraging: competitive rates are within reach.",
+        },
+        "score-650": {
+          useCase: "Activated · score 620–659",
+          note: "Says what raising the score would do, with three simple tips.",
+        },
+        "score-500": {
+          useCase: "Activated · score 300–619",
+          note: "Names the 620 threshold for a mortgage, with three simple tips.",
+        },
+        error: {
+          useCase: "Error · unsuccessful enrollment",
+          note: "When TransUnion’s info doesn’t match, the card explains why enrolling is paused: to keep the client’s identity safe.",
+        },
+        unenroll: {
+          useCase: "Settings · unenroll",
+          note: "The gear menu lets clients stop tracking, with a confirm step and an easy way to sign back up.",
+        },
+      },
+    },
+    problem: {
+      heading: "A dashboard clients rarely visited.",
+      body: "Rocket was redesigning the purchase experience for new and existing clients, but serviced clients rarely opened their accounts, especially on autopay. We wanted the account to become a personal, educational place, starting with their credit.",
+      points: [
+        "People tend to overestimate their credit scores.",
+        "Many don’t know what a good score is, especially people with lower incomes or less formal financial education.",
+        "Clients had little reason to come back between payments.",
+      ],
+      question:
+        "How might we help clients understand their credit, improve it, and see how it helps their goals with Rocket?",
+    },
+    process: {
+      heading: "From research to a tested flow.",
+      body: "With a UI designer, a content designer, a product manager and a product owner, I went from research to wireframes to a user test.",
+      steps: [
+        {
+          title: "Study how people see credit",
+          detail:
+            "Research showed people form beliefs about their credit that don’t match how agencies score it, which leads to overconfidence.",
+        },
+        {
+          title: "Share the first approach",
+          detail:
+            "Shared research findings, opportunity areas, wireframes and mocks with stakeholders, then built a test flow from consent to score.",
+        },
+        {
+          title: "Test with clients",
+          detail:
+            "Asked people to sign up for free credit monitoring on a mortgage site and talk through what they saw.",
+          figures: [
+            {
+              src: "/images/softcredit-testing.avif",
+              alt: "The test board: the scenario, the flow from dashboard to consent to score, sticky-note findings and a summary.",
+              caption: "The test scenario, flow and findings.",
+            },
+          ],
+          insights: [
+            {
+              label: "Rose",
+              meaning: "What worked",
+              items: [
+                "Most found the process straightforward and easy to understand.",
+                "The score at the end was clear.",
+              ],
+            },
+            {
+              label: "Bud",
+              meaning: "Room to grow",
+              items: [
+                "40% saw it as a benefit, since their largest loan is their home.",
+                "People asked for tips on improving their score.",
+              ],
+            },
+            {
+              label: "Thorn",
+              meaning: "What confused people",
+              items: [
+                "Some didn’t know the term “soft credit check.”",
+                "Others weren’t sure what would happen after enrolling.",
+              ],
+            },
+          ],
+        },
+      ],
+    },
+    design: {
+      heading: "Clear copy, a precise meter, a next step.",
+      body: "The test pointed to three changes: say plainly what happens, show exactly where a score sits, and help people with lower scores improve.",
+      rows: [
+        {
+          principle: "Set expectations up front",
+          screen: "Entry point and consent",
+          what: "A concise entry card and consent step that explains a soft credit check and where it leads.",
+          how: [
+            "Plain-language copy, written with our content designer",
+            "The term “soft credit check” explained in place",
+            "Says what happens next and where the client will land",
+          ],
+          why: "Some testers didn’t know the term or what to expect next, so the copy does the explaining.",
+        },
+        {
+          principle: "Show exactly where a score sits",
+          screen: "Credit score card",
+          what: "A dashboard card with the client’s score on a meter from 300 to 850.",
+          how: [
+            "A precise indicator on the meter",
+            "Change since the last update, the date and the scoring model",
+            "Sits next to the loan snapshot on the dashboard",
+          ],
+          why: "People misjudge their credit, so the meter shows exactly where they stand.",
+          figure: {
+            src: "/images/softcredit-dashboard.avif",
+            alt: "The client dashboard: a loan snapshot beside a Your Credit Score card showing 800 on a meter from 300 to 850.",
+            caption: "The credit score card, next to the loan snapshot.",
+          },
+        },
+        {
+          principle: "Help, don’t just report",
+          screen: "Tips for lower scores",
+          what: "For lower scores, the card says what the number means for a mortgage and how to raise it.",
+          how: [
+            "A plain sentence on what the score means, like needing 620 or above to apply",
+            "Three simple tips: pay on time, pay down high balances, check for mistakes",
+          ],
+          why: "Testers asked how to improve, and people with lower scores need a next step more than a number.",
+          figure: {
+            src: "/images/softcredit-tips.avif",
+            alt: "Two credit score cards, 650 and 500, each with a short explanation and three tips to raise the score.",
+            caption: "Scores of 650 and 500, each with tips to raise them.",
+          },
+        },
+      ],
+    },
+    outcome: {
+      heading: "Launched in three months.",
+      body: "We launched soft credit monitoring across all Rocket platforms within three months, from the consent form to prefilled data. Next, V2 would use soft credit to speed up pre-qualification and other loan processes.",
+    },
+  },
 };
-
 // The shared artifact copy doesn't include the prototype files, so the link is hidden there.
 const isArtifactBuild =
   typeof window !== "undefined" && Boolean((window as { __ARTIFACT__?: boolean }).__ARTIFACT__);
@@ -423,9 +778,17 @@ function PrototypeSection({ prototype }: { prototype: PrototypeInfo }) {
           Open full screen <Arrow size={16} />
         </a>
       </div>
-      <div className="project-prototype-device">
-        <div className="project-prototype-screen">
-          <iframe ref={frame} src={src} title={prototype.title} loading="lazy" />
+      <div className="project-prototype-stage">
+        {prototype.context?.[current] && (
+          <aside className="project-prototype-context" aria-live="polite">
+            <span className="project-execution-strategy">{prototype.context[current].useCase}</span>
+            <p>{prototype.context[current].note}</p>
+          </aside>
+        )}
+        <div className="project-prototype-device">
+          <div className="project-prototype-screen">
+            <iframe ref={frame} src={src} title={prototype.title} loading="lazy" />
+          </div>
         </div>
       </div>
     </section>
@@ -547,6 +910,9 @@ function CaseStudyStory({ story }: { story: CaseStudy }) {
             <li key={point}>{point}</li>
           ))}
         </ul>
+        {problem.figure && (
+          <CaseStudyFigure figure={problem.figure} className="project-execution-figure" />
+        )}
         <div className="project-question">
           <Eyebrow>THE QUESTION WE ASKED</Eyebrow>
           <Heading level={3}>{problem.question}</Heading>

@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Soft Credit Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">
+<style>
+  :root {
+    --brand: #c8102e;      /* Rocket red buttons from the hi-fi wireframes */
+    --brand-dark: #a50d26;
+    --link: #4b2a9a;       /* purple links */
+    --meter-a: #c4126f;    /* score meter gradient, magenta to purple */
+    --meter-b: #7b2fd0;
+    --ink: #1d1d1f;
+    --grey: #5f6268;
+    --soft: #8b8e94;
+    --line: #e2e3e6;
+    --app-bg: #f4f4f5;
+    --tip-bg: #eceaf6;
+    --stage: #e9e6e1;
+    --stage-ink: #302c28;
+    --sans: "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --ease: cubic-bezier(.32, .72, 0, 1);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; color-scheme: light; }
+  body { background: var(--stage); color: var(--stage-ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+  button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+  button:focus-visible, a:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--link); outline-offset: 2px; }
+
+  /* ---------- Stage (full screen on desktop) ---------- */
+  .stage { min-height: 100vh; display: grid; grid-template-columns: minmax(0, 340px) auto; gap: 72px; align-items: center; justify-content: center;
+    padding-block: 48px; padding-left: max(24px, env(safe-area-inset-left, 0px)); padding-right: max(24px, env(safe-area-inset-right, 0px)); }
+  .notes { display: flex; flex-direction: column; gap: 16px; }
+  .eyebrow { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: #6f665d; margin: 0; }
+  .notes h1 { font-weight: 500; font-size: 32px; line-height: 1.15; letter-spacing: -.02em; margin: 0; text-wrap: balance; }
+  .notes p { font-size: 14px; line-height: 1.6; margin: 0; }
+  .group { font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: #8a8077; margin: 8px 0 2px 12px; }
+  .steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+  .steps button { width: 100%; text-align: left; display: flex; gap: 12px; align-items: baseline; padding: 7px 12px; border-radius: 8px; font-size: 14px; }
+  .steps button span { font-size: 11px; letter-spacing: .08em; color: #8a8077; }
+  .steps button:hover { background: rgba(48, 44, 40, .06); }
+  .steps button[aria-current="step"] { background: #fff; box-shadow: 0 1px 2px rgba(0, 0, 0, .06); }
+  .context { background: #fff; border-radius: 10px; padding: 14px 16px; display: grid; gap: 6px; }
+  .context b { font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: #a8432c; font-weight: 500; }
+  .context p { font-size: 13px !important; }
+  .fine { font-size: 12px !important; color: #6f665d; }
+
+  /* ---------- Phone ---------- */
+  .phone { position: relative; width: 390px; height: 844px; border-radius: 54px; background: #000; padding: 12px; box-shadow: 0 30px 80px rgba(40, 30, 20, .28), inset 0 0 0 2px #2a2a2a; }
+  .device { position: relative; width: 100%; height: 100%; border-radius: 42px; overflow: hidden; background: var(--app-bg); isolation: isolate; color: var(--ink); }
+  .island { position: absolute; top: 11px; left: 50%; translate: -50% 0; width: 120px; height: 34px; border-radius: 20px; background: #000; z-index: 60; pointer-events: none; }
+  .statusbar { position: absolute; inset: 0 0 auto; height: 50px; z-index: 55; display: flex; justify-content: space-between; align-items: center; padding: 6px 28px 0 36px; font-weight: 600; font-size: 15px; pointer-events: none; }
+  .statusbar .sys { display: flex; gap: 6px; align-items: center; }
+  .homebar { position: absolute; bottom: 8px; left: 50%; translate: -50% 0; width: 134px; height: 5px; border-radius: 3px; background: #000; z-index: 55; pointer-events: none; }
+
+  .app { position: absolute; inset: 0; display: flex; flex-direction: column; }
+  .appbar { flex: none; display: flex; align-items: center; gap: 12px; padding: 56px 18px 12px; background: #fff; border-bottom: 1px solid var(--line); }
+  .wordmark { flex: 1; text-align: center; font-weight: 700; font-size: 15px; letter-spacing: .03em; margin-right: 24px; }
+  .wordmark b { color: var(--brand); }
+  .wordmark small { font-weight: 400; letter-spacing: 0; margin-left: 3px; }
+  .body { flex: 1; overflow-y: auto; padding: 22px 16px 48px; scrollbar-width: none; scroll-behavior: smooth; }
+  .body::-webkit-scrollbar { display: none; }
+  .page-title { font-size: 24px; font-weight: 700; margin: 0 0 16px; }
+  .page-title::before { content: ""; display: block; width: 22px; height: 3px; background: var(--brand); margin-bottom: 12px; }
+
+  .card { background: #fff; border-radius: 8px; padding: 16px; box-shadow: 0 1px 3px rgba(0, 0, 0, .07); margin-bottom: 14px; }
+  .card h3 { font-size: 16px; font-weight: 700; margin: 0 0 12px; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  .snap { background: var(--app-bg); border-radius: 6px; padding: 12px; font-size: 12px; color: var(--grey); display: grid; gap: 8px; }
+  .snap b { display: block; color: var(--ink); font-size: 15px; }
+  .btn { display: block; width: 100%; text-align: center; padding: 13px 16px; border-radius: 4px; background: var(--brand); color: #fff; font-weight: 600; font-size: 14px; transition: background .2s; }
+  .btn:hover { background: var(--brand-dark); }
+  .text-btn { display: block; margin: 0 auto; padding: 10px; font-size: 13px; font-weight: 600; color: var(--link); }
+  .link { color: var(--link); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; font-size: 13px; }
+  .muted { display: grid; gap: 8px; }
+  .muted i { display: block; height: 9px; border-radius: 5px; background: #ececee; }
+
+  /* Credit card */
+  .credit { transition: box-shadow .3s; }
+  .credit.is-new { box-shadow: 0 0 0 2px var(--meter-b), 0 1px 3px rgba(0, 0, 0, .07); }
+  .gear { position: relative; width: 30px; height: 30px; display: grid; place-items: center; border-radius: 50%; color: var(--grey); }
+  .gear:hover, .gear[aria-expanded="true"] { background: var(--app-bg); }
+  .menu { position: absolute; right: 0; top: 34px; z-index: 5; background: #fff; border-radius: 6px; box-shadow: 0 6px 20px rgba(0, 0, 0, .15); padding: 6px 0; min-width: 150px; display: none; text-align: left; }
+  .menu.is-open { display: block; }
+  .menu p { margin: 0; padding: 6px 14px; font-size: 11px; color: var(--soft); font-weight: 500; }
+  .menu button { display: block; width: 100%; text-align: left; padding: 8px 14px; font-size: 13px; font-weight: 500; }
+  .menu button:hover { background: var(--app-bg); }
+  .meter { position: relative; width: 200px; margin: 4px auto 0; }
+  .meter svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .meter-center { position: absolute; inset: 31% 0 auto; display: grid; justify-items: center; text-align: center; gap: 2px; }
+  .score { font-size: 34px; font-weight: 600; letter-spacing: -.02em; line-height: 1; font-variant-numeric: tabular-nums; }
+  .delta { font-size: 9px; color: var(--grey); }
+  .tu { font-size: 12px; font-weight: 700; letter-spacing: -.01em; margin-top: 4px; }
+  .tu small { display: block; font-size: 8px; font-weight: 500; color: var(--grey); letter-spacing: 0; }
+  .ends { display: flex; justify-content: space-between; font-size: 11px; color: var(--grey); margin: -14px 6px 0; }
+  .asof { text-align: center; font-size: 10px; color: var(--soft); margin: 8px 0 2px; }
+  .model { text-align: center; font-size: 10.5px; color: var(--ink); margin: 0 0 14px; }
+  .message { font-size: 13px; line-height: 1.55; margin: 0; }
+  .message b { color: var(--link); }
+  .tips { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line); }
+  .tips h4 { font-size: 13px; font-weight: 700; margin: 0 0 10px; }
+  .tip { display: grid; grid-template-columns: 30px 1fr; gap: 10px; align-items: center; background: var(--tip-bg); border-radius: 6px; padding: 10px 12px; font-size: 12.5px; line-height: 1.4; margin-bottom: 8px; }
+  .tip span { width: 30px; height: 30px; display: grid; place-items: center; border-radius: 50%; background: #fff; color: var(--ink); }
+  .null-title { font-size: 19px; font-weight: 700; line-height: 1.25; margin: 4px 0 8px; }
+  .error-title { font-size: 19px; font-weight: 700; line-height: 1.25; margin: 0 0 6px; }
+
+  /* Bottom sheet modal */
+  .scrim { position: absolute; inset: 0; z-index: 30; background: rgba(20, 20, 22, .42); opacity: 0; pointer-events: none; transition: opacity .35s var(--ease); }
+  .scrim.is-on { opacity: 1; pointer-events: auto; }
+  .sheet { position: absolute; left: 0; right: 0; bottom: 0; z-index: 40; max-height: 84%; display: flex; flex-direction: column; background: #fff; border-radius: 16px 16px 0 0; box-shadow: 0 -8px 30px rgba(0, 0, 0, .18);
+    transform: translateY(105%); transition: transform .45s var(--ease); }
+  .sheet.is-on { transform: none; }
+  .sheet-head { flex: none; display: flex; justify-content: space-between; align-items: center; padding: 16px 18px 0; }
+  .kicker { font-size: 11px; color: var(--grey); }
+  .close { width: 30px; height: 30px; display: grid; place-items: center; border-radius: 50%; color: var(--grey); }
+  .close:hover { background: var(--app-bg); }
+  .sheet-body { flex: 1; overflow-y: auto; padding: 8px 18px 4px; scrollbar-width: none; }
+  .sheet-body::-webkit-scrollbar { display: none; }
+  .sheet h2 { font-size: 21px; font-weight: 700; line-height: 1.25; margin: 0 0 8px; }
+  .sheet .lead { font-size: 13.5px; line-height: 1.6; color: var(--ink); margin: 0 0 14px; }
+  .benefits { list-style: none; margin: 0 0 14px; padding: 0; display: grid; gap: 12px; }
+  .benefits li { display: grid; grid-template-columns: 26px 1fr; gap: 12px; font-size: 13px; line-height: 1.5; }
+  .benefits svg { width: 22px; height: 22px; color: var(--ink); margin-top: 2px; }
+  .legal { background: var(--app-bg); border-radius: 6px; padding: 12px 14px; font-size: 11px; line-height: 1.6; color: var(--grey); margin-bottom: 8px; }
+  .legal a { color: var(--ink); }
+  .sheet-actions { flex: none; display: grid; gap: 4px; padding: 10px 18px 34px; border-top: 1px solid var(--line); }
+  .progress { display: flex; gap: 6px; margin: 2px 0 12px; }
+  .progress i { flex: 1; height: 3px; border-radius: 2px; background: #e5e5e8; }
+  .progress i.on { background: var(--brand); }
+
+  /* Toast */
+  .toast { position: absolute; left: 16px; right: 16px; bottom: 34px; z-index: 50; display: flex; gap: 10px; align-items: center; background: #1d1d1f; color: #fff; font-size: 12.5px; padding: 12px 14px; border-radius: 10px;
+    transform: translateY(20px); opacity: 0; pointer-events: none; transition: transform .3s var(--ease), opacity .3s var(--ease); }
+  .toast.is-on { transform: none; opacity: 1; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sheet, .scrim, .toast, .credit { transition: none !important; }
+    .body { scroll-behavior: auto; }
+    .meter path { transition: none !important; }
+  }
+  /* Embedded on the case study page, or on a phone: the phone fills the frame */
+  @media (max-width: 820px) {
+    .stage { display: block; padding: 0; }
+    .notes { display: none; }
+    .phone { width: 100%; height: 100vh; height: 100dvh; border-radius: 0; padding: 0; box-shadow: none; }
+    .device { border-radius: 0; }
+  }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="meterGrad" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#c4126f"/><stop offset="1" stop-color="#7b2fd0"/></linearGradient>
+  </defs>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/><path fill="none" stroke="currentColor" stroke-width="1.6" d="M12 3v2.2M12 18.8V21M3 12h2.2M18.8 12H21M5.6 5.6l1.6 1.6M16.8 16.8l1.6 1.6M5.6 18.4l1.6-1.6M16.8 7.2l1.6-1.6"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-tag" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" d="M7 3h10v18l-5-3-5 3z"/><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" d="M12 7.5v7M10.2 9c0-1 .8-1.5 1.8-1.5s1.8.5 1.8 1.3c0 1.8-3.6 1.2-3.6 3 0 .8.8 1.4 1.8 1.4s1.8-.5 1.8-1.5"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" d="M12 3l7 3v5c0 4.5-3 8.2-7 10-4-1.8-7-5.5-7-10V6z"/></symbol>
+  <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" d="M10.4 3h3.2l.5 2.4 2 1.2 2.3-.9 1.6 2.8-1.8 1.6v2.3l1.8 1.6-1.6 2.8-2.3-.9-2 1.2-.5 2.4h-3.2l-.5-2.4-2-1.2-2.3.9-1.6-2.8 1.8-1.6v-2.3L3.2 8.5l1.6-2.8 2.3.9 2-1.2z"/></symbol>
+  <symbol id="i-form" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" d="M8.5 8h7M8.5 12h7M8.5 16h4"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" d="M12 7.5V12l3 2"/></symbol>
+  <symbol id="i-key" viewBox="0 0 24 24"><circle cx="7.5" cy="12" r="3.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" d="M11 12h10M17 12v3M20 12v2"/></symbol>
+  <symbol id="i-card" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path fill="none" stroke="currentColor" stroke-width="1.6" d="M3 10h18"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6" fill="none" stroke="currentColor" stroke-width="1.6"/><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" d="M15 15l5 5"/></symbol>
+</svg>
+
+<main class="stage">
+  <aside class="notes">
+    <p class="eyebrow">Mobile prototype · Rocket Mortgage Servicing</p>
+    <h1>Credit tracking and soft pull consent</h1>
+    <p>Sign up from the dashboard card, agree to three consents, then see how the score card adapts to each score range. Pick a step to jump straight to it.</p>
+    <div>
+      <p class="group">Standard sign-up</p>
+      <ol class="steps">
+        <li><button data-step="null"><span>01</span>Not activated</button></li>
+        <li><button data-step="welcome"><span>02</span>Three steps away</button></li>
+        <li><button data-step="consent-1"><span>03</span>Soft credit check</button></li>
+        <li><button data-step="consent-2"><span>04</span>Personalize</button></li>
+        <li><button data-step="consent-3"><span>05</span>Share your data</button></li>
+      </ol>
+      <p class="group">Score card by range</p>
+      <ol class="steps">
+        <li><button data-step="score-800"><span>06</span>Score 750–850</button></li>
+        <li><button data-step="score-700"><span>07</span>Score 660–749</button></li>
+        <li><button data-step="score-650"><span>08</span>Score 620–659</button></li>
+        <li><button data-step="score-500"><span>09</span>Score 300–619</button></li>
+      </ol>
+      <p class="group">Other states</p>
+      <ol class="steps">
+        <li><button data-step="error"><span>10</span>Couldn’t enroll</button></li>
+        <li><button data-step="unenroll"><span>11</span>Unenroll</button></li>
+      </ol>
+    </div>
+    <div class="context" aria-live="polite"><b id="ctxCase"></b><p id="ctxNote"></p></div>
+    <p class="fine">Rebuilt from the 2022 high-fidelity wireframes for portfolio use. Scores and loan details are placeholders.</p>
+  </aside>
+
+  <div class="phone">
+    <div class="device">
+      <div class="island"></div>
+      <div class="statusbar" aria-hidden="true"><span>9:41</span><span class="sys">
+        <svg width="18" height="12" viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="1" fill="currentColor"/><rect x="5" y="5" width="3" height="7" rx="1" fill="currentColor"/><rect x="10" y="2" width="3" height="10" rx="1" fill="currentColor"/><rect x="15" y="0" width="3" height="12" rx="1" fill="currentColor"/></svg>
+        <svg width="26" height="12" viewBox="0 0 26 12"><rect x=".5" y=".5" width="22" height="11" rx="3" fill="none" stroke="currentColor" opacity=".4"/><rect x="2" y="2" width="17" height="8" rx="2" fill="currentColor"/><rect x="24" y="4" width="2" height="4" rx="1" fill="currentColor" opacity=".4"/></svg>
+      </span></div>
+
+      <div class="app">
+        <header class="appbar">
+          <svg width="24" height="24" aria-hidden="true"><use href="#i-menu"/></svg>
+          <div class="wordmark"><b>ROCKET</b><small>Mortgage</small></div>
+        </header>
+        <div class="body" id="body">
+          <h1 class="page-title">Your Dashboard</h1>
+
+          <section class="card" aria-label="Loan snapshot">
+            <h3>Loan Snapshot</h3>
+            <div class="snap">
+              <div>Upcoming Payment <b>$1,906.19</b></div>
+              <div>Payment Due Date <b>Jan 1, 2022</b></div>
+              <button class="btn" type="button" data-toast="Payments aren’t part of this prototype">Make A Payment</button>
+            </div>
+          </section>
+
+          <!-- The credit card changes with each state -->
+          <section class="card credit" id="credit" aria-live="polite"></section>
+
+          <section class="card" aria-hidden="true">
+            <h3>My Loan Details</h3>
+            <div class="muted"><i style="width:70%"></i><i style="width:55%"></i><i style="width:80%"></i></div>
+          </section>
+        </div>
+      </div>
+
+      <div class="scrim" id="scrim"></div>
+      <section class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle"></section>
+      <div class="toast" id="toast" role="status"><svg width="18" height="18" aria-hidden="true"><use href="#i-check"/></svg><span></span></div>
+      <div class="homebar"></div>
+    </div>
+  </div>
+</main>
+
+<script>
+(() => {
+  const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+  const credit = $('#credit'), sheet = $('#sheet'), scrim = $('#scrim'), body = $('#body');
+
+  // Use-case context for each step (shown beside the phone in full screen).
+  const context = {
+    'null': ['Null state · not signed up', 'The card promises one thing, a free score that never hurts your credit, with Enroll as the only action.'],
+    'welcome': ['Standard sign-up · start', 'A short sheet sets expectations before any legal text: three steps, about a minute.'],
+    'consent-1': ['Step 1 of 3 · user agreement', 'Plain language first, “it’ll never hurt your score,” then the full agreement for anyone who wants it.'],
+    'consent-2': ['Step 2 of 3 · FCRA consent', 'Leads with what the client gets, more relevant offers, and that their info is never sold.'],
+    'consent-3': ['Step 3 of 3 · data sharing', 'Benefits up front. Saying no still finishes sign-up, so the choice is real.'],
+    'score-800': ['Activated · score 750–850', 'Celebrates the score and ties it to the best rates on a new mortgage.'],
+    'score-700': ['Activated · score 660–749', 'Encouraging: competitive rates are within reach.'],
+    'score-650': ['Activated · score 620–659', 'Says what raising the score would do, with three simple tips.'],
+    'score-500': ['Activated · score 300–619', 'Names the 620 threshold for a mortgage, with three simple tips.'],
+    'error': ['Error · unsuccessful enrollment', 'When TransUnion’s info doesn’t match, the card explains why enrolling is paused: to keep the client’s identity safe.'],
+    'unenroll': ['Settings · unenroll', 'The gear menu lets clients stop tracking, with a confirm step and an easy way to sign back up.']
+  };
+
+  // ---------- Score meter ----------
+  // A 270° arc from 300 to 850; the filled part follows the score.
+  const R = 80, C = 100, START = 135, SWEEP = 270;
+  const pt = a => { const r = (a * Math.PI) / 180; return [C + R * Math.cos(r), C + R * Math.sin(r)]; };
+  const arc = (a0, a1) => { const [x0, y0] = pt(a0), [x1, y1] = pt(a1); return `M${x0.toFixed(2)} ${y0.toFixed(2)} A${R} ${R} 0 ${a1 - a0 > 180 ? 1 : 0} 1 ${x1.toFixed(2)} ${y1.toFixed(2)}`; };
+  function meter(score) {
+    const filled = score ? START + SWEEP * Math.min(1, Math.max(0, (score - 300) / 550)) : START;
+    return `<div class="meter">
+      <svg viewBox="0 0 200 175" aria-hidden="true">
+        <path d="${arc(START, START + SWEEP)}" fill="none" stroke="#ececee" stroke-width="12" stroke-linecap="round"/>
+        ${score ? `<path d="${arc(START, filled)}" fill="none" stroke="url(#meterGrad)" stroke-width="12" stroke-linecap="round"/>` : ''}
+      </svg>
+      <div class="meter-center">
+        ${score ? `<div class="score">${score}</div><div class="delta">+12 From Your Last Update</div>` : ''}
+        <div class="tu">TransUnion<small>Powered By VantageScore 3.0</small></div>
+      </div>
+      <div class="ends"><span>300</span><span>850</span></div>
+    </div>`;
+  }
+
+  const tips = `<div class="tips"><h4>Tips To Raise Your Score</h4>
+    <div class="tip"><span><svg width="18" height="18"><use href="#i-clock"/></svg></span>Make all your bill payments on time.</div>
+    <div class="tip"><span><svg width="18" height="18"><use href="#i-card"/></svg></span>Pay down your credit cards with high balances.</div>
+    <div class="tip"><span><svg width="18" height="18"><use href="#i-search"/></svg></span>Check your credit report for mistakes.</div></div>`;
+
+  const messages = {
+    800: s => `An <b>${s}</b> score makes you more likely to get approved for our best rates on a new mortgage!`,
+    700: s => `A <b>${s}</b> score could help you get approved for competitive rates on a new mortgage!`,
+    650: s => `Your score is <b>${s}</b>. If you can raise your score, you’ll be more likely to get better rates on a new mortgage.`,
+    500: s => `Your score is <b>${s}</b>. If you’re planning to apply for a new mortgage, you’ll need to raise your score to 620 or above.`
+  };
+
+  // ---------- State ----------
+  let card = 'null', score = 800, step = 'null';
+
+  function renderCard(highlight) {
+    if (card === 'null') {
+      credit.innerHTML = `${meter(0)}
+        <p class="null-title">Track your credit score for free.</p>
+        <p class="message">Keep an eye on your score so you’ll know when you could get better rates on a new mortgage. We use a soft credit check that never hurts your score.</p>
+        <p style="margin:12px 0 0"><button class="link" type="button" data-act="enroll">Enroll</button></p>`;
+    } else if (card === 'error') {
+      credit.innerHTML = `<h3><span class="error-title">We couldn’t enroll you in credit tracking.</span></h3>${meter(0)}
+        <p class="message" style="margin-top:8px">The info TransUnion® has on file doesn’t match what you entered. To keep your identity safe, you can’t try to enroll again right now.</p>`;
+    } else {
+      const band = score >= 750 ? 800 : score >= 660 ? 700 : score >= 620 ? 650 : 500;
+      credit.innerHTML = `<h3>Your Credit Score
+          <span style="position:relative"><button class="gear" type="button" aria-label="Credit tracking settings" aria-expanded="false" data-act="gear"><svg width="18" height="18"><use href="#i-gear"/></svg></button>
+          <span class="menu" id="menu"><p>Credit Tracking</p><button type="button" data-act="unenroll">Unenroll</button></span></span></h3>
+        ${meter(score)}
+        <p class="asof">Score As Of Dec 15, 2021</p><p class="model">Calculated Using VantageScore 3.0</p>
+        <p class="message">${messages[band](score)}</p>${band <= 650 ? tips : ''}`;
+    }
+    credit.classList.toggle('is-new', !!highlight);
+    if (highlight) setTimeout(() => credit.classList.remove('is-new'), 1600);
+  }
+
+  // ---------- Sheets ----------
+  const progress = n => `<div class="progress">${[1, 2, 3].map(i => `<i class="${i <= n ? 'on' : ''}"></i>`).join('')}</div>`;
+  const sheets = {
+    'welcome': () => `
+      <div class="sheet-head"><span class="kicker">Credit Tracking Sign-Up</span><button class="close" type="button" aria-label="Close" data-act="close"><svg width="18" height="18"><use href="#i-x"/></svg></button></div>
+      <div class="sheet-body"><h2 id="sheetTitle">Credit Tracking Is Just Three Steps Away</h2>
+        <p class="lead">All you have to do is review a few agreements. This should only take a minute!</p></div>
+      <div class="sheet-actions"><button class="btn" type="button" data-act="next" data-to="consent-1">Get Started</button>
+        <button class="text-btn" type="button" data-act="close">Go To Dashboard</button></div>`,
+    'consent-1': () => `
+      <div class="sheet-head"><span class="kicker">Credit Tracking Sign-Up | Step 1 of 3</span><button class="close" type="button" aria-label="Close" data-act="close"><svg width="18" height="18"><use href="#i-x"/></svg></button></div>
+      <div class="sheet-body">${progress(1)}<h2 id="sheetTitle">Agree To A Soft Credit Check</h2>
+        <p class="lead">To continue, you need to agree to the terms below. Remember, this is a soft credit check for your educational purposes – it’ll never hurt your score!</p>
+        <div class="legal">By selecting “agree,” I am giving Rocket Mortgage permission to ask for and receive information about me from third parties, in accordance with the Fair Credit Reporting Act and other applicable laws, for as long as I have an active account. I authorize Rocket Mortgage and its affiliates to keep a copy of my information, as stated in the Rocket Mortgage <a href="#" data-toast="Terms aren’t part of this prototype">Terms of Use</a> and <a href="#" data-toast="Terms aren’t part of this prototype">Privacy Policy</a>. I also authorize Rocket Mortgage and its affiliates to use my information for marketing purposes and future credit transactions.</div></div>
+      <div class="sheet-actions"><button class="btn" type="button" data-act="next" data-to="consent-2">Agree</button>
+        <button class="text-btn" type="button" data-act="close">No Thanks, Go To Dashboard</button></div>`,
+    'consent-2': () => `
+      <div class="sheet-head"><span class="kicker">Credit Tracking Sign-Up | Step 2 of 3</span><button class="close" type="button" aria-label="Close" data-act="close"><svg width="18" height="18"><use href="#i-x"/></svg></button></div>
+      <div class="sheet-body">${progress(2)}<h2 id="sheetTitle">Personalize Your Rocket Experience</h2>
+        <ul class="benefits">
+          <li><svg><use href="#i-tag"/></svg>Receive more relevant offers based on information in your credit report.</li>
+          <li><svg><use href="#i-shield"/></svg>Your personal info is never sold to anyone.</li>
+          <li><svg><use href="#i-settings"/></svg>You can always change this in your Rocket Account settings.</li></ul>
+        <div class="legal">By selecting “agree,” you agree that Rocket Mortgage can share the info in your credit report with <a href="#" data-toast="Affiliates aren’t part of this prototype">Rocket affiliates</a> for marketing and analytics purposes, and for experience improvements. <a href="#" data-toast="Not part of this prototype">Learn More</a></div></div>
+      <div class="sheet-actions"><button class="btn" type="button" data-act="next" data-to="consent-3">Agree</button>
+        <button class="text-btn" type="button" data-act="next" data-to="consent-3">No Thanks, Continue</button></div>`,
+    'consent-3': () => `
+      <div class="sheet-head"><span class="kicker">Credit Tracking Sign-Up | Step 3 of 3</span><button class="close" type="button" aria-label="Close" data-act="close"><svg width="18" height="18"><use href="#i-x"/></svg></button></div>
+      <div class="sheet-body">${progress(3)}<h2 id="sheetTitle">Benefits Of Sharing Your Data</h2>
+        <ul class="benefits">
+          <li><svg><use href="#i-form"/></svg>Fill out forms seamlessly with your prepopulated info.</li>
+          <li><svg><use href="#i-clock"/></svg>Get timely recommendations like if now is a good time to refinance or if a personal loan is right for you.</li>
+          <li><svg><use href="#i-key"/></svg>Access your loan info, documents or saved homes with one set of credentials.</li></ul>
+        <div class="legal">By selecting “agree,” you agree that we can share your personal data and contact info with third parties like our mortgage partners, partner companies and other affiliates. You also agree that these parties can use your personal data and contact info for marketing and analytic purposes.<br><br>To opt out, just select “no thanks.” If you try it and want to opt out later, you can call us at (888) 444-7492.</div></div>
+      <div class="sheet-actions"><button class="btn" type="button" data-act="finish">Agree</button>
+        <button class="text-btn" type="button" data-act="finish">No Thanks</button></div>`,
+    'unenroll': () => `
+      <div class="sheet-head"><span class="kicker">Credit Tracking</span><button class="close" type="button" aria-label="Close" data-act="close"><svg width="18" height="18"><use href="#i-x"/></svg></button></div>
+      <div class="sheet-body"><h2 id="sheetTitle">Do you want to stop tracking your credit score?</h2>
+        <p class="lead">You can always sign up again later if you change your mind.</p></div>
+      <div class="sheet-actions"><button class="btn" type="button" data-act="confirm-unenroll">Yes</button>
+        <button class="text-btn" type="button" data-act="close">No, Keep Tracking My Score</button></div>`,
+    'unenrolled': () => `
+      <div class="sheet-head"><span class="kicker">Credit Tracking</span><button class="close" type="button" aria-label="Close" data-act="close"><svg width="18" height="18"><use href="#i-x"/></svg></button></div>
+      <div class="sheet-body"><h2 id="sheetTitle">You unenrolled from credit tracking.</h2>
+        <p class="lead">If you change your mind later, you can always sign back up from your dashboard.</p></div>
+      <div class="sheet-actions"><button class="btn" type="button" data-act="close">Back To Dashboard</button></div>`
+  };
+  let openSheet = null;
+  function showSheet(id) {
+    openSheet = id;
+    sheet.innerHTML = sheets[id]();
+    sheet.classList.add('is-on'); scrim.classList.add('is-on');
+    const first = sheet.querySelector('.sheet-body'); if (first) first.scrollTop = 0;
+  }
+  function hideSheet() { openSheet = null; sheet.classList.remove('is-on'); scrim.classList.remove('is-on'); }
+
+  // ---------- Steps and context ----------
+  const stepButtons = $$('[data-step]');
+  function setStep(id) {
+    step = id;
+    stepButtons.forEach(b => b.dataset.step === id ? b.setAttribute('aria-current', 'step') : b.removeAttribute('aria-current'));
+    const c = context[id]; if (c) { $('#ctxCase').textContent = c[0]; $('#ctxNote').textContent = c[1]; }
+    try { history.replaceState(null, '', '#' + id); } catch (e) {}
+    if (window.parent !== window) window.parent.postMessage({ type: 'proto-screen', id }, '*');
+  }
+  function scrollToCard() { body.scrollTop = Math.max(0, credit.offsetTop - 70); }
+
+  // Jump straight to a step (from the list or the case study page).
+  function jump(id) {
+    const m = id.match(/^score-(\d+)$/);
+    if (id === 'null') { card = 'null'; hideSheet(); }
+    else if (sheets[id] && id.startsWith('consent') || id === 'welcome') { card = 'null'; renderCard(); showSheet(id); }
+    else if (m) { card = 'active'; score = Number(m[1]); hideSheet(); }
+    else if (id === 'error') { card = 'error'; hideSheet(); }
+    else if (id === 'unenroll') { card = 'active'; score = 800; renderCard(); showSheet('unenroll'); }
+    if (!sheets[id] || id === 'null') renderCard();
+    scrollToCard();
+    setStep(id);
+  }
+
+  // ---------- Interactions ----------
+  const toast = $('#toast'); let toastTimer;
+  function say(text) { toast.querySelector('span').textContent = text; toast.classList.add('is-on'); clearTimeout(toastTimer); toastTimer = setTimeout(() => toast.classList.remove('is-on'), 2400); }
+
+  document.addEventListener('click', e => {
+    const stepBtn = e.target.closest('[data-step]'); if (stepBtn) { jump(stepBtn.dataset.step); return; }
+    const t = e.target.closest('[data-toast]'); if (t) { e.preventDefault(); say(t.dataset.toast); return; }
+    const a = e.target.closest('[data-act]');
+    if (!a) { const menu = $('#menu'); if (menu && !e.target.closest('.menu')) { menu.classList.remove('is-open'); const g = $('[data-act="gear"]'); if (g) g.setAttribute('aria-expanded', 'false'); } return; }
+    const act = a.dataset.act;
+    if (act === 'enroll') { showSheet('welcome'); setStep('welcome'); }
+    if (act === 'next') { showSheet(a.dataset.to); setStep(a.dataset.to); }
+    if (act === 'close') {
+      const wasConsent = openSheet && (openSheet === 'welcome' || openSheet.startsWith('consent'));
+      hideSheet();
+      if (openSheet === null && wasConsent) say('You can enroll from your dashboard any time');
+      setStep(card === 'null' ? 'null' : card === 'error' ? 'error' : 'score-' + (score >= 750 ? 800 : score >= 660 ? 700 : score >= 620 ? 650 : 500));
+    }
+    if (act === 'finish') { hideSheet(); card = 'active'; score = 800; renderCard(true); scrollToCard(); setStep('score-800'); say('You’re signed up for credit tracking'); }
+    if (act === 'gear') { const menu = $('#menu'); const open = !menu.classList.contains('is-open'); menu.classList.toggle('is-open', open); a.setAttribute('aria-expanded', String(open)); }
+    if (act === 'unenroll') { showSheet('unenroll'); setStep('unenroll'); }
+    if (act === 'confirm-unenroll') { card = 'null'; renderCard(); showSheet('unenrolled'); }
+  });
+  scrim.addEventListener('click', () => { if (openSheet) { hideSheet(); setStep(card === 'null' ? 'null' : 'score-800'); } });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && openSheet) { hideSheet(); setStep(card === 'null' ? 'null' : 'score-800'); } });
+
+  // Embedded in the case study page: the page's step list jumps here, and we report back.
+  window.addEventListener('message', e => {
+    if (e.source !== window.parent || !e.data || e.data.type !== 'proto-go' || !context[e.data.id]) return;
+    jump(e.data.id);
+  });
+
+  renderCard();
+  const start = location.hash.slice(1);
+  if (context[start] && start !== 'null') jump(start); else setStep('null');
+})();
+</script>
+</body>
+</html>

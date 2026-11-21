@@ -97,6 +97,70 @@ export const projects = [
       "Hi-fi designs and MVP requirements for a login takeover, a Buying Power result and a dashboard card, timed to fit with the upcoming Buy / Sell experience.",
     client: true,
   },
+  {
+    id: "offers-playbook",
+    title: "Offers Playbook",
+    subtitle: "Personalized offers, built from one shared playbook.",
+    category: "Digital products",
+    tags: ["Design systems", "UX / UI design"],
+    year: "2022",
+    kind: "playbook",
+    role: "UX / UI design, with a team of five",
+    focus: "The offers page in Rocket Mortgage Servicing",
+    deliverables: "Value matrix, offers playbook, prototype test, UX patterns",
+    decisions: [
+      [
+        "Make it easy to find the right offer",
+        "New sections appear based on each client’s selections, with advanced settings collapsed by default.",
+      ],
+      [
+        "Build from what exists",
+        "Offer cards, pills and layouts come from Rocket’s new design system.",
+      ],
+      [
+        "Design for where it’s going",
+        "Audience segmentation and a dynamic page, launched in phases.",
+      ],
+    ],
+    description:
+      "A redesign of the offers page in Rocket Mortgage Servicing, plus a playbook that helps teams deliver personalized offers at the right moments, with less design time.",
+    challenge:
+      "Every client saw the same offers, the page had no clear hierarchy, and each new offer needed custom design work.",
+    solution:
+      "We defined what makes an offer valuable, built a playbook with the design systems team, and tested new page layouts with ten participants.",
+    result:
+      "A simpler offers page with condensed cards and reusable patterns, launched in phases, and a playbook that streamlines future offers.",
+    client: true,
+  },
+  {
+    id: "soft-credit",
+    title: "Soft Credit",
+    subtitle: "Helping clients understand their credit, and what to do next.",
+    category: "Digital products",
+    tags: ["UX research", "Product design"],
+    year: "2022",
+    kind: "softcredit",
+    role: "Product design, with a team of five",
+    focus: "Credit monitoring for Rocket Mortgage clients",
+    deliverables: "Research synthesis, user test, consent flow, dashboard designs",
+    decisions: [
+      [
+        "Set expectations up front",
+        "Plain-language copy explains a soft credit check and what happens next.",
+      ],
+      ["Show exactly where a score sits", "A precise indicator on the credit score meter."],
+      ["Help, don’t just report", "Lower scores come with what they mean and how to raise them."],
+    ],
+    description:
+      "The Soft Credit Experience gives Rocket Mortgage clients their credit score on their dashboard, what it means for a mortgage, and how to improve it.",
+    challenge:
+      "Serviced clients rarely visited their accounts, and many people overestimate their credit or don’t know what a good score is.",
+    solution:
+      "We turned research on credit misconceptions into a consent-to-score flow, tested it, and rewrote copy and visuals where people got stuck.",
+    result:
+      "Soft credit monitoring launched across all Rocket platforms within three months, from the consent form to prefilled data.",
+    client: true,
+  },
 ];
 export type Project = (typeof projects)[number];
 const email = "ysyoo92@gmail.com";
@@ -261,9 +325,53 @@ const thumbScreens: Record<
   },
 };
 
+// Desktop work gets the same treatment in a browser window: the page itself, plus a
+// floating card that cycles through two details.
+const thumbBrowsers: Record<string, { main: string; float: string[]; floatRatio: string }> = {
+  softcredit: {
+    main: "/images/softcredit-dashboard.avif",
+    float: ["/images/thumb-softcredit-650.avif", "/images/thumb-softcredit-500.avif"],
+    floatRatio: "275 / 568",
+  },
+  playbook: {
+    main: "/images/thumb-playbook-offers.avif",
+    float: ["/images/thumb-playbook-about.avif", "/images/thumb-playbook-segments.avif"],
+    floatRatio: "576 / 403",
+  },
+};
+
+function ThumbBrowser({ kind }: { kind: string }) {
+  const thumb = thumbBrowsers[kind];
+  if (!thumb) return null;
+  return (
+    <div className={`thumb-stage thumb-stage-browser thumb-browser-${kind}`}>
+      <div className="thumb-browser">
+        <div className="thumb-browser-bar" aria-hidden="true">
+          <span />
+          <span />
+          <span />
+        </div>
+        <img src={thumb.main} alt="" loading="lazy" />
+      </div>
+      <div className="thumb-float" style={{ aspectRatio: thumb.floatRatio }}>
+        {thumb.float.map((src, index) => (
+          <img
+            key={src}
+            className="thumb-cycle-2"
+            style={{ animationDelay: `${index * 3}s` }}
+            src={src}
+            alt=""
+            loading="lazy"
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function ThumbPhones({ kind }: { kind: string }) {
   const screens = thumbScreens[kind];
-  if (!screens) return null;
+  if (!screens) return <ThumbBrowser kind={kind} />;
   return (
     <div className="thumb-stage">
       <div className="thumb-phone thumb-phone-left">
@@ -646,6 +754,9 @@ function ResumeLink() {
   );
 }
 
+// The work filters are hidden for now; flip this to bring them back.
+const showFilters = false;
+
 export default function HomePage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const location = useLocation();
@@ -742,27 +853,29 @@ export default function HomePage() {
               <span className="work-count">({String(projects.length).padStart(2, "0")})</span>
             </h2>
           </div>
-          <div className="filters" aria-label="Filter projects">
-            {["All work", ...new Set(projects.map((p) => p.category))].map((item) => (
-              <button
-                key={item}
-                className={filter === item ? "selected" : ""}
-                onClick={() => {
-                  const next = new URLSearchParams(searchParams);
-                  if (item === "All work") next.delete("type");
-                  else next.set("type", item === "Websites" ? "websites" : "products");
-                  setSearchParams(next, { replace: true, preventScrollReset: true });
-                }}
-                aria-pressed={filter === item}
-              >
-                {item}
-              </button>
-            ))}
-          </div>
+          {showFilters && (
+            <div className="filters" aria-label="Filter projects">
+              {["All work", ...new Set(projects.map((p) => p.category))].map((item) => (
+                <button
+                  key={item}
+                  className={filter === item ? "selected" : ""}
+                  onClick={() => {
+                    const next = new URLSearchParams(searchParams);
+                    if (item === "All work") next.delete("type");
+                    else next.set("type", item === "Websites" ? "websites" : "products");
+                    setSearchParams(next, { replace: true, preventScrollReset: true });
+                  }}
+                  aria-pressed={filter === item}
+                >
+                  {item}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
         <div className="project-grid" aria-live="polite">
           {projects
-            .filter((p) => filter === "All work" || p.category === filter)
+            .filter((p) => !showFilters || filter === "All work" || p.category === filter)
             .map((project) => (
               <Link
                 className="project-card"
