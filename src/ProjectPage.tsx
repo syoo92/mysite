@@ -40,12 +40,13 @@ type CaseStudy = {
   design: {
     heading: string;
     body: string;
+    /** Each decision: what we built, how it was executed, and why. */
     rows: {
       principle: string;
-      why: string;
       screen: string;
-      detail: string;
-      changes: string[];
+      what: string;
+      how: string[];
+      why: string;
       figure?: CaseStudyFigure;
     }[];
   };
@@ -82,90 +83,86 @@ const projectStories: Record<string, CaseStudy> = {
     },
     problem: {
       heading: "A new card, the same old screens.",
-      body: "Sapphire Reserve was getting a new card, a new brand and new benefits. The agency had written the messaging, and the brand team had new guidelines and photography. But none of that told us what a customer should see when they open the app. The everyday screens still used the generic Chase look, and the new benefits were easy to miss.",
+      body: "Sapphire Reserve was getting a new card, brand and benefits. The agency messaging and brand guidelines were ready, but nothing defined what customers should see in the app. Everyday screens still used the generic Chase look, and the new benefits were easy to miss.",
       points: [
-        "The messaging framework was written for marketing, not for product screens.",
-        "Benefits worth $2,700+ a year were buried in menus customers rarely open.",
-        "Colors, type and quick actions didn’t match across the app and web.",
-        "The work had to scale to other premium cards, not just this one.",
+        "The messaging was written for marketing, not for product screens.",
+        "$2,700+ a year in benefits sat in menus customers rarely open.",
+        "Colors, type and actions didn’t match across app and web, and the work had to scale to other premium cards.",
       ],
       question: "How do you make a premium card feel premium in every digital moment?",
     },
     process: {
       heading: "From messaging to moments.",
-      body: "I worked with the brand team and our product partners to turn high-level messaging into decisions about real screens. Each step narrowed what we needed to design, and why.",
+      body: "With the brand team and our product partners, I turned high-level messaging into decisions about real screens.",
       steps: [
         {
           title: "Build a CX framework",
           detail:
-            "We kept the agency framework’s top-level pillars, then wrote the lower levels as customer-experience implications that a product team could act on.",
+            "Rewrote the agency’s messaging pillars as customer-experience rules a product team could act on.",
         },
         {
-          title: "Map the end-to-end journey",
+          title: "Map the journey",
           detail:
-            "Journey maps covered each platform and stage, the jobs to be done, feelings and pain points, and tech capabilities. Every touchpoint was tagged as needed for launch, not needed, or not yet on the roadmap.",
+            "Mapped every platform and stage, then tagged each touchpoint as needed for launch, later, or not needed.",
         },
         {
           title: "Place the key messages",
           detail:
-            "With the journey mapped, we matched each key message to the moment it mattered most, such as discovering travel benefits or using annual credits.",
+            "Matched each message to the moment it matters most, like discovering travel benefits or using annual credits.",
         },
         {
-          title: "Apply brand and photography",
+          title: "Apply the brand",
           detail:
-            "Working sessions with the brand team set how the Reserve guidelines and the new photo library would show up in the product, with small moments tailored to preferred customers.",
+            "Set how the new guidelines and photography show up in the product, in working sessions with the brand team.",
         },
       ],
     },
     design: {
       heading: "Premium, used with restraint.",
-      body: "Premium isn’t more of everything. We saved the big moments for when they count and made every other screen feel quietly consistent. Each principle became a specific change, with a guardrail so it keeps working after launch.",
+      body: "Premium isn’t more of everything. We saved the big moments for when they count and kept every other screen quietly consistent.",
       rows: [
         {
           principle: "Make arrival feel like an event",
-          why: "A new cardmember’s first login is the one time a full-screen, photo-led experience earns its place.",
           screen: "Warm Welcome",
-          detail: "A new photo-led takeover for new cardmembers, followed by a setup checklist.",
-          changes: [
+          what: "A photo-led takeover for new cardmembers, followed by a setup checklist.",
+          how: [
             "New copy and photography for the first three screens",
-            "Headlines in Queens Light, checklist icons and buttons in Blue800",
-            "An added checklist item for authorized users",
-            "Guardrail: full takeovers only for onboarding, never for longer flows",
+            "Queens Light headlines, with Blue800 buttons and checklist icons",
+            "A checklist item for adding authorized users",
           ],
+          why: "The first login is the one moment a full-screen experience earns its place, so takeovers stay limited to onboarding.",
           figure: {
             src: "/images/sapphire-design-welcome.avif",
             alt: "Four phone screens: Welcome to a new world of Sapphire, $2,700+ in annual credits, Use your new card today with Add to Apple Pay, and the Finish your setup checklist.",
-            caption: "Warm Welcome: three photo-led screens, then the setup checklist.",
+            caption: "Three photo-led screens, then the setup checklist.",
           },
         },
         {
           principle: "Bring benefits to the surface",
-          why: "Put the most valuable benefits where customers already look, each one linking to a page that shows how to use it.",
           screen: "Benefit carousel",
-          detail:
-            "Net-new tiles on the overview and the card account screen, each linking to a benefit page.",
-          changes: [
-            "Blue800 background, horizontal scroll, Reserve photography for each destination",
-            "A smaller tile on the card account screen to save space on a functional screen",
-            "Guardrail: no more than five tiles, because people stop swiping after that",
+          what: "Benefit tiles on the overview and card account screens, each linking to a page that shows how to use it.",
+          how: [
+            "Horizontal scroll on Blue800, with Reserve photography",
+            "A smaller version on the functional card account screen",
+            "No more than five tiles",
           ],
+          why: "Benefits worth $2,700+ were buried in menus. Tiles put them where people already look, and five is about as far as people swipe.",
           figure: {
             src: "/images/sapphire-design-benefits.avif",
             alt: "Three phone screens: the card account, the Sapphire Reserve benefit carousel, and the $300 dining credit page.",
-            caption: "From the card account to the carousel, and into a benefit page.",
+            caption: "From the card account to the carousel, and into a benefit.",
           },
         },
         {
           principle: "One system everywhere",
-          why: "A single interaction color, one headline typeface, and quick actions in the upcoming product design language, across app and web.",
-          screen: "Merchandising tiles, color and quick actions",
-          detail:
-            "The tiles in the transaction feed, every button and every quick action moved to the new look.",
-          changes: [
-            "Chase Blue and black replaced by one Blue800 for buttons, icons and links",
+          screen: "Color, tiles and quick actions",
+          what: "Every button, link, merchandising tile and quick action moved to one consistent look.",
+          how: [
+            "One Blue800 replaced Chase Blue and black",
             "Tiles rebranded with Reserve photography, and less relevant ones hidden",
-            "Quick actions redrawn as linear icons in the upcoming design language",
+            "Quick actions redrawn as linear icons from the upcoming design language",
           ],
+          why: "A premium card should feel the same on every screen, in the app and on the web.",
           figure: {
             src: "/images/sapphire-design-system.avif",
             alt: "Two phone screens of the card account: Blue800 buttons and links at the top, and benefit tiles with linear quick-action icons further down.",
@@ -174,10 +171,10 @@ const projectStories: Record<string, CaseStudy> = {
         },
         {
           principle: "Built to scale",
-          why: "Design reusable patterns, so another premium card only needs to swap its color, logo and photography.",
           screen: "A second premium card",
-          detail: "The same assets were reapplied to J.P. Morgan Reserve with its own brand.",
-          changes: ["Same components and layouts", "Its own brown color, logo and photography"],
+          what: "The same components, applied to J.P. Morgan Reserve.",
+          how: ["Same layouts and components", "Its own brown color, logo and photography"],
+          why: "With reusable patterns, the next premium card only swaps its brand, not the design.",
           figure: {
             src: "/images/sapphire-design-jpmr.avif",
             alt: "J.P. Morgan Reserve versions of the welcome screens, benefit carousel and takeover, in brown.",
@@ -188,7 +185,7 @@ const projectStories: Record<string, CaseStudy> = {
     },
     outcome: {
       heading: "Premium in every moment.",
-      body: "The refresh shipped across the app and web: a photo-led Warm Welcome, a new benefits carousel, rebranded merchandising tiles, one Blue800 interaction color, and quick actions in the upcoming product design language. The same patterns now carry a second premium card.",
+      body: "The refresh shipped across app and web, and its patterns now carry a second premium card.",
       figures: [
         {
           src: "/images/sapphire-overview.avif",
@@ -227,62 +224,55 @@ const projectStories: Record<string, CaseStudy> = {
     },
     problem: {
       heading: "No clear view of the next home.",
-      body: "Clients already in the Rocket ecosystem couldn’t get an accurate view of their options for a next loan, based on their current finances, without applying for a mortgage. We had their data, but we weren’t using it to help them plan.",
+      body: "Rocket clients couldn’t see what they could afford for their next home without applying for a mortgage. We already had their data, but weren’t using it to help them plan.",
       points: [
-        "Goal: proactively show current clients an accurate Buying Power number of what they can afford, using their soft credit data.",
-        "Goal: inspire them to consider their next home purchase by previewing loan options powered by their data.",
+        "Goal: show current clients an accurate Buying Power number, using their soft credit data.",
+        "Goal: inspire their next home purchase by previewing loan options.",
       ],
       question: "How might we show clients what they can afford next, before they ever apply?",
     },
     process: {
       heading: "Start with a story, then test it.",
-      body: "I worked with a second product designer, a content designer, a product manager and a tech partner. We moved from a client story, to scenario maps for our tech partners, to usability testing.",
+      body: "With a second product designer, a content designer, a product manager and a tech partner, we went from a client story to scenario maps to usability testing.",
       steps: [
         {
           title: "Meet Susan",
           detail:
-            "To build empathy, we wrote the story of Susan, based on market research with existing clients. She just closed on her first home with Rocket. Her story was our starting point for the long-term vision of Buying Power.",
+            "Wrote the story of Susan, a recent first-time buyer based on market research, to anchor the long-term vision.",
           figures: [
-            {
-              src: "/images/buyingpower-susan.avif",
-              alt: "Meet Susan: two photos of a smiling woman. Susan just closed on her first home with Rocket.",
-              caption: "Susan’s story, based on market research with existing clients.",
-            },
             {
               src: "/images/buyingpower-story-timeline.avif",
               alt: "Five numbered phone screens showing Susan’s journey from welcome to preparing to buy.",
               caption:
-                "Susan’s journey across five moments: welcome, credit monitoring, Buying Power, Proactive Buying Power and the concierge experience.",
+                "Susan’s journey: welcome, credit monitoring, Buying Power, Proactive Buying Power and the concierge experience.",
             },
           ],
         },
         {
           title: "Map two scenarios",
           detail:
-            "We walked our tech partners through a decision tree, along with scenario maps for two cases: when we have enough client data to fill in a Buying Power number, and when we don’t.",
+            "Walked our tech partners through a decision tree for two cases: we have enough data to show a number, or we don’t.",
           figures: [
             {
               src: "/images/buyingpower-scenario-a-map.avif",
               alt: "Scenario A map: a client logs in and sees a Buying Power message with a number, filled in from their data.",
-              caption: "Scenario A: we have enough client data to fill in their Buying Power.",
+              caption: "Scenario A: enough data to fill in a number.",
             },
             {
               src: "/images/buyingpower-scenario-b-map.avif",
               alt: "Scenario B map: a soft intro screen, then a form to update location, income, monthly debts, down payment and credit score.",
-              caption:
-                "Scenario B: not enough data, so a more general intro with the option to update their info.",
+              caption: "Scenario B: not enough data, so a general intro and a short form.",
             },
           ],
         },
         {
           title: "Test two ways to confirm",
-          detail:
-            "Before showing an updated number, clients confirm their info. We tested a quick step-by-step flow with yes or no answers against a single page with every field.",
+          detail: "Tested a step-by-step yes or no flow against a single page with every field.",
           figures: [
             {
               src: "/images/buyingpower-testing.avif",
               alt: "The two tested flows side by side: a step-by-step confirmation and a single-page form.",
-              caption: "The two flows we tested: step by step, and a single page.",
+              caption: "The two flows we tested.",
             },
           ],
           insights: [
@@ -290,27 +280,24 @@ const projectStories: Record<string, CaseStudy> = {
               label: "Rose",
               meaning: "What worked",
               items: [
-                "Test A felt easy to navigate.",
-                "Test B felt like a quick, interactive questionnaire.",
-                "The layout pointed people to “Search for this price on Rocket Homes,” as we hoped.",
+                "Both flows felt easy and quick.",
+                "The layout pointed people to search homes, as we hoped.",
               ],
             },
             {
               label: "Bud",
               meaning: "Room to grow",
               items: [
-                "Avoid placeholder text that people have to change to get an accurate estimate.",
-                "Show more of the factors that affect the monthly payment and price.",
-                "Add a zip code field for more accurate location information.",
+                "Avoid placeholder values people have to change.",
+                "Show the factors behind the number, and add a zip code field.",
               ],
             },
             {
               label: "Thorn",
               meaning: "What confused people",
               items: [
-                "The loan amount and monthly payment didn’t seem right for the estimate.",
-                "Some participants didn’t recognize the “Monthly Debt” label.",
-                "The results were missing a breakdown of the factors.",
+                "The loan amount and monthly payment didn’t look right.",
+                "“Monthly Debt” wasn’t clear, and the factor breakdown was missing.",
               ],
             },
           ],
@@ -319,19 +306,18 @@ const projectStories: Record<string, CaseStudy> = {
     },
     design: {
       heading: "Three findings that shaped the design.",
-      body: "Both confirmation flows tested well. The findings told us what mattered most: get people to their number fast, explain it, and give them something to do next. Each one became part of the hi-fi designs.",
+      body: "Testing told us what mattered: get people to their number fast, explain it, and give them a next step.",
       rows: [
         {
           principle: "Fewer steps boost adoption",
-          why: "We chose the single-page confirmation, so people see their updated number with as few interactions as possible.",
           screen: "Scenario A: we have client data",
-          detail: "A login takeover that shows a number right away.",
-          changes: [
-            "Login introduction takeover, with the option to skip",
-            "A number based on the client’s data",
-            "Confirm a few data points, then see an updated number",
-            "Continue to the dashboard or search homes",
+          what: "A login takeover that shows a Buying Power number right away.",
+          how: [
+            "A number pre-filled from the client’s data",
+            "One page to confirm a few details, then an updated number",
+            "Skip anytime, or continue to the dashboard or home search",
           ],
+          why: "Both flows tested well, but a single page gets people to their number with the fewest steps.",
           figure: {
             src: "/images/buyingpower-final-scenario-a.avif",
             alt: "Four phone screens: discover your buying power at $435,000, confirm your info, updating your numbers, and the updated buying power of $500,000.",
@@ -340,51 +326,46 @@ const projectStories: Record<string, CaseStudy> = {
         },
         {
           principle: "Show the factors to build trust",
-          why: "We added a visual breakdown of what feeds into the number, placed right next to it.",
           screen: "Scenario B: no client data yet",
-          detail: "A friendly intro that asks for a few details before showing a number.",
-          changes: [
-            "Login introduction takeover, with the option to skip",
-            "A general illustration, with no number yet",
-            "Update their info, then continue to the Buying Power result from Scenario A",
+          what: "A friendly intro that asks for a few details before showing a number.",
+          how: [
+            "An illustration instead of an empty number",
+            "A short form with clear labels and a zip code field",
+            "Then the same result screen as Scenario A, with its factors",
           ],
+          why: "People questioned numbers they couldn’t explain, so every result shows what feeds into it.",
           figure: {
             src: "/images/buyingpower-final-scenario-b.avif",
             alt: "Two phone screens: Unlock your buying power with an illustration, and the Update your info form.",
-            caption: "No number yet: a friendly intro, then a short form.",
+            caption: "A friendly intro, then a short form.",
           },
         },
         {
           principle: "Homes in range drive the next step",
-          why: "Searching for homes at the Buying Power price felt like the natural next step, so we kept it close, in line with the team working on Buy / Sell.",
           screen: "Dashboard card",
-          detail: "A Buying Power card that stays on the dashboard.",
-          changes: [
-            "If the client skips the takeover, a Buying Power card appears on their dashboard",
-            "Once they confirm their data, the card updates with their number",
-            "They can quickly adjust loan details to update the number, and search homes from the card",
+          what: "A Buying Power card that stays on the dashboard.",
+          how: [
+            "Appears if the client skips the takeover",
+            "Updates with their number once they confirm",
+            "Adjust loan details or search homes right from the card",
           ],
+          why: "Searching homes at that price was the natural next step, so the card keeps it one tap away.",
           figure: {
             src: "/images/buyingpower-final-dashboard.avif",
             alt: "Three dashboard states, a, b and c: the card before confirming, with a $510,000 number, and with loan details open.",
-            caption: "The card before confirming (a), with a number (b), and with loan details open (c).",
+            caption: "Before confirming (a), with a number (b), and with loan details open (c).",
           },
         },
       ],
     },
     outcome: {
       heading: "Ready to build, and ready to grow.",
-      body: "We handed off hi-fi designs and design requirements for the MVP. We also worked with other design teams to see how Buying Power would fit the upcoming Buy / Sell experience, and made a timeline of what ships in the first MVP and which components change once the Buy / Sell designs are built.",
+      body: "We handed off hi-fi designs and MVP requirements, plus a timeline of what ships first and what changes once the Buy / Sell experience is built.",
       figures: [
         {
           src: "/images/buyingpower-deliverables-timeline.avif",
           alt: "Annotated design file showing the takeover results and dashboard components planned for each release.",
-          caption: "Annotated deliverables, showing what ships first and what changes with Buy / Sell.",
-        },
-        {
-          src: "/images/buyingpower-requirements.avif",
-          alt: "Design requirements document for the MVP, listing takeover requirements and audience rules.",
-          caption: "Design requirements for the MVP, written for our tech partners.",
+          caption: "Annotated deliverables: what ships first, and what changes with Buy / Sell.",
         },
       ],
     },
@@ -537,7 +518,13 @@ function CaseStudyFigures({ figures }: { figures?: CaseStudyFigure[] }) {
   );
 }
 
-function CaseStudyFigure({ figure, className = "" }: { figure: CaseStudyFigure; className?: string }) {
+function CaseStudyFigure({
+  figure,
+  className = "",
+}: {
+  figure: CaseStudyFigure;
+  className?: string;
+}) {
   return (
     <figure className={`project-figure ${className}`}>
       <img src={figure.src} alt={figure.alt} loading="lazy" />
@@ -610,13 +597,26 @@ function CaseStudyStory({ story }: { story: CaseStudy }) {
                 0{index + 1} / {row.principle}
               </span>
               <Heading level={3}>{row.screen}</Heading>
-              <Copy className="project-design-why">{row.why}</Copy>
-              <Copy>{row.detail}</Copy>
-              <ul>
-                {row.changes.map((change) => (
-                  <li key={change}>{change}</li>
-                ))}
-              </ul>
+              <dl className="project-design-points">
+                <div>
+                  <dt>What</dt>
+                  <dd>{row.what}</dd>
+                </div>
+                <div>
+                  <dt>How</dt>
+                  <dd>
+                    <ul>
+                      {row.how.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </dd>
+                </div>
+                <div>
+                  <dt>Why</dt>
+                  <dd>{row.why}</dd>
+                </div>
+              </dl>
               {row.figure && (
                 <CaseStudyFigure figure={row.figure} className="project-execution-figure" />
               )}
