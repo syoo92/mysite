@@ -28,142 +28,6 @@ export function Flower({ className = "" }: IconProps) {
 
 export const projects = [
   {
-    id: "folio",
-    title: "Folio",
-    subtitle: "Making money feel a little more human.",
-    category: "Digital products",
-    tags: ["Product strategy", "UX / UI design"],
-    year: "2025",
-    kind: "finance",
-    role: "Product strategy, UX & UI",
-    focus: "Everyday financial wellbeing",
-    deliverables: "User flows, dashboard, visual system",
-    decisions: [
-      [
-        "Clarity before detail",
-        "Lead with one balance and a spending summary, then let people explore the numbers when they need them.",
-      ],
-      [
-        "Progress, not pressure",
-        "Frame savings around personal goals rather than warnings, so the experience feels encouraging.",
-      ],
-      [
-        "A quieter visual language",
-        "Use generous spacing, restrained color, and a clear type hierarchy to make dense information easier to scan.",
-      ],
-    ],
-    description:
-      "A calmer, clearer way to take control of your finances. Folio brings spending, saving, and everyday decisions into one thoughtfully simple experience.",
-    challenge:
-      "Money apps often offer more information than understanding. The challenge was to make complex financial data feel approachable without losing the detail people need.",
-    solution:
-      "I designed a focused overview, intuitive spending categories, and friendly savings goals. A soft visual language and progressive disclosure help people move from feeling overwhelmed to feeling in control.",
-    result:
-      "An end-to-end product concept that turns the daily money check-in into a reassuring habit.",
-  },
-  {
-    id: "roam",
-    title: "Roam",
-    subtitle: "Less planning. More getting out there.",
-    category: "Digital products",
-    tags: ["Research", "Mobile app"],
-    year: "2025",
-    kind: "travel",
-    role: "Experience design & UI",
-    focus: "From inspiration to exploration",
-    deliverables: "Discovery flow, place details, mobile UI",
-    decisions: [
-      [
-        "Inspiration comes first",
-        "Let places tell their own story through large imagery, with practical details a step away.",
-      ],
-      [
-        "Keep planning lightweight",
-        "Use flexible collections instead of a rigid itinerary, leaving space for plans to change.",
-      ],
-      [
-        "Context at the right moment",
-        "Bring location details, reviews, and next steps together so people can move from discovery to a decision.",
-      ],
-    ],
-    description:
-      "A considered travel companion for people who would rather explore than spend hours planning. Discover places, collect ideas, and make room for the unexpected.",
-    challenge:
-      "Trip planning is scattered across saved posts, maps, and notes. I explored how to bring inspiration and practical planning together without making travel feel like a task.",
-    solution:
-      "A visual discovery feed, lightweight itineraries, and collections that can grow organically. The experience puts beautiful places first and keeps the planning tools close at hand.",
-    result:
-      "A mobile-first concept that makes the journey from “someday” to “let’s go” feel effortless.",
-  },
-  {
-    id: "canvas",
-    title: "Canvas",
-    subtitle: "A little clarity for big, messy ideas.",
-    category: "Digital products",
-    tags: ["Product design", "Design system"],
-    year: "2024",
-    kind: "workspace",
-    role: "Product design & design system",
-    focus: "Creative team collaboration",
-    deliverables: "Workspace, task flows, component library",
-    decisions: [
-      [
-        "Match the way teams think",
-        "Offer a visual board for early exploration and more structured views when the work needs them.",
-      ],
-      [
-        "Keep the conversation close",
-        "Connect context to each task instead of making people hunt through separate tools.",
-      ],
-      [
-        "Build a flexible foundation",
-        "Use consistent navigation, card patterns, and status treatments that can grow with the workspace.",
-      ],
-    ],
-    description:
-      "A flexible home for creative teams to turn scattered thoughts into shared direction, from the first spark of an idea to the final handoff.",
-    challenge:
-      "Creative work rarely moves in a straight line, but most project tools assume it does. Teams needed structure that supported their process instead of prescribing it.",
-    solution:
-      "I created a flexible workspace with visual boards, contextual conversations, and just enough project structure. A modular design system keeps the experience consistent as teams scale.",
-    result:
-      "A unified workspace concept built around the way creative teams actually think and work.",
-  },
-  {
-    id: "forma",
-    title: "Forma",
-    subtitle: "An independent studio. An expressive new home.",
-    category: "Websites",
-    tags: ["Art direction", "Web design"],
-    year: "2024",
-    kind: "studio",
-    role: "Art direction & web design",
-    focus: "An expressive studio presence",
-    deliverables: "Website concept, responsive layouts, identity",
-    decisions: [
-      [
-        "Let the work breathe",
-        "Build an editorial grid with generous space so the projects remain the focus.",
-      ],
-      [
-        "Make personality useful",
-        "Pair expressive typography with a restrained navigation system that keeps exploring effortless.",
-      ],
-      [
-        "Carry the idea across screens",
-        "Adapt the hierarchy and pacing for small screens rather than simply shrinking the desktop layout.",
-      ],
-    ],
-    description:
-      "A bold digital identity for an independent architecture practice. An expressive editorial website that gives their spaces, process, and point of view room to breathe.",
-    challenge:
-      "The studio’s existing site showed the work but not the thinking behind it. They needed a digital home that felt as distinctive as the spaces they create.",
-    solution:
-      "Confident typography, an unexpected blue, and a flexible editorial grid bring personality to the studio’s portfolio. The navigation stays quiet, allowing the work to lead.",
-    result:
-      "A responsive website concept that balances architectural precision with a genuinely human personality.",
-  },
-  {
     id: "sapphire",
     title: "Sapphire",
     subtitle: "A premium refresh, from first login to everyday moments.",
@@ -235,7 +99,6 @@ export const projects = [
   },
 ];
 export type Project = (typeof projects)[number];
-const mountain = "/images/dolomites.jpg";
 const email = "ysyoo92@gmail.com";
 const contactOptions = {
   hiring: {
@@ -370,294 +233,65 @@ export function ContactSection({
   );
 }
 
-function FinanceMockup() {
+// Client thumbnails: three phones showing real prototype screens. The middle phone cycles
+// through a few screens and the phones drift gently (still for reduced motion).
+const thumbScreens: Record<
+  string,
+  { left: string; center: string[]; right: string; label: string }
+> = {
+  sapphire: {
+    left: "/images/thumb-sapphire-credits.avif",
+    center: [
+      "/images/thumb-sapphire-welcome.avif",
+      "/images/thumb-sapphire-wallet.avif",
+      "/images/thumb-sapphire-benefit.avif",
+    ],
+    right: "/images/thumb-sapphire-account.avif",
+    label: "Sapphire",
+  },
+  buyingpower: {
+    left: "/images/thumb-buyingpower-takeover.avif",
+    center: [
+      "/images/thumb-buyingpower-result.avif",
+      "/images/thumb-buyingpower-homes.avif",
+      "/images/thumb-buyingpower-confirm.avif",
+    ],
+    right: "/images/thumb-buyingpower-dashboard.avif",
+    label: "Buying Power",
+  },
+};
+
+function ThumbPhones({ kind }: { kind: string }) {
+  const screens = thumbScreens[kind];
+  if (!screens) return null;
   return (
-    <div className="finance-window">
-      <aside className="finance-side">
-        <b className="folio-logo">
-          f<span>olio</span>
-        </b>
-        <small>YOUR WORKSPACE</small>
-        <div className="side-active">◈ &nbsp; Overview</div>
-        <div>▤ &nbsp; Transactions</div>
-        <div>◷ &nbsp; Accounts</div>
-        <div>◇ &nbsp; Savings goals</div>
-        <div className="side-bottom">
-          <span className="tiny-avatar">J</span> Jamie Morgan
-        </div>
-      </aside>
-      <div className="finance-main">
-        <div className="mock-top">
-          <span>Overview</span>
-          <span>⌕ &nbsp; ⊕</span>
-        </div>
-        <h4>A little more peace of mind.</h4>
-        <p>Here’s how your money is doing today.</p>
-        <div className="balance">
-          <small>
-            Total balance <span>↗ 8.2%</span>
-          </small>
-          <strong>
-            $24,680<span>.00</span>
-          </strong>
-          <div className="chart">
-            <svg viewBox="0 0 330 75" preserveAspectRatio="none">
-              <defs>
-                <linearGradient id="chartFill" x1="0" y1="0" x2="0" y2="1">
-                  <stop stopColor="#afa9f5" stopOpacity=".4" />
-                  <stop offset="1" stopColor="#afa9f5" stopOpacity="0" />
-                </linearGradient>
-              </defs>
-              <path
-                d="M0 65 30 58 55 61 79 40 105 45 130 32 150 38 180 21 205 29 225 16 250 20 275 7 305 13 330 0V75H0Z"
-                fill="url(#chartFill)"
-              />
-              <path
-                d="m0 65 30-7 25 3 24-21 26 5 25-13 20 6 30-17 25 8 20-13 25 4 25-13 30 6 25-13"
-                stroke="#8b80e3"
-                strokeWidth="2.5"
-                fill="none"
-              />
-            </svg>
-          </div>
-          <div className="chart-dates">
-            <span>May 1</span>
-            <span>May 7</span>
-            <span>May 14</span>
-            <span>May 21</span>
-            <span>May 28</span>
-          </div>
-        </div>
-        <div className="finance-bottom">
-          <div>
-            <small>Monthly spending</small>
-            <strong>$3,240.80</strong>
-            <div className="spend-bars">
-              <i />
-              <i />
-              <i />
-              <i />
-            </div>
-            <span>Looking good. A little under budget.</span>
-          </div>
-          <div>
-            <small>Your savings goals</small>
-            <div className="goal">
-              ↗{" "}
-              <span>
-                Summer in Italy<small>$2,450 of $4,000</small>
-              </span>
-              <b>61%</b>
-            </div>
-            <div className="goal-line" />
-          </div>
-        </div>
+    <div className="thumb-stage">
+      <div className="thumb-phone thumb-phone-left">
+        <img src={screens.left} alt="" loading="lazy" />
+      </div>
+      <div className="thumb-phone thumb-phone-center">
+        {screens.center.map((src, index) => (
+          <img
+            key={src}
+            className="thumb-cycle"
+            style={{ animationDelay: `${index * 3}s` }}
+            src={src}
+            alt=""
+            loading="lazy"
+          />
+        ))}
+      </div>
+      <div className="thumb-phone thumb-phone-right">
+        <img src={screens.right} alt="" loading="lazy" />
       </div>
     </div>
   );
 }
-function TravelMockup() {
-  return (
-    <>
-      <div className="travel-wordmark">
-        roam<span>Go a little further.</span>
-      </div>
-      <div className="travel-orbit" />
-      <div className="phone phone-back">
-        <div className="phone-status">
-          9:41 <span>▮ ▰</span>
-        </div>
-        <div className="phone-photo" style={{ backgroundImage: `url(${mountain})` }}>
-          <span className="phone-back-arrow">‹</span>
-          <span className="photo-heart">♡</span>
-          <div>
-            <small>THE DOLOMITES, ITALY</small>
-            <h4>
-              Find your
-              <br />
-              kind of far away.
-            </h4>
-          </div>
-        </div>
-        <div className="trip-info">
-          <b>A little closer to the wild.</b>
-          <p>Alpine air. Quiet trails. Endless possibility.</p>
-          <div>
-            4.9 <span>· 124 explorer reviews</span>
-          </div>
-          <span className="trip-cta">Explore this place ↗</span>
-        </div>
-      </div>
-      <div className="phone phone-front">
-        <div className="phone-status">
-          9:41 <span>▮ ▰</span>
-        </div>
-        <div className="travel-greeting">
-          <span>GOOD MORNING, SOO</span>
-          <div>
-            Your next
-            <br />
-            chapter starts here<span>✳</span>
-          </div>
-        </div>
-        <div className="travel-search">⌕ &nbsp; Where will you go?</div>
-        <div className="travel-chips">
-          <b>For you</b>
-          <span>Outdoors</span>
-          <span>Slow living</span>
-        </div>
-        <div className="destination-image" style={{ backgroundImage: `url(${mountain})` }}>
-          <span>♡</span>
-          <div>
-            <small>ITALY</small>
-            <b>The Dolomites</b>
-            <p>A breath of fresh perspective.</p>
-          </div>
-        </div>
-        <div className="phone-nav">
-          <b>⌂</b>
-          <span>⌕</span>
-          <span>♡</span>
-          <span>◉</span>
-        </div>
-      </div>
-      <span className="travel-caption">
-        Less itinerary.
-        <br />
-        More possibility.
-      </span>
-    </>
-  );
-}
-function WorkspaceMockup() {
-  return (
-    <div className="canvas-window">
-      <div className="canvas-sidebar">
-        <b>◈ canvas</b>
-        <div>⌕ &nbsp; Search anything</div>
-        <div>⌂ &nbsp; Home</div>
-        <div>◷ &nbsp; My work</div>
-        <small>YOUR WORKSPACE &nbsp; +</small>
-        <div className="canvas-selected">◧ &nbsp; Brand refresh</div>
-        <div>▧ &nbsp; Website launch</div>
-        <div>▨ &nbsp; The idea garden</div>
-        <div className="canvas-team">● ● ● &nbsp; Your team</div>
-      </div>
-      <div className="canvas-main">
-        <div className="canvas-breadcrumb">
-          Workspace &nbsp; / &nbsp; Brand refresh <span>↗ &nbsp; •••</span>
-        </div>
-        <div className="canvas-title">
-          <h4>Good things start here.</h4>
-          <p>A fresh perspective. A shared direction. Let’s make it happen.</p>
-        </div>
-        <div className="board-tabs">
-          <b>◧ &nbsp; Board</b>
-          <span>☷ &nbsp; List</span>
-          <span>▦ &nbsp; Timeline</span>
-          <i>Filter &nbsp; + New task</i>
-        </div>
-        <div className="kanban">
-          {["To explore", "In the making", "Ready to share"].map((column, index) => (
-            <div className="kanban-column" key={column}>
-              <div className="column-label">
-                <i className={`dot dot-${index}`} />
-                {column}
-                <span>3 &nbsp; +</span>
-              </div>
-              {[0, 1, 2].map((item) => (
-                <div className="kanban-task" key={item}>
-                  {item === 0 && (
-                    <div className={`task-image task-image-${index}`}>
-                      {index === 0 ? "Aa" : index === 1 ? <Flower /> : "Make room for better."}
-                    </div>
-                  )}
-                  <small>{["EXPLORATION", "DESIGN", "STRATEGY"][index]}</small>
-                  <b>
-                    {
-                      [
-                        ["A new point of view", "Collecting inspiration", "What makes us, us?"],
-                        ["Visual identity explorations", "Finding our voice", "The details matter"],
-                        [
-                          "Brand foundations",
-                          "Our story, reimagined",
-                          "Ready for the next chapter",
-                        ],
-                      ][index][item]
-                    }
-                  </b>
-                  <div className="task-footer">
-                    <span>☷ &nbsp; 2</span>
-                    <i>{["JD", "MK", "AL"][item]}</i>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-function StudioMockup() {
-  return (
-    <div className="studio-window">
-      <div className="studio-nav">
-        <b>forma®</b>
-        <span>Independent by design.</span>
-        <span>Work &nbsp; Studio &nbsp; Contact ↗</span>
-      </div>
-      <div className="studio-headline">
-        Spaces for
-        <br />a different <i>everyday.</i>
-        <span>↘</span>
-      </div>
-      <div className="studio-bottom">
-        <span>
-          Architecture, interiors,
-          <br />
-          and everything in between.
-        </span>
-        <div className="architecture">
-          <div className="arch-wall" />
-          <div className="arch-circle" />
-          <div className="arch-shadow" />
-          <span>01 — THE QUIET HOUSE</span>
-        </div>
-      </div>
-      <div className="studio-foot">
-        <span>Thoughtfully made. Honestly felt.</span>
-        <span>SCROLL TO EXPLORE ↓</span>
-      </div>
-    </div>
-  );
-}
+
 export function ProjectVisual({ kind }: { kind: string }) {
   return (
     <div className={`project-visual visual-${kind}`} aria-hidden="true">
-      {kind === "sapphire" ? (
-        <img
-          className="project-visual-image"
-          src="/images/sapphire-collage.avif"
-          alt=""
-          loading="lazy"
-        />
-      ) : kind === "buyingpower" ? (
-        <img
-          className="project-visual-image"
-          src="/images/buyingpower-card.avif"
-          alt=""
-          loading="lazy"
-        />
-      ) : kind === "finance" ? (
-        <FinanceMockup />
-      ) : kind === "travel" ? (
-        <TravelMockup />
-      ) : kind === "workspace" ? (
-        <WorkspaceMockup />
-      ) : (
-        <StudioMockup />
-      )}
+      <ThumbPhones kind={kind} />
       <div className="view-project">
         View case study <Arrow size={17} />
       </div>
@@ -799,30 +433,167 @@ function DraggableSticker({
 }
 
 const resumeUrl = "https://drive.google.com/file/d/174UXiH2p4Kkdq3xNcPY_6u7_QtpILzR9/view";
-const resumePreviewUrl =
-  "https://drive.google.com/file/d/174UXiH2p4Kkdq3xNcPY_6u7_QtpILzR9/preview";
+("https://drive.google.com/file/d/174UXiH2p4Kkdq3xNcPY_6u7_QtpILzR9/preview");
 
-// The Resume link opens the résumé in a scrollable window on the same page. The published
-// artifact can't show other sites inside the page, so there it opens the file in a new tab.
+const resumeRoles: {
+  company: string;
+  dates: string;
+  title: string;
+  points: string[];
+}[] = [
+  {
+    company: "JPMorgan Chase",
+    dates: "Nov ’24 — Present",
+    title: "Product Designer · Affluent Card",
+    points: [
+      "Led and designed the Chase Sapphire Preferred card refresh experience.",
+      "Led design strategy for the Chase Sapphire Reserve card refresh, elevating the in-app experience for a premium target audience.",
+      "Streamlined future card-refresh processes around product-audience segments powered by AI-assisted tools.",
+    ],
+  },
+  {
+    company: "JPMorgan Chase",
+    dates: "Aug ’23 — Nov ’24",
+    title: "Product Designer · Platform Team",
+    points: [
+      "Led the creation of a messaging design system for the consumer digital banking platform, serving over 53 million users.",
+      "Designed modular components and strategy that consolidated and simplified the messaging experience end to end.",
+      "Built interactive prototypes and led usability testing with stakeholders and collaborators.",
+    ],
+  },
+  {
+    company: "Rocket Mortgage",
+    dates: "Nov ’22 — Aug ’23",
+    title: "Mobile Product Designer",
+    points: [
+      "Designed the document-management experience for 15 million users.",
+      "Defined the design capabilities and resources needed to build a stronger documentation ecosystem for cross-app users across Rocket Mortgage.",
+    ],
+  },
+  {
+    company: "Rocket Mortgage",
+    dates: "Jun ’22 — Nov ’22",
+    title: "Mid-Associate Product Designer",
+    points: [
+      "Designed future-vision products driving personalization and dashboard customization on the Rocket Mortgage platform.",
+      "Led the design retention strategy for existing users and folded qualitative research findings into new designs.",
+    ],
+  },
+];
+const resumeEarlyRoles = [
+  { title: "Junior Product Designer", dates: "Aug ’21 — Jun ’22" },
+  { title: "Product Design Intern", dates: "Nov ’20 — Aug ’21" },
+];
+const resumeSoftware = [
+  "Figma",
+  "Sketch",
+  "Framer",
+  "Webflow",
+  "VS Code",
+  "AI tools",
+  "HTML/CSS",
+  "Zeplin",
+  "Adobe CS",
+  "User testing",
+];
+const resumeSkills = [
+  "Product design",
+  "User research",
+  "Cognitive walkthroughs",
+  "Rapid prototyping",
+  "Interaction design",
+  "Motion graphics",
+  "Design strategy",
+  "Layout design",
+  "Storytelling",
+  "Vibe code",
+];
+
+function ResumeDocument() {
+  return (
+    <article className="resume-doc">
+      <header className="resume-doc-header">
+        <div>
+          <p className="resume-doc-name">Soo Yeon Yoo</p>
+          <p className="resume-doc-role">
+            <strong>Senior Product Designer</strong>
+            <span className="handwritten">Designed with taste, shipped with care.</span>
+          </p>
+        </div>
+        <ul className="resume-doc-contact">
+          <li>sooyeonyoo.co</li>
+          <li>{email}</li>
+          <li>linkedin.com/in/ysyoo92</li>
+        </ul>
+      </header>
+      <div className="resume-doc-columns">
+        <aside className="resume-doc-side">
+          <section>
+            <h3>Education</h3>
+            <p className="resume-doc-strong">City College of New York</p>
+            <p>B.Sc Arts & Design</p>
+            <p>Class of ’20</p>
+          </section>
+          <section>
+            <h3>Software</h3>
+            <ul className="resume-doc-chips">
+              {resumeSoftware.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </section>
+          <section>
+            <h3>Skills</h3>
+            <ul className="resume-doc-skills">
+              {resumeSkills.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </section>
+        </aside>
+        <section className="resume-doc-experience">
+          <h3>Experience</h3>
+          {resumeRoles.map((role) => (
+            <div className="resume-doc-job" key={role.title}>
+              <div className="resume-doc-company">
+                <p className="resume-doc-strong">{role.company}</p>
+                <p>{role.dates}</p>
+              </div>
+              <div>
+                <p className="resume-doc-title">{role.title}</p>
+                <ul className="resume-doc-points">
+                  {role.points.map((point) => (
+                    <li key={point}>{point}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ))}
+          <div className="resume-doc-job">
+            <div className="resume-doc-company">
+              <p className="resume-doc-strong">Rocket Mortgage</p>
+              <p>Nov ’20 — Jun ’22</p>
+            </div>
+            <ul className="resume-doc-early">
+              {resumeEarlyRoles.map((role) => (
+                <li key={role.title}>
+                  <span className="resume-doc-title">{role.title}</span>
+                  <span>{role.dates}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      </div>
+    </article>
+  );
+}
+
+// The Resume link opens the résumé in a scrollable window on the same page. The résumé is
+// written out as text (from Soo's PDF), so it reflows to one column on phones and shows
+// everywhere, including the published artifact.
 function ResumeLink() {
   const dialogRef = useRef<HTMLDialogElement>(null);
-  const isArtifact =
-    typeof window !== "undefined" && Boolean((window as { __ARTIFACT__?: boolean }).__ARTIFACT__);
-
-  if (isArtifact) {
-    return (
-      <a
-        className="about-resume handwritten"
-        href={resumeUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Open Soo’s résumé (opens in a new tab)"
-      >
-        Resume <Arrow size={24} />
-      </a>
-    );
-  }
-
   const close = () => dialogRef.current?.close();
   return (
     <>
@@ -867,12 +638,9 @@ function ResumeLink() {
             </button>
           </div>
         </div>
-        <iframe
-          className="resume-modal-frame"
-          src={resumePreviewUrl}
-          title="Soo’s résumé"
-          loading="lazy"
-        />
+        <div className="resume-modal-body">
+          <ResumeDocument />
+        </div>
       </dialog>
     </>
   );
@@ -975,7 +743,7 @@ export default function HomePage() {
             </h2>
           </div>
           <div className="filters" aria-label="Filter projects">
-            {["All work", "Digital products", "Websites"].map((item) => (
+            {["All work", ...new Set(projects.map((p) => p.category))].map((item) => (
               <button
                 key={item}
                 className={filter === item ? "selected" : ""}

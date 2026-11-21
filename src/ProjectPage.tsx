@@ -62,31 +62,6 @@ const projectStories: Record<
     chapters?: CaseStudyChapters;
   }
 > = {
-  folio: {
-    question: "How can managing money feel less overwhelming, and a little more human?",
-    takeaway: "Less noise. A little more peace of mind.",
-    principle: "A financial overview that puts understanding before information.",
-    galleryTitle: "A calmer kind of money app.",
-    galleryCaption:
-      "The overview brings balance, spending, and personal goals into one clear picture.",
-  },
-  roam: {
-    question:
-      "How do you bring inspiration and planning together, without losing the joy of exploring?",
-    takeaway: "Less itinerary. More possibility.",
-    principle: "Make room for discovery, then make the next step feel easy.",
-    galleryTitle: "Made for your next chapter.",
-    galleryCaption:
-      "From the discovery feed to place details, the experience keeps inspiration close to action.",
-  },
-  canvas: {
-    question: "What if a workspace could make room for the way creative teams actually think?",
-    takeaway: "A little structure. A lot of room to think.",
-    principle: "Give messy ideas a shared home, without prescribing the creative process.",
-    galleryTitle: "Good things start here.",
-    galleryCaption:
-      "A flexible workspace that balances visual exploration with the clarity teams need to move forward.",
-  },
   sapphire: {
     question: "How do you make a premium card feel premium in every digital moment?",
     takeaway: "Premium in the details. Consistent everywhere.",
@@ -418,14 +393,6 @@ const projectStories: Record<
         ],
       },
     },
-  },
-  forma: {
-    question: "How can a studio’s digital home feel as distinctive as the spaces it creates?",
-    takeaway: "Architectural precision. A human point of view.",
-    principle: "Give the work room to breathe, and the studio a voice of its own.",
-    galleryTitle: "A different kind of everyday.",
-    galleryCaption:
-      "An expressive editorial website built around bold typography, thoughtful pacing, and the work itself.",
   },
 };
 
