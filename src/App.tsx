@@ -970,8 +970,10 @@ export default function HomePage() {
           </h2>
           <a
             className="about-resume handwritten"
-            href={`mailto:${email}?subject=${encodeURIComponent("I'd love to see your résumé")}`}
-            aria-label="Request Soo’s résumé by email"
+            href="https://drive.google.com/file/d/174UXiH2p4Kkdq3xNcPY_6u7_QtpILzR9/view"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Open Soo’s résumé (opens in a new tab)"
           >
             Resume <Arrow size={24} />
           </a>
