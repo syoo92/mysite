@@ -117,10 +117,14 @@
   letter-spacing: -1.2px;
   margin-top: 19px;
 }
+/* Same accent as the rest of the site: dark italic serif with the yellow highlight. */
 .work-dropdown-intro h2 em {
   font-family: var(--font-accent);
-  color: var(--text-soft);
+  color: var(--ink);
   font-weight: 400;
+  background: #f5fa83;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
 .work-dropdown-intro > p {
   font-size: calc(12px * var(--ts-body));

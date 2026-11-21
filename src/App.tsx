@@ -72,7 +72,7 @@ export const projects = [
     kind: "buyingpower",
     role: "Product design, with a team of five",
     focus: "A proactive home-buying estimate for Rocket clients",
-    deliverables: "Scenario maps, usability tests, hi-fi designs, MVP requirements",
+    deliverables: "Scenario maps, usability tests, hi‑fi designs, MVP requirements",
     decisions: [
       [
         "Fewer steps boost adoption",

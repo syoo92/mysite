@@ -1491,3 +1491,88 @@
     margin-bottom: 4px;
   }
 }
+
+/* ── Editorial typography for case studies ──
+   Headings balance their lines; copy avoids a lone last word; lines stay at a comfortable
+   reading length; sub copy shares one size and color so pages scan evenly. */
+.project-page h1,
+.project-page h2,
+.project-page h3,
+.project-question h3,
+.project-takeaway h2 {
+  text-wrap: balance;
+}
+.project-page p,
+.project-page li,
+.project-page dd,
+.project-page figcaption {
+  text-wrap: pretty;
+}
+/* Body copy: about 65 characters a line. */
+.project-intro .project-hero-description,
+.project-story-section > p,
+.project-outcome > p {
+  max-width: 36em; /* about 70 characters */
+}
+.project-intro .project-hero-subtitle {
+  max-width: 30ch;
+}
+.project-story-section > h2,
+.project-question h3 {
+  max-width: 28ch;
+}
+/* Sub copy: one 14px size and color everywhere in the story. */
+.project-process-step .project-decision p,
+.project-problem-points > li,
+.project-insight li,
+.project-glance .project-highlights li > p {
+  font-size: calc(14px * var(--ts-body));
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+.project-process-step .project-decision p,
+.project-problem-points {
+  max-width: 38em;
+}
+.project-design-points {
+  max-width: 600px;
+}
+.project-design-points dd {
+  line-height: 1.6;
+}
+
+/* Process step titles read as small headings, a step above their sub copy. */
+.project-process-step .project-decision h3 {
+  font-size: calc(15px * var(--ts-body));
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+/* ── Dividers only at real break points ──
+   Kept: the line between major sections (Problem, Process, Design, Outcome), the facts
+   strip in the intro, and the image frames. Removed: lines inside sections, where
+   spacing alone separates the parts and extra rules made the page look busy. */
+.project-question {
+  border-top: 0;
+  padding-top: 0;
+  margin-top: 40px;
+}
+.project-execution {
+  border-top: 0;
+  display: grid;
+  gap: 56px;
+  margin-top: 36px;
+}
+.project-execution-row,
+.project-execution-row:last-child {
+  border-bottom: 0;
+  padding: 0;
+}
+.takeaway-tags {
+  border-top: 0;
+  padding-top: 0;
+}
+.project-cover {
+  border: 0;
+}

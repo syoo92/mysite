@@ -369,7 +369,7 @@ const projectStories: Record<string, CaseStudy> = {
     },
     outcome: {
       heading: "Ready to build, and ready to grow.",
-      body: "We handed off hi-fi designs and MVP requirements, plus a timeline of what ships first and what changes once the Buy / Sell experience is built.",
+      body: "We handed off hi‑fi designs and MVP requirements, plus a timeline of what ships first and what changes once the Buy / Sell experience is built.",
       figures: [
         {
           src: "/images/buyingpower-deliverables-timeline.avif",
@@ -727,6 +727,25 @@ const projectStories: Record<string, CaseStudy> = {
     },
   },
 };
+/** Keeps the last two words of a line of copy together, so no paragraph, caption or
+ *  heading ends on a lone word, even in browsers without `text-wrap: pretty`. */
+function tidy(text: string): string {
+  const words = text.trim().split(" ");
+  if (words.length < 4 || words[words.length - 1].length > 14) return text;
+  const i = text.lastIndexOf(" ");
+  return text.slice(0, i) + "\u00a0" + text.slice(i + 1);
+}
+const untouchedKeys = new Set(["src", "alt", "prototype", "useCase"]);
+function tidyAll<T>(value: T, key = ""): T {
+  if (untouchedKeys.has(key)) return value;
+  if (typeof value === "string") return tidy(value) as T;
+  if (Array.isArray(value)) return value.map((item) => tidyAll(item)) as T;
+  if (value && typeof value === "object")
+    return Object.fromEntries(Object.entries(value).map(([k, v]) => [k, tidyAll(v, k)])) as T;
+  return value;
+}
+const stories: Record<string, CaseStudy> = tidyAll(projectStories);
+
 // The shared artifact copy doesn't include the prototype files, so the link is hidden there.
 const isArtifactBuild =
   typeof window !== "undefined" && Boolean((window as { __ARTIFACT__?: boolean }).__ARTIFACT__);
@@ -1050,7 +1069,7 @@ export default function ProjectPage() {
   const project = projects[projectIndex];
   if (!project) return <ProjectNotFound />;
 
-  const story = projectStories[project.id];
+  const story = stories[project.id];
   if (!story) return <ProjectNotFound />;
   const previous = projects[(projectIndex - 1 + projects.length) % projects.length];
   const next = projects[(projectIndex + 1) % projects.length];
@@ -1080,9 +1099,9 @@ export default function ProjectPage() {
           <span className="coral-period">.</span>
         </Heading>
         <Heading level={2} className="project-hero-subtitle">
-          {project.subtitle}
+          {tidy(project.subtitle)}
         </Heading>
-        <Copy className="project-hero-description">{project.description}</Copy>
+        <Copy className="project-hero-description">{tidy(project.description)}</Copy>
         <dl className="project-facts project-facts-row">
           <div>
             <dt>MY ROLE</dt>
